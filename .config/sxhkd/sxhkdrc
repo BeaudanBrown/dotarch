@@ -5,20 +5,14 @@ super + d
 	dmenu_run
 super + r
 	$TERMINAL -e $FILE
-super + e
-	$TERMINAL -e neomutt
 super + m
-	$TERMINAL -e ncmpcpp
-super + n
-	$TERMINAL -e newsboat
+	spotify
 super + i
 	$TERMINAL -e htop
 super + y
 	$TERMINAL -e calcurse
 super + shift + a
 	$TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
-super + shift + c
-	camtoggle
 super + shift + e
 	tutorialvids
 super + w
@@ -78,12 +72,6 @@ Print
 # Pick screenshot type
 shift + Print
 	maimpick
-# Record audio or video
-super + Print
-	dmenurecord
-# kill active recording
-super + Delete
-	dmenurecord kill
 
 # Pause audio
 super + {_,shift +} p
