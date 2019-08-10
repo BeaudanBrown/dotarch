@@ -13,6 +13,9 @@ gaps outer 0
 gaps inner 5
 set $term --no-startup-id $TERMINAL
 set $mod Mod4
+# Don't focus on mouse hover or move mouse on workspace chane
+focus_follows_mouse no
+mouse_warping none
 
 # #---Dropdown Windows---# #
 # General dropdown window traits. The order can matter.
@@ -38,7 +41,7 @@ bar {
 bindsym $mod+Shift+Return	exec --no-startup-id samedir
 
 bindsym $mod+Shift+space 	floating toggle
-bindsym $mod+space		focus mode_toggle
+bindsym $mod+Ctrl+space		focus mode_toggle
 
 bindsym $mod+Escape		workspace prev
 bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
