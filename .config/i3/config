@@ -16,6 +16,8 @@ set $mod Mod4
 # Don't focus on mouse hover or move mouse on workspace chane
 focus_follows_mouse no
 mouse_warping none
+# Disable focus wrapping
+focus_wrapping no
 
 # #---Dropdown Windows---# #
 # General dropdown window traits. The order can matter.

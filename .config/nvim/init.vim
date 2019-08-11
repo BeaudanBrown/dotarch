@@ -6,7 +6,8 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                         " Surround
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy file search
+Plug '/usr/bin/fzf',                                              " Fuzzy file search
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'                                         " Git wrapper
 Plug 'mileszs/ack.vim'                                            " Ack search tool
 Plug 'airblade/vim-gitgutter'                                     " Gitgutter
@@ -119,8 +120,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
   inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 " Toggle 'default' terminal
-  nnoremap <A-CR> :call ChooseTerm("term-slider", 1)<CR>
-  tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
+  nnoremap <A-CR> :call TermToggle(20)<CR>
+  inoremap <A-CR> <C-\><C-N>:call TermToggle(20)<CR>
+  tnoremap <A-CR> <C-\><C-N>:call TermToggle(20)<CR>
 " Leader t to open terminal in vertical split
   nnoremap <leader>t :vs term://bash<CR>
 " Replace all is aliased to S.
@@ -215,28 +217,23 @@ function! CloseBuffer()
     exe 'tabnext ' . curTab
 endfunction
 
-function! ChooseTerm(termname, slider)
-    let pane = bufwinnr(a:termname)
-    let buf = bufexists(a:termname)
-    if pane > 0
-        " pane is visible
-        if a:slider > 0
-            :exe pane . "wincmd c"
-        else
-            :exe "e #"
-        endif
-    elseif buf > 0
-        " buffer is not in pane
-        if a:slider
-            :exe "botright split"
-        endif
-        :exe "buffer " . a:termname
+" Toggle terminal
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle(height)
+    if win_gotoid(g:term_win)
+        " Window is visible, hide it
+        hide
     else
-        " buffer is not loaded, create
-        if a:slider
-            :exe "botright split"
-        endif
-        :terminal
-        :exe "f " a:termname
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set signcolumn=no
+        endtry
+        let g:term_win = win_getid()
     endif
 endfunction
