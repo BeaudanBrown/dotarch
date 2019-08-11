@@ -92,18 +92,18 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap c "_c
   vnoremap c "_c
 " Ctrl + direction to move between splits in any mode
-  tnoremap <C-h> <C-\><C-N><C-W>h
-  tnoremap <C-j> <C-\><C-N><C-W>j
-  tnoremap <C-k> <C-\><C-N><C-W>k
-  tnoremap <C-l> <C-\><C-N><C-W>l
-  inoremap <C-h> <C-\><C-N><C-W>h
-  inoremap <C-j> <C-\><C-N><C-W>j
-  inoremap <C-k> <C-\><C-N><C-W>k
-  inoremap <C-l> <C-\><C-N><C-W>l
-  nnoremap <C-j> <C-W>j
-  nnoremap <C-k> <C-W>k
-  nnoremap <C-h> <C-W>h
-  nnoremap <C-l> <C-W>l
+  tnoremap <A-h> <C-\><C-N><C-W>h
+  tnoremap <A-j> <C-\><C-N><C-W>j
+  tnoremap <A-k> <C-\><C-N><C-W>k
+  tnoremap <A-l> <C-\><C-N><C-W>l
+  inoremap <A-h> <C-\><C-N><C-W>h
+  inoremap <A-j> <C-\><C-N><C-W>j
+  inoremap <A-k> <C-\><C-N><C-W>k
+  inoremap <A-l> <C-\><C-N><C-W>l
+  nnoremap <A-j> <C-W>j
+  nnoremap <A-k> <C-W>k
+  nnoremap <A-h> <C-W>h
+  nnoremap <A-l> <C-W>l
 " Centre screen after paging up or down
   nnoremap <C-d> <C-d>zz
   nnoremap <C-u> <C-u>zz

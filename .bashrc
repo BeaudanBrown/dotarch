@@ -10,6 +10,9 @@ export NVM_DIR="$HOME/.nvm"                            # You can change this if 
 export NVM_SOURCE="/usr/share/nvm"                     # The AUR package installs it to here.
 [ -s "$NVM_SOURCE/nvm.sh" ] && . "$NVM_SOURCE/nvm.sh"  # Load NVM
 
+# Don't paginate if less than a page
+export LESS="-F -X $LESS"
+
 # Nice bash autocomplete
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
