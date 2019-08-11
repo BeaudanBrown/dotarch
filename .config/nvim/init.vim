@@ -78,7 +78,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
 " Leader leader to swap to most recent buffer
   nnoremap <leader><leader> <C-^>
 " Leader f to search all
-  nnoremap <leader>f :Ag
+  nnoremap <leader>f :Ag 
 " Leader q to quit vim
   nnoremap <leader>q :qall<CR>
 " Leader l to search buffers
@@ -127,8 +127,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap S :%s//g<Left><Left>
 
 " Nerd tree setup
-nnoremap <leader>e :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  nnoremap <leader>e :NERDTreeToggle<CR>
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " fzf setup
   function! s:find_git_root()
@@ -181,3 +181,62 @@ endif
 
 " Run xrdb whenever Xdefaults or Xresources are updated.
   autocmd BufWritePost *Xresources,*Xdefaults !xrdb %
+
+" Close buffer but keep splits
+function! CloseBuffer()
+    let curBuf = bufnr('%')
+    let curTab = tabpagenr()
+    exe 'bnext'
+
+    " If in last buffer, create empty buffer
+    if curBuf == bufnr('%')
+        exe 'enew'
+    endif
+
+    " Loop through tabs
+    for i in range(tabpagenr('$'))
+        " Go to tab (is there a way with inactive tabs?)
+        exe 'tabnext ' . (i + 1)
+        " Store active window nr to restore later
+        let curWin = winnr()
+        " Loop through windows pointing to buffer
+        let winnr = bufwinnr(curBuf)
+        while (winnr >= 0)
+            " Go to window and switch to next buffer
+            exe winnr . 'wincmd w | bnext'
+            " Restore active window
+            exe curWin . 'wincmd w'
+            let winnr = bufwinnr(curBuf)
+        endwhile
+    endfor
+
+    " Close buffer, restore active tab
+    exe 'bd' . curBuf
+    exe 'tabnext ' . curTab
+endfunction
+
+function! ChooseTerm(termname, slider)
+    let pane = bufwinnr(a:termname)
+    let buf = bufexists(a:termname)
+    if pane > 0
+        " pane is visible
+        if a:slider > 0
+            :exe pane . "wincmd c"
+        else
+            :exe "e #"
+        endif
+    elseif buf > 0
+        " buffer is not in pane
+        if a:slider
+            :exe "botright split"
+        endif
+        :exe "buffer " . a:termname
+    else
+        " buffer is not loaded, create
+        if a:slider
+            :exe "botright split"
+        endif
+        :terminal
+        :exe "f " a:termname
+    endif
+endfunction
