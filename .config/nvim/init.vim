@@ -120,9 +120,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
   inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 " Toggle 'default' terminal
-  nnoremap <A-CR> :call TermToggle(20)<CR>
-  inoremap <A-CR> <C-\><C-N>:call TermToggle(20)<CR>
-  tnoremap <A-CR> <C-\><C-N>:call TermToggle(20)<CR>
+  nnoremap <A-CR> :call TermToggle(30)<CR>
+  inoremap <A-CR> <C-\><C-N>:call TermToggle(30)<CR>
+  tnoremap <A-CR> <C-\><C-N>:call TermToggle(30)<CR>
 " Leader t to open terminal in vertical split
   nnoremap <leader>t :vs term://bash<CR>
 " Replace all is aliased to S.
