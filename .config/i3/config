@@ -52,27 +52,29 @@ bindsym $mod+Shift+Escape   exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 bindsym $mod+Shift+Delete  exec --no-startup-id lmc truemute ; exec --no-startup-id lmc pause ; exec --no-startup-id pauseallmpv; workspace 0; exec $term -e htop ; exec $term -e $FILE
 
 # #---Letter Key Bindings---# #
-bindsym $mod+q      [con_id="__focused__" instance="^(?!dropdown_).*$"] kill
+bindsym $mod+q          [con_id="__focused__" instance="^(?!dropdown_).*$"] kill
 bindsym $mod+Shift+q    [con_id="__focused__" instance="^(?!dropdown_).*$"] exec --no-startup-id kill -9 `xdotool getwindowfocus getwindowpid`
 
 bindsym $mod+Shift+r    exec --no-startup-id winresize
 
-bindsym $mod+t      split toggle
+bindsym $mod+e          layout toggle tabbed split
+
+bindsym $mod+t          split toggle
 bindsym $mod+Shift+t    gaps inner current set 5; gaps outer current set 0
 
 bindsym $mod+Shift+y    exec --no-startup-id i3resize left
 
-bindsym $mod+u      exec --no-startup-id ddspawn tmuxdd
+bindsym $mod+u          exec --no-startup-id ddspawn tmuxdd
 bindsym $mod+Shift+u    exec --no-startup-id i3resize down
 
 bindsym $mod+Shift+i    exec --no-startup-id i3resize up
 
-bindsym $mod+o      sticky toggle
+bindsym $mod+o          sticky toggle
 bindsym $mod+Shift+o    exec --no-startup-id i3resize right
 
-bindsym $mod+a      exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
+bindsym $mod+a          exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
 
-bindsym $mod+s      gaps inner current plus 5
+bindsym $mod+s          gaps inner current plus 5
 bindsym $mod+Shift+s    gaps inner current minus 5
 
 bindsym $mod+Shift+d    gaps inner current set 0; gaps outer current set 0
