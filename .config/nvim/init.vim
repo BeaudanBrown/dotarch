@@ -34,6 +34,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
 " Basics
   set nocompatible
   set bg=light
+  set hidden                     " Allow to hide buffers instead of closing them
   set mouse=a                    " Enable mouse
   set clipboard+=unnamedplus     " Default to system clipboard
   set backspace=indent,eol,start " Proper backspace behavior
