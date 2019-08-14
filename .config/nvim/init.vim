@@ -105,6 +105,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <A-k> <C-W>k
   nnoremap <A-h> <C-W>h
   nnoremap <A-l> <C-W>l
+" Move down by visual lines
+  nnoremap j gj
+  nnoremap k gk
 " Centre screen after paging up or down
   nnoremap <C-d> <C-d>zz
   nnoremap <C-u> <C-u>zz
