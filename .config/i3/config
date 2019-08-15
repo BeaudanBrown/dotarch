@@ -33,14 +33,14 @@ for_window [instance="dropdown_*"] sticky enable
 for_window [title="dropdown_*"] scratchpad show
 for_window [instance="dropdown_*"] scratchpad show
 
-for_window [instance="dropdown_*"] move position center
-for_window [title="dropdown_*"] move position center
-
 for_window [instance="dropdown_dropdowncalc"] resize set 800 300
 for_window [instance="dropdown_dropdowncalc"] border pixel 2
 
-for_window [class="st" title="dropdown_term"] resize set 625 450
-for_window [class="st" title="dropdown_term"] border pixel 3
+for_window [title="dropdown_term"] resize set 800 600
+for_window [title="dropdown_term"] border pixel 3
+
+for_window [instance="dropdown_*"] move position center
+for_window [title="dropdown_*"] move position center
 
 bar {
   font pango:mono 10
@@ -75,7 +75,7 @@ bindsym $mod+Shift+t    gaps inner current set 5; gaps outer current set 0
 
 bindsym $mod+Shift+y    exec --no-startup-id i3resize left
 
-bindsym $mod+u          exec --no-startup-id wmctrl -l | grep dropdown_term | wc -l && wmctrl -c dropdown_term || st -T dropdown_term
+bindsym $mod+u          exec --no-startup-id toggleDropdown st term
 
 bindsym $mod+Shift+u    exec --no-startup-id i3resize down
 
@@ -154,6 +154,8 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $musicws "🎶"
+set $discordws "💬"
 
 # switch to workspace
 bindsym $mod+1    workspace $ws1
@@ -183,6 +185,8 @@ for_window [class="Pinentry"] sticky enable
 for_window [class="sent"] border pixel 0px
 for_window [title="GIMP Startup"] move workspace $ws5
 for_window [class="Gimp"] move workspace $ws5
+for_window [class="spotify"] move workspace $musicws
+for_window [class="discord"] move workspace $discordws
 for_window [window_role="GtkFileChooserDialog"] resize set 800 600
 for_window [window_role="GtkFileChooserDialog"] move position center
 for_window [title="Default - Wine desktop"] floating enable
@@ -209,3 +213,9 @@ bindsym $mod+Shift+Left    move left
 bindsym $mod+Shift+Down    move down
 bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right   move right
+
+exec --no-startup-id spotify
+exec --no-startup-id discord
+exec workspace $ws1
+
+exec_always [ ~/.screenlayout/default.sh ] && ~/.screenlayout/default.sh

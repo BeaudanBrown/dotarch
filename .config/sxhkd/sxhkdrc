@@ -6,7 +6,9 @@ super + space
 super + r
   $TERMINAL -e $FILE
 super + m
-  spotify
+  toggleWinWork "spotify" "🎶"
+super + d
+  toggleWinWork "discord" "💬"
 super + shift + m
   lmc mute
 super + shift + p
