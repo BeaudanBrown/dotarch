@@ -8,7 +8,7 @@ workspaceName=$2
 if ! $(pgrep -xi $appName > /dev/null ); then
   # App isn't open
   i3 workspace $workspaceName
-  $appName &
+  $appName -T $appName &
   exit
 fi
 
@@ -18,6 +18,6 @@ if [ $currentWorkspace = $workspaceName ]; then
   i3 workspace back_and_forth
 else
   # Otherwise switch to app workspace and focus
-  wmctrl -a $appName
+  wmctrl -x -a $appName
 fi
 
