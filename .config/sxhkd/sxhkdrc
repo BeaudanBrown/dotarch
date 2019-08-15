@@ -5,6 +5,8 @@ super + space
   dmenu_run
 super + r
   $TERMINAL -e $FILE
+super + c
+  toggleWinWork "signal" "💬"
 super + m
   toggleWinWork "spotify" "🎶"
 super + d

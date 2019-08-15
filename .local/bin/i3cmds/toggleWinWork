@@ -5,8 +5,9 @@
 appName=$1
 workspaceName=$2
 
-if ! $(pgrep -xi $appName > /dev/null ); then
+if ! $(pgrep -i $appName > /dev/null ); then
   # App isn't open
+  echo 'Opening app'
   i3 workspace $workspaceName
   $appName -T $appName &
   exit
@@ -15,9 +16,11 @@ fi
 currentWorkspace=$( i3-msg -t get_workspaces | jq '.[] | select(.focused) | .name' | stripquotes )
 if [ $currentWorkspace = $workspaceName ]; then
   # If workspace is already focused, switch to the last used workspace
+  echo 'Leaving app workspace'
   i3 workspace back_and_forth
 else
   # Otherwise switch to app workspace and focus
+  echo 'Switching to app workspace'
   wmctrl -x -a $appName
 fi
 
