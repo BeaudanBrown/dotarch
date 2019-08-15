@@ -1,0 +1,10 @@
+#!/bin/bash
+name=$1
+[[ ! $name ]] && echo 'No app name provided' && exit
+
+if $(wmctrl -l | grep -q "dropdown_$name"); then
+  wmctrl -c dropdown_$name
+else
+  st -T "dropdown_$name"
+fi
+
