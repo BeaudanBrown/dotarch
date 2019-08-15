@@ -21,15 +21,26 @@ focus_wrapping no
 
 # #---Dropdown Windows---# #
 # General dropdown window traits. The order can matter.
+for_window [title="dropdown_*"] floating enable
 for_window [instance="dropdown_*"] floating enable
+
+for_window [title="dropdown_*"] move scratchpad
 for_window [instance="dropdown_*"] move scratchpad
+
+for_window [title="dropdown_*"] sticky enable
 for_window [instance="dropdown_*"] sticky enable
+
+for_window [title="dropdown_*"] scratchpad show
 for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_tmuxdd"] resize set 625 450
-for_window [instance="dropdown_dropdowncalc"] resize set 800 300
-for_window [instance="dropdown_tmuxdd"] border pixel 3
-for_window [instance="dropdown_dropdowncalc"] border pixel 2
+
 for_window [instance="dropdown_*"] move position center
+for_window [title="dropdown_*"] move position center
+
+for_window [instance="dropdown_dropdowncalc"] resize set 800 300
+for_window [instance="dropdown_dropdowncalc"] border pixel 2
+
+for_window [class="st" title="dropdown_term"] resize set 625 450
+for_window [class="st" title="dropdown_term"] border pixel 3
 
 bar {
   font pango:mono 10
@@ -64,7 +75,8 @@ bindsym $mod+Shift+t    gaps inner current set 5; gaps outer current set 0
 
 bindsym $mod+Shift+y    exec --no-startup-id i3resize left
 
-bindsym $mod+u          exec --no-startup-id ddspawn tmuxdd
+bindsym $mod+u          exec --no-startup-id wmctrl -l | grep dropdown_term | wc -l && wmctrl -c dropdown_term || st -T dropdown_term
+
 bindsym $mod+Shift+u    exec --no-startup-id i3resize down
 
 bindsym $mod+Shift+i    exec --no-startup-id i3resize up
