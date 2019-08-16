@@ -105,7 +105,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <A-k> <C-W>k
   nnoremap <A-h> <C-W>h
   nnoremap <A-l> <C-W>l
-" Move down by visual lines
+" Have movement keys scroll over wrapped lines
   nnoremap j gj
   nnoremap k gk
 " Centre screen after paging up or down
@@ -241,3 +241,30 @@ function! TermToggle(height)
         let g:term_win = win_getid()
     endif
 endfunction
+
+" Save current view settings on a per-window, per-buffer basis.
+function! AutoSaveWinView()
+    if !exists("w:SavedBufView")
+        let w:SavedBufView = {}
+    endif
+    let w:SavedBufView[bufnr("%")] = winsaveview()
+endfunction
+
+" Restore current view settings.
+function! AutoRestoreWinView()
+    let buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        let v = winsaveview()
+        let atStartOfFile = v.lnum == 1 && v.col == 0
+        if atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[buf])
+        endif
+        unlet w:SavedBufView[buf]
+    endif
+endfunction
+
+" When switching buffers, preserve window view.
+if v:version >= 700
+    autocmd BufLeave * call AutoSaveWinView()
+    autocmd BufEnter * call AutoRestoreWinView()
+endif
