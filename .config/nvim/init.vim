@@ -22,6 +22,7 @@ Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highl
 Plug 'tpope/vim-commentary'                                       " Comment selection with gc
 Plug 'vifm/vifm.vim'                                              " Vim file manager
 Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highlighting for i3
+Plug 'pangloss/vim-javascript'                                    " Syntax highlighting javascript
 call plug#end()
 
 " Stop space from moving cursor

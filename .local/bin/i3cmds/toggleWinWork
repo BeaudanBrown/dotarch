@@ -10,7 +10,7 @@ else
   windowName=$3
 fi
 
-if ! >/dev/null pgrep -i $appName || ! wmctrl -l | grep -q -i $windowName; then
+if ! >/dev/null pgrep -i $appName || ! wmctrl -lx | grep -q -i $windowName; then
   # App isn't open
   echo 'Opening app'
   i3 workspace $workspaceName
