@@ -18,11 +18,12 @@ Plug 'scrooloose/nerdtree'                                        " Nerdtree
 Plug 'Xuyuanp/nerdtree-git-plugin'                                " Nerdtree git plugin
 Plug 'machakann/vim-highlightedyank'                              " Highlight yanked text
 Plug 'vim-scripts/ReplaceWithRegister'                            " Replace with register
-Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highlighting for i3
 Plug 'tpope/vim-commentary'                                       " Comment selection with gc
 Plug 'vifm/vifm.vim'                                              " Vim file manager
-Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highlighting for i3
+Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highlighting for sxhkd
+Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highlighting for i3
 Plug 'pangloss/vim-javascript'                                    " Syntax highlighting javascript
+Plug 'peitalin/vim-jsx-typescript'                                " Syntax highlighting for typescript
 call plug#end()
 
 " Stop space from moving cursor
@@ -58,7 +59,6 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set noerrorbells               " No beeping
   set undofile                   " Maintain undo history between sessions
   set undodir=~/.vim/undodir//   " Store undofiles in single directory
-  set noswapfile                 " Disable swapfiles
   set clipboard+=unnamedplus     " Default to system clipboard
   set inccommand=nosplit         " Show substitute command in real time
   set formatoptions-=cro         " Disable automatic commenting
@@ -137,6 +137,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
 " Nerd tree setup
   nnoremap <leader>e :NERDTreeToggle<CR>
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" gitgutter setup
+  let g:gitgutter_realtime=1
 
 " fzf setup
   function! s:find_git_root()

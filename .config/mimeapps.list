@@ -9,3 +9,4 @@ image/jpeg=img.desktop;
 image/gif=img.desktop;
 application/rss+xml=rss.desktop
 x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/sgnl=signal-desktop.desktop
