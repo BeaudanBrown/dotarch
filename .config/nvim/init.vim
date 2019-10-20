@@ -63,9 +63,6 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set inccommand=nosplit         " Show substitute command in real time
   set formatoptions-=cro         " Disable automatic commenting
   set number relativenumber      " Relative line numbers as default
-  set guicursor=a:blinkwait500   " Cursor blink wait
-  set guicursor=a:blinkon1000    " Cursor blink on time
-  set guicursor=a:blinkoff500    " Cursor blink off time
   set signcolumn=yes             " Always have space for the git sign
 
 " Automatically reload file on change
@@ -90,6 +87,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <leader>b :Buffers<CR>
 " Leader s to save
   nnoremap <leader>s :w<CR>
+" Leader ; to append semicolon
+  nnoremap <leader>; A;<Esc>
 " Change to abyss buffer
   nnoremap c "_c
   vnoremap c "_c
@@ -125,9 +124,11 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
   inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 " Toggle 'default' terminal
-  nnoremap <A-CR> :call TermToggle(30)<CR>
-  inoremap <A-CR> <C-\><C-N>:call TermToggle(30)<CR>
-  tnoremap <A-CR> <C-\><C-N>:call TermToggle(30)<CR>
+  nnoremap <A-CR> :call ChooseTerm("term-slider", 1)<CR>
+  inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
+  tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
+" Paste on newline
+  nnoremap <leader>p :pu<CR>==$
 " Leader t to open terminal in vertical split
   nnoremap <leader>t :vs term://bash<CR>
 " Replace all is aliased to S.
@@ -222,24 +223,30 @@ function! CloseBuffer()
     exe 'tabnext ' . curTab
 endfunction
 
-" Toggle terminal
-let g:term_buf = 0
-let g:term_win = 0
-function! TermToggle(height)
-    if win_gotoid(g:term_win)
-        " Window is visible, hide it
-        hide
+" Toggle 'default' terminal
+function! ChooseTerm(termname, slider)
+    let pane = bufwinnr(a:termname)
+    let buf = bufexists(a:termname)
+    if pane > 0
+        " pane is visible
+        if a:slider > 0
+            :exe pane . "wincmd c"
+        else
+            :exe "e #"
+        endif
+    elseif buf > 0
+        " buffer is not in pane
+        if a:slider
+            :exe "botright split"
+        endif
+        :exe "buffer " . a:termname
     else
-        botright new
-        exec "resize " . a:height
-        try
-            exec "buffer " . g:term_buf
-        catch
-            call termopen($SHELL, {"detach": 0})
-            let g:term_buf = bufnr("")
-            set signcolumn=no
-        endtry
-        let g:term_win = win_getid()
+        " buffer is not loaded, create
+        if a:slider
+            :exe "botright split"
+        endif
+        :terminal
+        :exe "f " a:termname
     endif
 endfunction
 
