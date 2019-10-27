@@ -64,6 +64,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set formatoptions-=cro         " Disable automatic commenting
   set number relativenumber      " Relative line numbers as default
   set signcolumn=yes             " Always have space for the git sign
+  set nrformats=                 " Treat all numbers as decimal for <C-a> etc
 
 " Automatically reload file on change
   set autoread
