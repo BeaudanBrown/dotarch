@@ -66,6 +66,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set number relativenumber      " Relative line numbers as default
   set signcolumn=yes             " Always have space for the git sign
   set nrformats=                 " Treat all numbers as decimal for <C-a> etc
+  set history=200                " Save the last 200 ex commands in the history
 
 " Automatically reload file on change
   set autoread
