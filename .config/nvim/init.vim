@@ -136,6 +136,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <leader>t :vs term://bash<CR>
 " Replace all is aliased to S.
   nnoremap S :%s//g<Left><Left>
+" Use <C-p> and <C-p> for up and down in command line mode
+  cnoremap <C-p> <Up>
+  cnoremap <C-n> <Down>
 
 " Nerd tree setup
   nnoremap <leader>e :NERDTreeToggle<CR>
