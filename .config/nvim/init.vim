@@ -81,8 +81,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <leader><leader> <C-^>
 " Leader f to search all
   nnoremap <leader>f :Ag 
-" Leader q to quit vim
-  nnoremap <leader>q :qall<CR>
+" Leader q to quit the current window
+  nnoremap <leader>q :q<CR>
 " Leader l to search buffers
   nnoremap <leader>l :Lines<CR>
 " Leader b to show buffers
