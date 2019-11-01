@@ -60,7 +60,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set updatetime=100             " Set refresh to 100ms
   set noerrorbells               " No beeping
   set undofile                   " Maintain undo history between sessions
-  set undodir=~/.vim/undodir//   " Store undofiles in single directory
+  set undodir=~/.config/nvim/undodir//   " Store undofiles in single directory
+  set directory=~/.config/nvim/swp//   " Store swapfiles in single directory
   set clipboard+=unnamedplus     " Default to system clipboard
   set inccommand=nosplit         " Show substitute command in real time
   set formatoptions-=cro         " Disable automatic commenting
@@ -91,6 +92,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   nnoremap <leader>b :Buffers<CR>
 " Leader s to save
   nnoremap <leader>s :w<CR>
+" Leader S to substitute all words under cursor
+  nnoremap <leader>S :%s/\(<c-r>=expand("<cword>")<cr>\)//g<Left><Left>
 " Leader ; to append semicolon
   nnoremap <leader>; A;<Esc>
 " Change to abyss buffer
@@ -140,6 +143,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
 " Use <C-p> and <C-p> for up and down in command line mode
   cnoremap <C-p> <Up>
   cnoremap <C-n> <Down>
+" Use <Leader>c for ciw with repeatability
+  nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>cgn
 
 " Nerd tree setup
   nnoremap <leader>e :NERDTreeToggle<CR>
