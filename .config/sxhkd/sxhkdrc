@@ -11,6 +11,8 @@ super + m
   toggleWinWork "spotify" "🎶"
 super + d
   toggleWinWork "discord" "💬"
+super + shift + g
+  toggleWinWork "steam" "🎮"
 super + shift + m
   lmc mute
 super + shift + p
