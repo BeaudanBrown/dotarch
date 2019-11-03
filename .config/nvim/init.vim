@@ -24,7 +24,7 @@ Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highl
 Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highlighting for i3
 Plug 'pangloss/vim-javascript'                                    " Syntax highlighting javascript
 Plug 'peitalin/vim-jsx-typescript'                                " Syntax highlighting for typescript
-Plug 'kana/vim-textobj-user'                                  " Alow for easy text object creation
+Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
 call plug#end()
 
