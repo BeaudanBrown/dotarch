@@ -212,6 +212,6 @@ bindsym $mod+Shift+Right   move right
 
 exec --no-startup-id spotify -T spotify
 exec --no-startup-id discord -T discord
-exec workspace $ws1
+exec --no-startup-id i3-msg workspace $ws1
 
 exec_always [ ~/.screenlayout/default.sh ] && ~/.screenlayout/default.sh
