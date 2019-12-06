@@ -12,10 +12,6 @@ Plug 'tpope/vim-fugitive'                                         " Git wrapper
 Plug 'mileszs/ack.vim'                                            " Ack search tool
 Plug 'airblade/vim-gitgutter'                                     " Gitgutter
 Plug 'vim-airline/vim-airline'                                    " Airline statusline
-Plug 'leafgarland/typescript-vim'                                 " TypeScript highlighting
-Plug 'morhetz/gruvbox'                                            " Gruvbox theme
-Plug 'scrooloose/nerdtree'                                        " Nerdtree
-Plug 'Xuyuanp/nerdtree-git-plugin'                                " Nerdtree git plugin
 Plug 'machakann/vim-highlightedyank'                              " Highlight yanked text
 Plug 'vim-scripts/ReplaceWithRegister'                            " Replace with register
 Plug 'tpope/vim-commentary'                                       " Comment selection with gc
@@ -26,14 +22,16 @@ Plug 'pangloss/vim-javascript'                                    " Syntax highl
 Plug 'peitalin/vim-jsx-typescript'                                " Syntax highlighting for typescript
 Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
+Plug 'chrisbra/Colorizer'                                         " Highlight hex colours
 call plug#end()
 
-" Stop space from moving cursor
-nnoremap <SPACE> <Nop>
-let mapleader = "\<Space>" " Assign space as leader
-filetype plugin indent on           " Enabling filetype support provides filetype-specific indenting,
-syntax on                           " Syntax highlighting, omni-completion and other useful settings.
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
+nnoremap <SPACE> <Nop>                    " Stop space from moving cursor
+let mapleader = "\<Space>"                " Assign space as leader
+filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
+syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
+highlight Search ctermfg=Black            " Always use black for search text
+highlight Visual ctermfg=Black            " Always use black for visually selected text
 
 " Basics
   set nocompatible
@@ -52,7 +50,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
   set incsearch                  " Incremental search, hit `<CR>` to stop
   set number relativenumber      " Relative line numbers as default
   set splitbelow splitright      " Splits open at the bottom and right
-  set wildmenu                   " Great command-line completion, use `<Tab>` to move around
+  set wildmode=list:longest      " Great command-line completion, use `<Tab>` to move around
+  set wildignorecase             " Case insensitive wild mode
   set ignorecase                 " Case insensitive search default
   set smartcase                  " Case sensitive search if capital in search string
   set hlsearch                   " Highlight search matches
@@ -121,7 +120,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "
 " Make 'Y' yank from cursor to end of line
   nnoremap Y y$
 " Clear search with <leader>/
-  nnoremap <silent> <leader>/ :nohlsearch<CR>
+  nnoremap <silent> <leader>/ :noh<CR>
 " Leader = to resize splits evenly
   nnoremap <leader>= <C-w>=
 " Map leader-esc to exit terminal mode
@@ -183,7 +182,7 @@ endif
 
 " Source vim configuration upon save
   augroup vimrc
-    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePost $MYVIMRC source % | redraw
   augroup END
 
 " Hybrid line numbers, relative in visual and absolute other times
