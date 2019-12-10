@@ -126,9 +126,9 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " Map leader-esc to exit terminal mode
   tnoremap <leader><Esc> <C-\><C-n>
 " Ctrl w to close current buffer but keep split
-  nnoremap <silent> <C-w> :call CloseBuffer()<cr>
-  tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
-  inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
+  " nnoremap <silent> <C-w> :call CloseBuffer()<cr>
+  " tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
+  " inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 " Toggle 'default' terminal
   nnoremap <A-CR> :call ChooseTerm("term-slider", 1)<CR>
   inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
