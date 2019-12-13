@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Alias
+_bc() {
+  bspc config "$@"
+}
+
+# If refreshing bspwm, remove all previous rules to prevent doubling up.
+bspc rule -r "*"
+
+mainmonitor="$(bspc query --monitors --names | head -n 1)"
+
+# Start workspaces on the main monitor.
+bspc monitor $mainmonitor -d 1 2 3 4 5
+bspc monitor DP-3 -d 6 7 8 9 10
+
+# If you want a multi-monitor display or something else, I leave that to you to
+# arrange. I have this sensible default for most people's use cases.
+
+_bc border_width 3
+_bc window_gap 2
+_bc top_padding 24  # top_padding I set equal to polybar's height
+_bc borderless_monocle   true
+_bc focus_follows_pointer false
+_bc active_border_color '#707880'
+_bc normal_border_color '#282a2e'
+_bc focused_border_color '#81a2be'
+
+dropdownname="dropdown"
+bspc query -N -n .hidden >/dev/null || setsid $TERMINAL -n "$dropdownname" -e dropdown >/dev/null 2>&1 &
+bspc rule -a St:$dropdownname hidden=on
+bspc rule -a St:$dropdownname sticky=on
+bspc rule -a St:$dropdownname state=floating
+bspc rule -a spotify 
+
+
+_bc external_rules_command "$(which floaters)"
+
+$HOME/.config/polybar/launch.sh
