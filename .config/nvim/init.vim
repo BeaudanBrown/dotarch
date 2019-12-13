@@ -26,7 +26,6 @@ Plug 'chrisbra/Colorizer'                                         " Highlight he
 call plug#end()
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
-nnoremap <SPACE> <Nop>                    " Stop space from moving cursor
 let mapleader = "\<Space>"                " Assign space as leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
 syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
@@ -79,6 +78,8 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 " Keybindings
+  " Stop space from moving cursor
+  nnoremap <SPACE> <Nop>
 " Leader leader to swap to most recent buffer
   nnoremap <leader><leader> <C-^>
 " Leader f to search all
