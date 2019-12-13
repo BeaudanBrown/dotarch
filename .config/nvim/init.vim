@@ -131,9 +131,9 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   " tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
   " inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 " Toggle 'default' terminal
-  nnoremap <A-CR> :call ChooseTerm("term-slider", 1)<CR>
-  inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
-  tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
+  nnoremap <A-CR> :call ChooseTerm("term-slider", 0)<CR>
+  inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
+  tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
 " Paste on newline
   nnoremap <leader>p :pu<CR>==$
 " Leader t to open terminal in vertical split
@@ -248,20 +248,28 @@ function! ChooseTerm(termname, slider)
             :exe pane . "wincmd c"
         else
             :exe "e #"
+            if exists("w:altbuf")
+                let @# = w:altbuf
+            endif
         endif
     elseif buf > 0
         " buffer is not in pane
+        let w:altbuf = bufnr(@#)
         if a:slider
             :exe "botright split"
         endif
         :exe "buffer " . a:termname
     else
         " buffer is not loaded, create
+        let w:altbuf = bufnr(@#)
         if a:slider
             :exe "botright split"
         endif
         :terminal
         :exe "f " a:termname
+        if w:altbuf != @#
+            let @# = w:altbuf
+        endif
     endif
 endfunction
 
