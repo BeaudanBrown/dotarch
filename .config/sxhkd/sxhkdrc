@@ -1,6 +1,8 @@
 # Basic binds
 super + Return
   $TERMINAL
+super + shift + Return
+  samedir
 super + space
   dmenu_run
 super + r
@@ -23,7 +25,9 @@ super + period
   dbus-send --print-reply  --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next &>/dev/null
 super + i
   $TERMINAL -e htop
-super + shift + a
+super + shift a
+  switchaudio
+super + a
   $TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + shift + e
   tutorialvids
@@ -84,11 +88,11 @@ shift + Print
   maimpick
 
 # Increase volume
-super + {equal,plus}
-  lmc up {5,15}
+super + equal
+  lmc up 5
 # Decrease volume
-super {_,shift +} + minus
-  lmc down {5,15}
+super + minus
+  lmc down 5
 
 # Function keys
 # Show readme
