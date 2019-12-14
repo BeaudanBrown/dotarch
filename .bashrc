@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 stty -ixon # Disable ctrl-s and ctrl-q.
 shopt -s autocd #Allows you to cd into directory merely by typing the directory name.
+HISTFILE="$HOME/.config/bash_history" # Store history in .config
 HISTSIZE= HISTFILESIZE= # Infinite history.
 # Simple colour terminal for now
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -10,6 +11,8 @@ export NVM_DIR="$HOME/.nvm"                            # You can change this if 
 export NVM_SOURCE="/usr/share/nvm"                     # The AUR package installs it to here.
 [ -s "$NVM_SOURCE/nvm.sh" ] && . "$NVM_SOURCE/nvm.sh"  # Load NVM
 
+# Don't store less history
+export LESSHISTFILE=/dev/null
 # Don't paginate if less than a page
 export LESS="-F -X $LESS"
 

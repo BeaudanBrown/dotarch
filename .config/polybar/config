@@ -62,21 +62,17 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-; font-0 = "Misc Termsyn:size=12;1"
-; font-1 = "FontAwesome:scale=10:style=Regular;1"
-; font-2 = "xos4 Terminus:size=12;2"
-
 font-0 = mono:pixelsize=11;1
 font-1 = Inconsolata Nerd Font:size=8;1
-font-2 = "FontAwesome:style=Regular:size=20;1"
-; font-2 = Noto Color Emoji:scale=10:style=Regular;2
-font-3 = Symbola:pixelsize=9;1
+font-2 = Symbola:pixelsize=9;1
+font-3 = "Font Awesome 5 Pro:style=Light:pixelsize=12;1"
+font-4 = "Font Awesome 5 Brands:style=Regular:pixelsize=12;1"
 
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
 modules-left = bspwm spotify
 modules-center = date
-modules-right = volume filesystem cpu memory eth
+modules-right = volume filesystem memory cpu eth
 
 tray-position = right
 tray-padding = 0
@@ -100,7 +96,7 @@ interval = 5000
 type = custom/script
 interval = 1
 format = <label>
-exec = python /usr/share/polybar/scripts/spotify_status.py --playpause-font=3 -f '{play_pause} {artist}: {song}'
+exec = python /usr/share/polybar/scripts/spotify_status.py -p ',' -f '{play_pause} {artist}: {song}'
 format-underline = #1db954
 
 [module/xwindow]
@@ -222,10 +218,10 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "🌡 "
+format-prefix = " "
 ; format-prefix-foreground = ${colors.white}
 format-underline = ${colors.red}
-label = %percentage:2:2%%
+label = %percentage:3:3%%
 
 [module/memory]
 format = <bar-used>
@@ -240,8 +236,8 @@ bar-used-fill =▬
 bar-used-empty =▬
 bar-used-empty-foreground = ${colors.gray}
 interval = 2
-format-prefix = "🧠:"
-format-underline = ${colors.darkcyan}
+format-prefix = " "
+format-underline = ${colors.cyan}
 label = %gb_free% free
 
 [module/wlan]
@@ -274,15 +270,13 @@ interface = enp6s0
 interval = 3.0
 
 format-connected-underline = ${colors.darkgreen}
-;format-connected-underline = ${colors.green}
-format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.gray}
-label-connected = ⬆ %upspeed:8:8% ⬇ %downspeed:8:8%
+label-connected = "⬆ %upspeed:8:8% ⬇ %downspeed:8:8% "
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
-format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected =  %ifname%
+format-disconnected-underline = ${colors.darkred}
+label-disconnected = %ifname%
 label-disconnected-foreground = ${colors.gray}
 
 [module/date]
@@ -297,8 +291,6 @@ time = "%I:%M%p"
 ;time-alt = %H:%M:%S
 ;time-alt = %H:%M:%S
 
-format-prefix = " "
-format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.blue}
 
 label = %date% %time%
@@ -307,12 +299,14 @@ label = %date% %time%
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-label-volume = "🔊"
+label-volume-font = 4
+label-volume = ""
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
-format-muted-foreground = ${colors.gray}
-label-muted = "🔇"
+format-muted = <label-muted> <bar-volume>
+format-muted-foreground = ${colors.darkred}
+label-muted-font = 4
+label-muted = ""
 
 bar-volume-width = 10
 bar-volume-foreground-0 = ${colors.blue}
