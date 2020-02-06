@@ -23,6 +23,8 @@ Plug 'peitalin/vim-jsx-typescript'                                " Syntax highl
 Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
 Plug 'chrisbra/Colorizer'                                         " Highlight hex colours
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Async autocomplete
+Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
 call plug#end()
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
@@ -146,12 +148,20 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " Use <Leader>c for ciw with repeatability
   nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>cgn
 
+" Deoplete setup
+  let g:deoplete#enable_at_startup = 1
+" Tab completion.
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
 " Nerd tree setup
   nnoremap <leader>e :NERDTreeToggle<CR>
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " gitgutter setup
   let g:gitgutter_realtime=1
+
+" OmniSharp setup
+  let g:OmniSharp_server_stdio = 1
 
 " fzf setup
   function! s:find_git_root()
