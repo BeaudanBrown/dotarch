@@ -6,7 +6,6 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                         " Surround
-Plug '/usr/bin/fzf',                                              " Fuzzy file search
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'                                         " Git wrapper
 Plug 'mileszs/ack.vim'                                            " Ack search tool
@@ -23,8 +22,10 @@ Plug 'peitalin/vim-jsx-typescript'                                " Syntax highl
 Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
 Plug 'chrisbra/Colorizer'                                         " Highlight hex colours
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }   " Async autocomplete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " Async autocomplete
 Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
+Plug 'nickspoons/vim-sharpenup'                                   " OmniSharp default
+Plug 'preservim/nerdtree'                                         " Nerdtree file explorer
 call plug#end()
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
@@ -42,9 +43,9 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   set clipboard+=unnamedplus     " Default to system clipboard
   set backspace=indent,eol,start " Proper backspace behavior
   set encoding=utf-8             " Use utf-8 encoding
-  set tabstop=2                  " The width of a TAB is set to 2
-  set shiftwidth=2               " Indents will have a width of 2
-  set softtabstop=2              " Sets the number of columns for a TAB
+  set tabstop=4                  " The width of a TAB is set to 2
+  set shiftwidth=4               " Indents will have a width of 2
+  set softtabstop=4              " Sets the number of columns for a TAB
   set expandtab                  " Expand TABs to spaces
   set autoindent                 " Minimal automatic indenting for any filetype
   set smartindent                " Better autoindent e.g. extra indent after parens
@@ -146,7 +147,7 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   cnoremap <C-p> <Up>
   cnoremap <C-n> <Down>
 " Use <Leader>c for ciw with repeatability
-  nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>cgn
+  nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>"_cgn
 
 " Deoplete setup
   let g:deoplete#enable_at_startup = 1
@@ -160,8 +161,9 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " gitgutter setup
   let g:gitgutter_realtime=1
 
-" OmniSharp setup
+" OmniSharp and sharpenup setup
   let g:OmniSharp_server_stdio = 1
+  let g:sharpenup_map_prefix = "\<Leader>,"
 
 " fzf setup
   function! s:find_git_root()
