@@ -1,5 +1,4 @@
 autoload -U colors && colors
-# PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 HISTSIZE=10000
@@ -10,19 +9,20 @@ HISTFILE="$HOME/.config/zsh/zsh_history" # Store history in .config
 [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
-# autoload -U compinit
-# zstyle ':completion:*' menu select
-# zmodload zsh/complist
-# compinit
+autoload -U compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' rehash true
+zmodload zsh/complist
+compinit
 
 # Include hidden files in autocomplete:
 _comp_options+=(globdots)
 
 # Use vim keys in tab complete menu:
-# bindkey -M menuselect 'h' vi-backward-char
-# bindkey -M menuselect 'k' vi-up-line-or-history
-# bindkey -M menuselect 'l' vi-forward-char
-# bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
 # Scroll through history
@@ -32,7 +32,14 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
+# Exports
 export KEYTIMEOUT=1
+# Don't store less history
+export LESSHISTFILE=/dev/null
+# Don't paginate if less than a page
+export LESS="-F -X $LESS"
+# Use ripgrep for fzf
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -74,24 +81,15 @@ lfcd () {
         fi
     fi
 }
+bindkey -s '^o' 'lfcd\n'
 
 # Enable fzf
 if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"
 fi
-
-bindkey -s '^o' 'lfcd\n'  # zsh
-
-# Don't store less history
-export LESSHISTFILE=/dev/null
-# Don't paginate if less than a page
-export LESS="-F -X $LESS"
-
 # Load fzf keybindings
 source $HOME/.config/zsh/key-bindings.zsh 2>/dev/null
-
 # Enable fzf completion
 source $HOME/.config/zsh/completion.zsh 2>/dev/null
-
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null

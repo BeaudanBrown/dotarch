@@ -12,7 +12,7 @@ alias ka="killall" \
   x="sxiv -ft *" \
   sdn="sudo shutdown -h now" \
   ls="ls -hN --color=auto --group-directories-first" \
-  grep="grep --color=auto" \
+  grep="rg" \
   diff="diff --color=auto" \
   ccat="highlight --out-format=ansi" \
   ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \

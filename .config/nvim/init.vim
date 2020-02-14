@@ -84,7 +84,7 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " Leader leader to swap to most recent buffer
   nnoremap <leader><leader> <C-^>
 " Leader f to search all
-  nnoremap <leader>f :Ag 
+  nnoremap <leader>f :RG<CR>
 " Leader q to quit the current window
   nnoremap <leader>q :q<CR>
 " Leader l to search buffers
@@ -152,7 +152,6 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " Tab completion.
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" Nerd tree setup
 " Vifm setup
   let g:vifm_embed_split = 1
   let g:vifm_replace_netrw = 1
@@ -165,25 +164,39 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " OmniSharp and sharpenup setup
   let g:OmniSharp_server_stdio = 1
   let g:sharpenup_map_prefix = "\<Leader>,"
+  nnoremap <leader>r :OmniSharpRename<CR>
 
 " fzf setup
-  function FindSessionDirectory() abort
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+  command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+  function! s:FindRoot()
+    let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+    if gitRoot != $HOME
+      " We are in a git folder
+      return gitRoot
+    endif
+    " We are in a non-git folder, which will always find $HOME
     if len(argv()) > 0
       return fnamemodify(argv()[0], ':p:h')
     endif
     return getcwd()
-  endfunction!
-  function! s:find_git_root()
-    let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-    if gitRoot != $HOME
-      return gitRoot
-    else
-      return FindSessionDirectory()
-    endif
   endfunction
-  command! ProjectFiles execute 'Files' s:find_git_root()
+
+  let root = s:FindRoot()
+  command! ProjectFiles execute 'Files' root
   nnoremap <c-P> :ProjectFiles<CR>
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  if root == $HOME
+    let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs --hidden'
+  else
+    let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-vcs --hidden'
+  endif
 
 " Highlighted yank setup
   if !exists('##TextYankPost')
@@ -196,10 +209,10 @@ highlight Visual ctermfg=Black            " Always use black for visually select
     au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | endif
   endif
 
-" Use ag instead of grep and Ack
+" Use rg instead of grep and Ack
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ackprg = 'ag --nogroup --nocolor --column'
+  set grepprg=rg
+  let g:ackprg = 'rg --column'
 endif
 
 " Use actual tab chars in Makefiles.

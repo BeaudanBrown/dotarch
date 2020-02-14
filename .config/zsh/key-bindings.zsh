@@ -45,7 +45,7 @@ fzf-redraw-prompt() {
 }
 zle -N fzf-redraw-prompt
 
-# ALT-C - cd into the selected directory
+# CTRL-P - cd into the selected directory
 fzf-cd-widget() {
   local cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"}"
