@@ -8,11 +8,11 @@ _bc() {
 # If refreshing bspwm, remove all previous rules to prevent doubling up.
 bspc rule -r "*"
 
-mainmonitor="$(bspc query --monitors --names | head -n 1)"
+{ read mainmonitor ; read secondmonitor ; } <<< $(bspc query --monitors --names)
 
 # Start workspaces on the main monitor.
-bspc monitor $mainmonitor -d 1 2 3 4 5
-bspc monitor DP-3 -d 6 7 8 9 10
+bspc monitor $mainmonitor -d 1
+bspc monitor $secondmonitor -d 6
 
 # If you want a multi-monitor display or something else, I leave that to you to
 # arrange. I have this sensible default for most people's use cases.

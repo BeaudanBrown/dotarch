@@ -34,10 +34,8 @@ export FrameworkPathOverride=/lib/mono/4.7.1-api/
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
 # Start graphical server if i3 not already running.
-[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec startx
+[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x bspwm >/dev/null && exec startx
 
 # Switch escape and caps if tty:
 sudo -n loadkeys ~/.local/bin/ttymaps.kmap 2>/dev/null
 
-# Load default screen layout
-[ -f "$HOME/.screenlayout/default.sh" ] && source "$HOME/.screenlayout/default.sh" >/dev/null

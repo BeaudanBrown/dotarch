@@ -82,8 +82,6 @@ wm-restack = bspwm
 
 ;override-redirect = true
 
-
-
 [module/weather]
 
 type = custom/script

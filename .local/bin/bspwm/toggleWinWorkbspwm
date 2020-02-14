@@ -1,0 +1,49 @@
+#!/bin/bash
+
+[[ -z $1 ]] && exit
+[[ -z $2 ]] && exit
+appName=$1
+workspaceName=$2
+if [ -z $3 ]; then
+  windowName=$appName
+else
+  windowName=$3
+fi
+
+if ! >/dev/null pgrep -i $appName || ! wmctrl -lx | grep -q -i $windowName; then
+# if ! >/dev/null pgrep -i $appName; then
+  # App isn't open
+  echo 'Opening app'
+  bspc monitor primary -a $workspaceName
+  bspc desktop -f $workspaceName
+  $appName -T $appName
+  # # sleep 1
+  # pids=$(xdotool search --class $appName)
+  # for pid in $pids; do
+  #     bspc node $pid -d focused
+  #     bspc node $pid -t floating
+  #     bspc node $pid -t fullscreen
+  # done
+  # exit
+fi
+
+# # WIP
+# pids=$(xdotool search --class $appName)
+# for pid in $pids; do
+#     echo "Toggle $pid"
+#     bspc node $pid --flag hidden -f
+#     # bspc node $pid -d focused
+#     # bspc node $pid -t fullscreen
+# done
+
+currentWorkspace=$( bspc query -D -d focused --names )
+if [[ "$currentWorkspace" == "$workspaceName" ]]; then
+  # If workspace is already focused, switch to the last used workspace
+  echo 'Leaving app workspace'
+  bspc desktop -f last
+  exit
+fi
+
+# We know app is running on different workspace
+echo 'Switching to app workspace'
+wmctrl -x -a $windowName

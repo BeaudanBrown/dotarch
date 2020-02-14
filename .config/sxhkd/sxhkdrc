@@ -1,3 +1,33 @@
+# WM binds
+TOGGLE=toggleWinWorkbspwm
+# Close node
+super + q
+  bspc node -c
+# Select node in direction
+super + {h,j,k,l}
+  bspc node -f {west,south,north,east}
+super + {shift + space,f}
+  bspc node -t ~{floating,fullscreen}
+# Resize node in the given direction.
+super + shift + {y,u,i,o}
+  node_resize {west,south,north,east} 50
+# Move floating windows with the arrow keys
+super + shift + {y,u,i,o}
+  bspc node -v {-20 0,0 20,0 -20,20 0}
+# Swap current window with the biggest one in the present desktop
+super + shift + b
+  bspc node -s biggest.local
+# Quit/restart bspwm
+super + shift + {q,r}
+  {close_bspwm,bspc wm -r}
+# Toggle between most recent workspaces
+super + Tab
+  bspc desktop -f last
+super + shift + {h,j,k,l}
+  d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
+super + {_,shift + ,ctrl + shift +,ctrl +}{0-9}
+  ;bspwm_dynamic_desktops {--df,--ns,--nm,--da} {0-9}
+
 # Basic binds
 super + Return
   $TERMINAL
@@ -6,15 +36,15 @@ super + shift + Return
 super + space
   dmenu_run
 super + r
-  $TERMINAL -e $FILE
+  $TERMINAL -e $FILE -c vs
 super + c
-  toggleWinWork "signal-desktop" "💬" "Signal"
+  toggleWinWorkbspwm "signal-desktop" "💬" "Signal"
 super + m
-  toggleWinWork "spotify" "🎶"
+  toggleWinWorkbspwm "spotify" "🎶"
 super + d
-  toggleWinWork "discord" "💬"
+  toggleWinWorkbspwm "discord" "💬"
 super + shift + g
-  toggleWinWork "steam" "🎮"
+  toggleWinWorkbspwm "steam" "🎮"
 super + shift + m
   lmc mute
 super + shift + p
