@@ -25,7 +25,6 @@ Plug 'chrisbra/Colorizer'                                         " Highlight he
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " Async autocomplete
 Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
 Plug 'nickspoons/vim-sharpenup'                                   " OmniSharp default
-Plug 'preservim/nerdtree'                                         " Nerdtree file explorer
 call plug#end()
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
@@ -66,7 +65,6 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   set clipboard+=unnamedplus     " Default to system clipboard
   set inccommand=nosplit         " Show substitute command in real time
   set formatoptions-=cro         " Disable automatic commenting
-  set number relativenumber      " Relative line numbers as default
   set signcolumn=yes             " Always have space for the git sign
   set nrformats=                 " Treat all numbers as decimal for <C-a> etc
   set history=200                " Save the last 200 ex commands in the history
@@ -155,8 +153,11 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Nerd tree setup
-  nnoremap <leader>e :NERDTreeToggle<CR>
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" Vifm setup
+  let g:vifm_embed_split = 1
+  let g:vifm_replace_netrw = 1
+  let g:vifm_exec_args = "-c \":only\""
+  nnoremap <leader>e :topleft vertical 40Vifm<CR>
 
 " gitgutter setup
   let g:gitgutter_realtime=1
@@ -166,8 +167,19 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   let g:sharpenup_map_prefix = "\<Leader>,"
 
 " fzf setup
+  function FindSessionDirectory() abort
+    if len(argv()) > 0
+      return fnamemodify(argv()[0], ':p:h')
+    endif
+    return getcwd()
+  endfunction!
   function! s:find_git_root()
-    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+    let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+    if gitRoot != $HOME
+      return gitRoot
+    else
+      return FindSessionDirectory()
+    endif
   endfunction
   command! ProjectFiles execute 'Files' s:find_git_root()
   nnoremap <c-P> :ProjectFiles<CR>
@@ -199,10 +211,12 @@ endif
   augroup END
 
 " Hybrid line numbers, relative in visual and absolute other times
-  augroup numbertoggle
+  augroup linenumbers
     autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' | set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * if &buftype != 'terminal' | set norelativenumber
+    " Disable line numbers for terminals
+    au TermOpen * setlocal nonumber norelativenumber
   augroup END
 
 " Groff filetypes
