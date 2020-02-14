@@ -22,7 +22,7 @@ super + shift + {q,r}
   {close_bspwm,bspc wm -r}
 # Toggle between most recent workspaces
 super + Tab
-  bspc desktop -f last
+  bspwm_dynamic_desktops --df $(bspc query -D -d --names)
 super + shift + {h,j,k,l}
   d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
 super + {_,shift + ,ctrl + shift +,ctrl +}{0-9}

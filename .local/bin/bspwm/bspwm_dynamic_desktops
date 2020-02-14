@@ -73,15 +73,12 @@ fi
 # will spawn on monitor 1 by default
 
 { read monitor1 ; read monitor2 ; } <<< $(bspc query -M --names)
-echo $monitor1
-echo $monitor2
 if [ "$dynamic_but_dedicated" = 'true' ]; then
     dedicated_desktops='true'
     case "$target_desktop" in
         [6-9]|10) dedicated_monitor="$monitor2" ;;
         *)     dedicated_monitor="$monitor1" ;;
     esac
-    echo $dedicated_monitor
 fi
 
 # Command for querying BSPWM desktops.  Used further below.
@@ -101,7 +98,6 @@ _desk_or_node() {
         local monitor action
         monitor="${*:1:1}"
         action="${*:2}"
-        echo $monitor
 
         # Leave the unquoted in tact!  Else the commands will not run.
         if ! _query_desktops "$target_desktop" > /dev/null; then
@@ -112,7 +108,7 @@ _desk_or_node() {
             #
             # If you do not like this, just replace the whole if/fi part
             # below with $action (and do not quote it).
-            if [ "$(_query_desktops --names)" -eq "$target_desktop" ]; then
+            if [ "$(_query_desktops --names)" = "$target_desktop" ]; then
                 bspc desktop -f last
             else
                 $action
