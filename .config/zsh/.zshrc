@@ -12,6 +12,7 @@ HISTFILE="$HOME/.config/zsh/zsh_history" # Store history in .config
 autoload -U compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zmodload zsh/complist
 compinit
 
@@ -83,10 +84,9 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
-# Enable fzf
-if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-fi
+# Set up Node Version Manager
+[ -s "$NVM_SOURCE/nvm.sh" ] && . "$NVM_SOURCE/nvm.sh"  # Load NVM
+
 # Load fzf keybindings
 source $HOME/.config/zsh/key-bindings.zsh 2>/dev/null
 # Enable fzf completion

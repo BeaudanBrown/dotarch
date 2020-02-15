@@ -6,7 +6,7 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                         " Surround
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'                                           " Fuzzy finder
 Plug 'tpope/vim-fugitive'                                         " Git wrapper
 Plug 'mileszs/ack.vim'                                            " Ack search tool
 Plug 'airblade/vim-gitgutter'                                     " Gitgutter
@@ -85,8 +85,10 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   nnoremap <leader><leader> <C-^>
 " Leader f to search all
   nnoremap <leader>f :RG<CR>
-" Leader q to quit the current window
-  nnoremap <leader>q :q<CR>
+" Leader Q to quit the current window
+  nnoremap <leader>Q :q<CR>
+" Leader q to quit the current buffer but keep split
+  nnoremap <silent> <Leader>q :call CloseBuffer()<cr>
 " Leader l to search buffers
   nnoremap <leader>l :Lines<CR>
 " Leader b to show buffers
@@ -125,20 +127,16 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   nnoremap <silent> <leader>/ :noh<CR>
 " Leader = to resize splits evenly
   nnoremap <leader>= <C-w>=
-" Map leader-esc to exit terminal mode
-  tnoremap <leader><Esc> <C-\><C-n>
-" Ctrl w to close current buffer but keep split
-  " nnoremap <silent> <C-w> :call CloseBuffer()<cr>
-  " tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
-  " inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
+" Map <C-q> to exit terminal mode
+  tnoremap <C-q> <C-\><C-n>
 " Toggle 'default' terminal
   nnoremap <A-CR> :call ChooseTerm("term-slider", 0)<CR>
   inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
   tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
 " Paste on newline
   nnoremap <leader>p :pu<CR>==$
-" Leader t to open terminal in vertical split
-  nnoremap <leader>t :vs term://bash<CR>
+" Open terminal in vertical split
+  nnoremap <leader>t :vs term://zsh<CR>
 " Replace all is aliased to S.
   nnoremap S :%s//g<Left><Left>
 " Use <C-p> and <C-p> for up and down in command line mode
@@ -147,9 +145,7 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 " Use <Leader>c for ciw with repeatability
   nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>"_cgn
 
-" Deoplete setup
-  let g:deoplete#enable_at_startup = 1
-" Tab completion.
+" Coc tab completion
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Vifm setup
@@ -204,8 +200,8 @@ highlight Visual ctermfg=Black            " Always use black for visually select
   endif
   let g:highlightedyank_highlight_duration = 200
 
-" Always enter terminal in insert mode
   if has('nvim')
+    " Always enter terminal in insert mode
     au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | endif
   endif
 
@@ -220,7 +216,7 @@ endif
 
 " Source vim configuration upon save
   augroup vimrc
-    autocmd! BufWritePost $MYVIMRC source % | redraw
+    autocmd! BufWritePost $MYVIMRC source $MYVIMRC | nohl | redraw
   augroup END
 
 " Hybrid line numbers, relative in visual and absolute other times

@@ -18,6 +18,7 @@ alias ka="killall" \
   ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
   upc="sudo pacman -Syu; pkill -RTMIN+8 i3blocks" \
   lsp="pacman -Qett --color=always | less" \
+  tor-browser="tor-browser --dir=$XDG_CONFIG_HOME/tor-browser" \
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

@@ -8,13 +8,17 @@ export TERMINAL="st"
 export BROWSER="google-chrome-stable"
 export READER="zathura"
 export XDG_CONFIG_HOME="$HOME/.config"
-[ -f ~/.local/bin/tools/vifmrun ] && export FILE="vifmrun" || export FILE="vifm"
 export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 export NOTMUCH_CONFIG="$HOME/.config/notmuch-config"
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc-2.0"
+[ -f ~/.local/bin/tools/vifmrun ] && export FILE="vifmrun" || export FILE="vifm"
 
 # ~/ Cleanup
-export ZDOTDIR="$HOME/.config/zsh"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
+export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
+export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+export NVM_SOURCE="/usr/share/nvm"
 
 # less/man colors
 export LESS=-R
@@ -33,7 +37,7 @@ export FrameworkPathOverride=/lib/mono/4.7.1-api/
 
 echo "$0" | grep "bash$" >/dev/null && [ -f ~/.bashrc ] && source "$HOME/.bashrc"
 
-# Start graphical server if i3 not already running.
+# Start graphical server if bspwm not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x bspwm >/dev/null && exec startx
 
 # Switch escape and caps if tty:
