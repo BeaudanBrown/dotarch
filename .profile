@@ -20,6 +20,7 @@ export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 export NVM_SOURCE="/usr/share/nvm"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PULSE_COOKIE="$XDG_CONFIG_HOME/pulse/cookie"
 
 # less/man colors
 export LESS=-R

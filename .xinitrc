@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-[ -f "$HOME/.xprofile" ] && . ~/.xprofile
-[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+[ -f "$XDG_CONFIG_HOME/Xprofile" ] && . $XDG_CONFIG_HOME/Xprofile
+[[ -f "$XDG_CONFIG_HOME/Xresources" ]] && xrdb -merge -I$HOME $XDG_CONFIG_HOME/Xresources
 
 xsetroot -cursor_name left_ptr
-exec bspwm -c $HOME/.config/bspwm/bspwmrc
+exec bspwm -c $XDG_CONFIG_HOME/bspwm/bspwmrc
