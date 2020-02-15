@@ -59,18 +59,12 @@ super + shift a
   switchaudio
 super + a
   $TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
-super + shift + e
-  tutorialvids
 super + w
   $BROWSER
-super + shift + g
-  gimp
 
 # Et cetera...
 super + grave
   dmenuunicode
-super + Scroll_Lock
-  killall screenkey || screenkey
 super + Insert
   showclip
 super + shift + x
