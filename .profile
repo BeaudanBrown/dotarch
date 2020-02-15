@@ -19,6 +19,7 @@ export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 export NVM_SOURCE="/usr/share/nvm"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 
 # less/man colors
 export LESS=-R
