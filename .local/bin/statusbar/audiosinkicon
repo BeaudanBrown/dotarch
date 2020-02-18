@@ -1,0 +1,19 @@
+#! /bin/bash
+
+o_pulseaudio=$(pacmd list-sinks| grep -e 'index')
+sinklist=($(echo "$o_pulseaudio" | awk '/index:/{print $NF}' | sort -n))
+ssink=$(echo "$o_pulseaudio" | awk '/\* index:/{print $NF}')
+
+curindex=-1
+
+for i in "${!sinklist[@]}"; do
+  if [[ "${sinklist[$i]}" = "${ssink}" ]]; then
+    curindex=${i}
+  fi
+done
+
+if [[ $curindex = 0 ]]; then
+  echo 
+else
+  echo 
+fi

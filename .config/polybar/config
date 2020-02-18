@@ -73,7 +73,7 @@ font-5 = "Font Awesome 5 Pro:style=Solid:pixelsize=12;1"
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
 modules-left = bspwm spotify
 modules-center = date
-modules-right = volume filesystem memory cpu eth
+modules-right = audiosink volume filesystem memory cpu eth
 
 tray-position = right
 tray-padding = 0
@@ -290,17 +290,24 @@ time = "%I:%M%p"
 ;time-alt = " at %H:%M"
 ;time-alt = %H:%M:%S
 ;time-alt = %H:%M:%S
-
 format-underline = ${colors.blue}
 
 label = %date% %time%
 
-[module/volume]
-type = internal/alsa
+[module/audiosink]
+format= %{T4}<output>
+type = custom/ipc
+hook-0 = audiosinkicon
+initial = 1
+module-margin-right = 1
+test=1
 
-format-volume = <label-volume> <bar-volume>
+[module/volume]
+module-margin-left = 0
+type = internal/pulseaudio
+
+format-volume = <bar-volume>
 label-volume-font = 4
-label-volume = ""
 label-volume-foreground = ${root.foreground}
 
 format-muted = <label-muted> <bar-volume>

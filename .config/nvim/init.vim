@@ -49,7 +49,7 @@ set expandtab                           " Expand TABs to spaces
 set autoindent                          " Minimal automatic indenting for any filetype
 set smartindent                         " Better autoindent e.g. extra indent after parens
 set incsearch                           " Incremental search, hit `<CR>` to stop
-set number relativenumber               " Relative line numbers as default
+set number                              " Absolute line numbers as default
 set splitbelow splitright               " Splits open at the bottom and right
 set wildmode=list:longest               " Great command-line completion, use `<Tab>` to move around
 set wildignorecase                      " Case insensitive wild mode
@@ -68,6 +68,7 @@ set formatoptions-=cro                  " Disable automatic commenting
 set signcolumn=yes                      " Always have space for the git sign
 set nrformats=                          " Treat all numbers as decimal for <C-a> etc
 set history=200                         " Save the last 200 ex commands in the history
+set diffopt=vertical                    " Show diffs with vertical splits
 
 " Automatically reload file on change
 set autoread
@@ -85,10 +86,10 @@ nnoremap <SPACE> <Nop>
 nnoremap <leader><leader> <C-^>
 " Leader f to search all
 nnoremap <leader>f :RG<CR>
-" Leader Q to quit the current window
-nnoremap <leader>Q :q<CR>
-" Leader q to quit the current buffer but keep split
-nnoremap <silent> <Leader>q :call CloseBuffer()<cr>
+" Leader q to quit the current window
+nnoremap <leader>q :q<CR>
+" Leader d to quit the current buffer but keep split
+nnoremap <silent> <Leader>d :call CloseBuffer()<cr>
 " Leader l to search buffers
 nnoremap <leader>l :Lines<CR>
 " Leader b to show buffers
@@ -163,6 +164,8 @@ let g:sharpenup_map_prefix = "\<Leader>,"
 nnoremap <leader>r :OmniSharpRename<CR>
 
 " fzf setup
+nnoremap <leader>; :History:<CR>
+
 function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
@@ -188,11 +191,15 @@ endfunction
 let root = s:FindRoot()
 command! ProjectFiles execute 'Files' root
 nnoremap <c-P> :ProjectFiles<CR>
+let s:ignoredFiletypes = ['asset','meta','mat','prefab','unity','physicMaterial','inputactions']
 if root == $HOME
-    let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs --hidden'
+    let $FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden -g '!\.git/*'"
 else
-    let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-vcs --hidden'
+    let $FZF_DEFAULT_COMMAND = "rg --files --ignore-vcs --hidden -g '!\.git/*'"
 endif
+for type in s:ignoredFiletypes
+    let $FZF_DEFAULT_COMMAND .= " -g '!*." . type . "'"
+endfor
 
 " Highlighted yank setup
 if !exists('##TextYankPost')
@@ -217,15 +224,6 @@ autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
 " Source vim configuration upon save
 augroup vimrc
     autocmd! BufWritePost $MYVIMRC source $MYVIMRC | nohl | redraw
-augroup END
-
-" Hybrid line numbers, relative in visual and absolute other times
-augroup linenumbers
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' | set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * if &buftype != 'terminal' | set norelativenumber
-    " Disable line numbers for terminals
-    au TermOpen * setlocal nonumber norelativenumber
 augroup END
 
 " Groff filetypes

@@ -47,3 +47,4 @@ for i in $inputs; do
   fi
 done
 
+polybar-msg hook audiosink 1
