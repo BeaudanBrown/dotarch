@@ -25,6 +25,7 @@ _bc focus_follows_pointer false
 _bc active_border_color '#707880'
 _bc normal_border_color '#282a2e'
 _bc focused_border_color '#81a2be'
+_bc ignore_ewmh_fullscreen all
 
 dropdownname="dropdown"
 bspc query -N -n .hidden >/dev/null || setsid $TERMINAL -n "$dropdownname" -e dropdown >/dev/null 2>&1 &

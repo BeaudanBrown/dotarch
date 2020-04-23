@@ -6,8 +6,8 @@ super + q
 # Select node in direction
 super + {h,j,k,l}
   bspc node -f {west,south,north,east}
-super + {shift + space,f}
-  bspc node -t ~{floating,fullscreen}
+super + {shift + space,shift + f}
+  bspc node -t '~{floating,fullscreen}'
 # Resize node in the given direction.
 super + shift + {y,u,i,o}
   node_resize {west,south,north,east} 50
@@ -37,6 +37,8 @@ super + space
   dmenu_run
 super + r
   $TERMINAL -e $FILE -c vs
+super + f
+  toggleWinWorkbspwm "caprine" "💬"
 super + c
   toggleWinWorkbspwm "signal-desktop" "💬" "Signal"
 super + m

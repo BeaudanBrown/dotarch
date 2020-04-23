@@ -19,12 +19,14 @@ Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highl
 Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highlighting for i3
 Plug 'pangloss/vim-javascript'                                    " Syntax highlighting javascript
 Plug 'peitalin/vim-jsx-typescript'                                " Syntax highlighting for typescript
+Plug 'purescript-contrib/purescript-vim'                          " Syntax highlighting for purescript
 Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
 Plug 'chrisbra/Colorizer'                                         " Highlight hex colours
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " Async autocomplete
 Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
 Plug 'nickspoons/vim-sharpenup'                                   " OmniSharp default
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
@@ -36,7 +38,7 @@ highlight Visual ctermfg=Black            " Always use black for visually select
 
 " Basics
 set nocompatible
-set bg=light
+set bg=dark
 set hidden                              " Allow to hide buffers instead of closing them
 set mouse=a                             " Enable mouse
 set clipboard+=unnamedplus              " Default to system clipboard
@@ -67,7 +69,7 @@ set inccommand=nosplit                  " Show substitute command in real time
 set formatoptions-=cro                  " Disable automatic commenting
 set signcolumn=yes                      " Always have space for the git sign
 set nrformats=                          " Treat all numbers as decimal for <C-a> etc
-set history=200                         " Save the last 200 ex commands in the history
+set history=1000                        " Save the last 1000 ex commands in the history
 set diffopt=vertical                    " Show diffs with vertical splits
 
 " Automatically reload file on change
@@ -98,8 +100,6 @@ nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>s :w<CR>
 " Leader S to substitute all words under cursor
 nnoremap <leader>S :%s/\(<c-r>=expand("<cword>")<cr>\)//g<Left><Left>
-" Leader ; to append semicolon
-nnoremap <leader>; A;<Esc>
 " Change to abyss buffer
 nnoremap c "_c
 vnoremap c "_c
@@ -131,9 +131,6 @@ nnoremap <leader>= <C-w>=
 " Map <C-q> to exit terminal mode
 tnoremap <C-q> <C-\><C-n>
 " Toggle 'default' terminal
-nnoremap <A-CR> :call ChooseTerm("term-slider", 0)<CR>
-inoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
-tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 0)<CR>
 " Paste on newline
 nnoremap <leader>p :pu<CR>==$
 " Open terminal in vertical split
@@ -145,9 +142,23 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 " Use <Leader>c for ciw with repeatability
 nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>"_cgn
+" Use <C-k> and <C-j> to shift selection up or down
+nnoremap <C-k> :move -2<CR>
+nnoremap <C-j> :move +1<CR>
+vnoremap <C-k> :move '<-2<CR>gv=gv
+vnoremap <C-j> :move '>+1<CR>gv=gv
 
-" Coc tab completion
+" Coc setup
+highlight CocErrorFloat ctermfg=Black     " Always use black for Coc floating errors
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Markdown Preview setup
+nnoremap <leader>md :MarkdownPreview<CR>
 
 " Vifm setup
 let g:vifm_embed_split = 1
@@ -161,19 +172,9 @@ let g:gitgutter_realtime=1
 " OmniSharp and sharpenup setup
 let g:OmniSharp_server_stdio = 1
 let g:sharpenup_map_prefix = "\<Leader>,"
-nnoremap <leader>r :OmniSharpRename<CR>
 
 " fzf setup
 nnoremap <leader>; :History:<CR>
-
-function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 function! s:FindRoot()
     let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
@@ -201,6 +202,19 @@ for type in s:ignoredFiletypes
     let $FZF_DEFAULT_COMMAND .= " -g '!*." . type . "'"
 endfor
 
+function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case'
+    for type in s:ignoredFiletypes
+        let command_fmt .= " -g '!*." . type . "'"
+    endfor
+    let command_fmt .= ' %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
 " Highlighted yank setup
 if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
@@ -209,7 +223,7 @@ let g:highlightedyank_highlight_duration = 200
 
 if has('nvim')
     " Always enter terminal in insert mode
-    au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | endif
+    au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | :set nonumber | endif
 endif
 
 " Use rg instead of grep and Ack
@@ -271,39 +285,75 @@ function! CloseBuffer()
     exe 'tabnext ' . curTab
 endfunction
 
-" Toggle 'default' terminal
-function! ChooseTerm(termname, slider)
-    let pane = bufwinnr(a:termname)
-    let buf = bufexists(a:termname)
-    if pane > 0
-        " pane is visible
-        if a:slider > 0
-            :exe pane . "wincmd c"
-        else
-            :exe "e #"
-            if exists("w:altbuf")
-                let @# = w:altbuf
-            endif
-        endif
-    elseif buf > 0
-        " buffer is not in pane
-        let w:altbuf = bufnr(@#)
-        if a:slider
-            :exe "botright split"
-        endif
-        :exe "buffer " . a:termname
-    else
-        " buffer is not loaded, create
-        let w:altbuf = bufnr(@#)
-        if a:slider
-            :exe "botright split"
-        endif
-        :terminal
-        :exe "f " a:termname
-        if w:altbuf != @#
-            let @# = w:altbuf
-        endif
+" Toggle 'default' terminal buffer
+
+nnoremap <silent> <A-CR> :call ToggleTerm()<Enter>
+inoremap <silent> <A-CR> <C-\><C-n>:call ToggleTerm()<Enter>
+tnoremap <silent> <A-CR> <C-\><C-n>:call ToggleTerm()<Enter>
+
+function! ToggleTerm() abort
+    if !has('nvim')
+        return v:false
     endif
+
+    " Create the terminal buffer.
+    if !exists('g:terminal') || !g:terminal.term.loaded
+        return CreateTerm()
+    endif
+
+    " Go back to origin buffer if current buffer is terminal.
+    if g:terminal.term.bufferid ==# bufnr('')
+        silent execute 'buffer' g:terminal.origin.bufferid
+
+    " Launch terminal buffer and start insert mode.
+    else
+        let g:terminal.origin.bufferid = bufnr('')
+
+        silent execute 'buffer' g:terminal.term.bufferid
+        startinsert
+    endif
+endfunction
+
+" Create the 'default' terminal buffer.
+
+function! CreateTerm() abort
+    if !has('nvim')
+        return v:false
+    endif
+
+    if !exists('g:terminal')
+        let g:terminal = {
+            \ 'opts': {},
+            \ 'term': {
+                \ 'loaded': v:null,
+                \ 'bufferid': v:null
+            \ },
+            \ 'origin': {
+                \ 'bufferid': v:null
+            \ }
+        \ }
+
+        function! g:terminal.opts.on_exit(jobid, data, event) abort
+            silent execute 'buffer' g:terminal.origin.bufferid
+            silent execute 'bdelete!' g:terminal.term.bufferid
+
+            let g:terminal.term.loaded = v:null
+            let g:terminal.term.bufferid = v:null
+            let g:terminal.origin.bufferid = v:null
+        endfunction
+    endif
+
+    if g:terminal.term.loaded
+        return v:false
+    endif
+
+    let g:terminal.origin.bufferid = bufnr('')
+
+    enew
+    call termopen(&shell, g:terminal.opts)
+
+    let g:terminal.term.loaded = v:true
+    let g:terminal.term.bufferid = bufnr('')
 endfunction
 
 " Save current view settings on a per-window, per-buffer basis.

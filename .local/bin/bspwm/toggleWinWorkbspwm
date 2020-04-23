@@ -10,31 +10,20 @@ else
   windowName=$3
 fi
 
+term=false
+[[ $appName = "st" ]] && term=true
+
 if ! >/dev/null pgrep -i $appName || ! wmctrl -lx | grep -q -i $windowName; then
-# if ! >/dev/null pgrep -i $appName; then
   # App isn't open
   echo 'Opening app'
   bspc monitor primary -a $workspaceName
   bspc desktop -f $workspaceName
-  $appName -T $appName
-  # # sleep 1
-  # pids=$(xdotool search --class $appName)
-  # for pid in $pids; do
-  #     bspc node $pid -d focused
-  #     bspc node $pid -t floating
-  #     bspc node $pid -t fullscreen
-  # done
-  # exit
+  if [ $windowName = $TERMINAL ]; then
+      $TERMINAL -T $appName
+  else
+      $appName -T $appName
+  fi
 fi
-
-# # WIP
-# pids=$(xdotool search --class $appName)
-# for pid in $pids; do
-#     echo "Toggle $pid"
-#     bspc node $pid --flag hidden -f
-#     # bspc node $pid -d focused
-#     # bspc node $pid -t fullscreen
-# done
 
 currentWorkspace=$( bspc query -D -d focused --names )
 if [[ "$currentWorkspace" == "$workspaceName" ]]; then
