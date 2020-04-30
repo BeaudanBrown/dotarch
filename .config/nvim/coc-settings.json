@@ -1,0 +1,42 @@
+{
+    "coc.source.file.ignoreHidden": false,
+    "languageserver": {
+        "purescript": {
+            "command": "purescript-language-server",
+            "args": ["--stdio"],
+            "filetypes": ["purescript"],
+            "settings": {
+                "purescript": {
+                    "packagePath": ".spago",
+                    "addPscPackageSources": true,
+                    "addSpagoSources": true,
+                    "buildCommand": "spago build -- --json-errors"
+                }
+            },
+            "rootPatterns": ["bower.json", "psc-package.json", "spago.dhall"]
+        }
+    },
+
+    "suggest.enablePreselect": true,
+    "suggest.enablePreview": true,
+    "suggest.floatEnable": true,
+    "suggest.noselect": true,
+    "suggest.lowPrioritySourceLimit": 5,
+    "suggest.localityBonus": true,
+
+    "list.maxHeight": 5,
+    "list.maxPreviewHeight": 5,
+
+    "signature.maxWindowHeight": 8,
+    "signature.target": "echo",
+    "coc.preferences.hoverTarget": "float",
+
+    "diagnostic.refreshOnInsertMode": true,
+    "diagnostic.signOffset": 9999999,
+    "diagnostic.level": "warning",
+    "diagnostic.maxWindowHeight": 25,
+    "diagnostic.messageTarget": "float",
+    "diagnostic.enableMessage": "jump",
+    "diagnostic.joinMessageLines": true,
+    "diagnostic.checkCurrentLine": true
+}

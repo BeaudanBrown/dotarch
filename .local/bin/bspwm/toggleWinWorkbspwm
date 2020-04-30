@@ -17,7 +17,7 @@ if ! >/dev/null pgrep -i $appName || ! wmctrl -lx | grep -q -i $windowName; then
   # App isn't open
   echo 'Opening app'
   bspc monitor primary -a $workspaceName
-  bspc desktop -f $workspaceName
+  bspwm_dynamic_desktops --df $workspaceName
   if [ $windowName = $TERMINAL ]; then
       $TERMINAL -T $appName
   else

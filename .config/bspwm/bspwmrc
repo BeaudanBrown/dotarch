@@ -18,8 +18,8 @@ bspc monitor $secondmonitor -d 6
 # arrange. I have this sensible default for most people's use cases.
 
 _bc border_width 3
-_bc window_gap 2
-_bc top_padding 24  # top_padding I set equal to polybar's height
+_bc window_gap 0
+_bc top_padding 25
 _bc borderless_monocle   true
 _bc focus_follows_pointer false
 _bc active_border_color '#707880'
@@ -29,11 +29,5 @@ _bc ignore_ewmh_fullscreen all
 
 dropdownname="dropdown"
 bspc query -N -n .hidden >/dev/null || setsid $TERMINAL -n "$dropdownname" -e dropdown >/dev/null 2>&1 &
-bspc rule -a St:$dropdownname hidden=on
-bspc rule -a St:$dropdownname sticky=on
-bspc rule -a St:$dropdownname state=floating
-
-
-_bc external_rules_command "$(which floaters)"
 
 $HOME/.config/polybar/launch.sh

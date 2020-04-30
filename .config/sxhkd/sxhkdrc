@@ -6,14 +6,11 @@ super + q
 # Select node in direction
 super + {h,j,k,l}
   bspc node -f {west,south,north,east}
-super + {shift + space,shift + f}
+super + {shift + space,f}
   bspc node -t '~{floating,fullscreen}'
 # Resize node in the given direction.
 super + shift + {y,u,i,o}
   node_resize {west,south,north,east} 50
-# Move floating windows with the arrow keys
-super + shift + {y,u,i,o}
-  bspc node -v {-20 0,0 20,0 -20,20 0}
 # Swap current window with the biggest one in the present desktop
 super + shift + b
   bspc node -s biggest.local
@@ -23,8 +20,10 @@ super + shift + {q,r}
 # Toggle between most recent workspaces
 super + Tab
   bspwm_dynamic_desktops --df $(bspc query -D -d --names)
+super + {_,shift +} Escape
+  bspc desktop -f {next,prev}.local
 super + shift + {h,j,k,l}
-  d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
+  node_move {west,south,north,east}
 super + {_,shift + ,ctrl + shift +,ctrl +}{0-9}
   ;bspwm_dynamic_desktops {--df,--ns,--nm,--da} {0-9}
 
@@ -37,7 +36,7 @@ super + space
   dmenu_run
 super + r
   $TERMINAL -e $FILE -c vs
-super + f
+super + shift + f
   toggleWinWorkbspwm "caprine" "💬"
 super + c
   toggleWinWorkbspwm "signal-desktop" "💬" "Signal"

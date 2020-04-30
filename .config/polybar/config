@@ -53,8 +53,8 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = {$xrdb:red}
 
-border-size = 0
-border-color = ${colors.white}
+border-bottom-size = 1
+border-color = ${colors.black}
 
 padding-left = 0
 padding-right = 0
@@ -389,4 +389,3 @@ screenchange-reload = true
 
 [global/wm]
 margin-top = 5
-margin-bottom = 5

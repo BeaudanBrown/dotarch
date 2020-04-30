@@ -7,7 +7,6 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                         " Surround
 Plug 'junegunn/fzf.vim'                                           " Fuzzy finder
-Plug 'tpope/vim-fugitive'                                         " Git wrapper
 Plug 'mileszs/ack.vim'                                            " Ack search tool
 Plug 'airblade/vim-gitgutter'                                     " Gitgutter
 Plug 'vim-airline/vim-airline'                                    " Airline statusline
@@ -26,9 +25,11 @@ Plug 'chrisbra/Colorizer'                                         " Highlight he
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " Async autocomplete
 Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
 Plug 'nickspoons/vim-sharpenup'                                   " OmniSharp default
+Plug 'lambdalisue/gina.vim'                                       " Vim git plugin
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
+autocmd VimResized * wincmd =
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
 let mapleader = "\<Space>"                " Assign space as leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
@@ -71,6 +72,7 @@ set signcolumn=yes                      " Always have space for the git sign
 set nrformats=                          " Treat all numbers as decimal for <C-a> etc
 set history=1000                        " Save the last 1000 ex commands in the history
 set diffopt=vertical                    " Show diffs with vertical splits
+set fillchars+=vert:\                   " No line through middle of splits
 
 " Automatically reload file on change
 set autoread
@@ -84,22 +86,22 @@ set listchars=tab:>-,trail:~,extends:>,precedes:<
 " Keybindings
 " Stop space from moving cursor
 nnoremap <SPACE> <Nop>
-" Leader leader to swap to most recent buffer
-nnoremap <leader><leader> <C-^>
+" Leader Leader to swap to most recent buffer
+nnoremap <Leader><Leader> <C-^>
 " Leader f to search all
-nnoremap <leader>f :RG<CR>
+nnoremap <Leader>f :RG<CR>
 " Leader q to quit the current window
-nnoremap <leader>q :q<CR>
+nnoremap <Leader>q :q<CR>
 " Leader d to quit the current buffer but keep split
 nnoremap <silent> <Leader>d :call CloseBuffer()<cr>
 " Leader l to search buffers
-nnoremap <leader>l :Lines<CR>
+nnoremap <Leader>l :Lines<CR>
 " Leader b to show buffers
-nnoremap <leader>b :Buffers<CR>
+nnoremap <Leader>b :Buffers<CR>
 " Leader s to save
-nnoremap <leader>s :w<CR>
+nnoremap <Leader>s :w<CR>
 " Leader S to substitute all words under cursor
-nnoremap <leader>S :%s/\(<c-r>=expand("<cword>")<cr>\)//g<Left><Left>
+nnoremap <Leader>S :%s/\(<c-r>=expand("<cword>")<cr>\)//g<Left><Left>
 " Change to abyss buffer
 nnoremap c "_c
 vnoremap c "_c
@@ -116,6 +118,10 @@ nnoremap <A-j> <C-W>j
 nnoremap <A-k> <C-W>k
 nnoremap <A-h> <C-W>h
 nnoremap <A-l> <C-W>l
+nnoremap <a-left> 3<c-w><
+nnoremap <a-right> 3<c-w>>
+nnoremap <a-up> 3<c-w>+
+nnoremap <a-down> 3<c-w>-
 " Have movement keys scroll over wrapped lines
 nnoremap j gj
 nnoremap k gk
@@ -124,33 +130,65 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 " Make 'Y' yank from cursor to end of line
 nnoremap Y y$
-" Clear search with <leader>/
-nnoremap <silent> <leader>/ :noh<CR>
+" Clear search with <Leader>/
+nnoremap <silent> <Leader>/ :noh<CR>
 " Leader = to resize splits evenly
-nnoremap <leader>= <C-w>=
+nnoremap <Leader>= <C-w>=
 " Map <C-q> to exit terminal mode
 tnoremap <C-q> <C-\><C-n>
-" Toggle 'default' terminal
 " Paste on newline
-nnoremap <leader>p :pu<CR>==$
+nnoremap <Leader>p :pu<CR>==$
 " Open terminal in vertical split
-nnoremap <leader>t :vs term://zsh<CR>
+nnoremap <Leader>t :vs term://zsh<CR>
 " Replace all is aliased to S.
 nnoremap S :%s//g<Left><Left>
 " Use <C-p> and <C-p> for up and down in command line mode
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-" Use <Leader>c for ciw with repeatability
-nnoremap <silent> <Leader>c :let @/=expand('<cword>')<cr>"_cgn
+" Use <Leader>C for ciw with repeatability
+nnoremap <silent> <Leader>C :let @/=expand('<cword>')<cr>"_cgn
 " Use <C-k> and <C-j> to shift selection up or down
 nnoremap <C-k> :move -2<CR>
 nnoremap <C-j> :move +1<CR>
 vnoremap <C-k> :move '<-2<CR>gv=gv
 vnoremap <C-j> :move '>+1<CR>gv=gv
+" Repeat last used macro
+nnoremap Q @@
+" Don't put s changes in register
+nnoremap s "_s
+nnoremap <silent> <A-CR> :call toggleterm#Toggle()<Enter>
+inoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
+tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
+
 
 " Coc setup
-highlight CocErrorFloat ctermfg=Black     " Always use black for Coc floating errors
+" ====================================================================================
+hi Pmenu ctermfg=white ctermbg=8
+hi PmenuSbar ctermfg=white ctermbg=0
+hi CocUnderline cterm=NONE
+hi CocWarningSign ctermfg=3
+
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <Leader>re :CocRestart<CR><CR>
+nnoremap <expr><C-f> coc#util#float_scroll(1)
+nnoremap <expr><C-b> coc#util#float_scroll(0)
+nmap <silent> <Leader>cj <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>ck <Plug>(coc-diagnostic-prev)
+nmap <Leader>cd <Plug>(coc-diagnostic-info)
+nmap <Leader>cf  <Plug>(coc-fix-current)
+nmap <Leader>cn  <Plug>(coc-rename)
+nmap gd <Plug>(coc-definition)
+inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
 if exists('*complete_info')
   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
@@ -158,23 +196,80 @@ else
 endif
 
 " Markdown Preview setup
-nnoremap <leader>md :MarkdownPreview<CR>
+" ====================================================================================
+nnoremap <Leader>md :MarkdownPreview<CR>
 
 " Vifm setup
+" ====================================================================================
 let g:vifm_embed_split = 1
 let g:vifm_replace_netrw = 1
 let g:vifm_exec_args = "-c \":only\""
-nnoremap <leader>e :topleft vertical 40Vifm<CR>
+nnoremap <Leader>e :topleft vertical 40Vifm<CR>
+
+" Gina setup
+" ====================================================================================
+nmap <Leader>gj ]czz
+nmap <Leader>gk [czz
+nnoremap <Leader>gs :new | Gina status<cr>
+nnoremap <Leader>gc :Gina commit<cr>
+nnoremap <Leader>gd :Gina diff<cr>
+nnoremap <Leader>gb :Gina blame<cr>
+nnoremap <Leader>gl :Gina log<cr>
+nnoremap <Leader>gp :Gina push<cr>
+nnoremap <Leader>ga :Gina patch<cr>
+
+hi DiffAdd ctermfg=0 ctermbg=2
+hi DiffChange ctermfg=0 ctermbg=4
+hi DiffDelete ctermfg=0 ctermbg=1
+
+hi DiffAdded ctermfg=10
+hi DiffChanged ctermfg=4
+hi DiffRemoved ctermfg=9
+hi Error ctermfg=0 ctermbg=9
+
+augroup diff_autocommands
+  autocmd FilterWritePre * if &diff|
+        \ nmap <Leader>l <Plug>(gina-diffget-r)|
+        \ nmap <Leader>h <Plug>(gina-diffget-l)|
+        \ nnoremap <Leader>gj ]czz|
+        \ nnoremap <Leader>gk [czz|
+        \ nnoremap q :tabclose<CR>|
+        \ endif
+  autocmd WinEnter * if &diff==0|
+        \ if maparg('<Leader>l','n') !=# ''|
+            \ nunmap <Leader>l|
+            \ nnoremap <Leader>l :Lines<CR>|
+        \ endif|
+        \ if maparg('<Leader>h','n') !=# ''|
+            \ nunmap <Leader>h|
+        \ endif|
+        \ if maparg('<Leader>gj','n') !=# ''|
+            \ nunmap <Leader>gj|
+        \ endif|
+        \ if maparg('<Leader>gk','n') !=# ''|
+            \ nunmap <Leader>gk|
+        \ endif|
+        \ if maparg('q','n') !=# ''|
+            \ nunmap q|
+        \ endif|
+    \ endif
+augroup END
 
 " gitgutter setup
+" ====================================================================================
+hi! GitGutterAddDefault ctermfg=10 cterm=bold
+hi! GitGutterChangeDefault ctermfg=4 cterm=bold
+hi! GitGutterDeleteDefault ctermfg=9 cterm=bold
 let g:gitgutter_realtime=1
 
 " OmniSharp and sharpenup setup
+" ====================================================================================
 let g:OmniSharp_server_stdio = 1
 let g:sharpenup_map_prefix = "\<Leader>,"
 
 " fzf setup
-nnoremap <leader>; :History:<CR>
+" ====================================================================================
+nnoremap <Leader>; :History:<CR>
 
 function! s:FindRoot()
     let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
@@ -192,7 +287,7 @@ endfunction
 let root = s:FindRoot()
 command! ProjectFiles execute 'Files' root
 nnoremap <c-P> :ProjectFiles<CR>
-let s:ignoredFiletypes = ['asset','meta','mat','prefab','unity','physicMaterial','inputactions']
+let s:ignoredFiletypes = ['asset','meta','mat','prefab','unity','physicMaterial','inputactions','png','webp']
 if root == $HOME
     let $FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden -g '!\.git/*'"
 else
@@ -216,6 +311,7 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Highlighted yank setup
+" ====================================================================================
 if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
 endif
@@ -283,77 +379,6 @@ function! CloseBuffer()
     " Close buffer, restore active tab
     exe 'bd' . curBuf
     exe 'tabnext ' . curTab
-endfunction
-
-" Toggle 'default' terminal buffer
-
-nnoremap <silent> <A-CR> :call ToggleTerm()<Enter>
-inoremap <silent> <A-CR> <C-\><C-n>:call ToggleTerm()<Enter>
-tnoremap <silent> <A-CR> <C-\><C-n>:call ToggleTerm()<Enter>
-
-function! ToggleTerm() abort
-    if !has('nvim')
-        return v:false
-    endif
-
-    " Create the terminal buffer.
-    if !exists('g:terminal') || !g:terminal.term.loaded
-        return CreateTerm()
-    endif
-
-    " Go back to origin buffer if current buffer is terminal.
-    if g:terminal.term.bufferid ==# bufnr('')
-        silent execute 'buffer' g:terminal.origin.bufferid
-
-    " Launch terminal buffer and start insert mode.
-    else
-        let g:terminal.origin.bufferid = bufnr('')
-
-        silent execute 'buffer' g:terminal.term.bufferid
-        startinsert
-    endif
-endfunction
-
-" Create the 'default' terminal buffer.
-
-function! CreateTerm() abort
-    if !has('nvim')
-        return v:false
-    endif
-
-    if !exists('g:terminal')
-        let g:terminal = {
-            \ 'opts': {},
-            \ 'term': {
-                \ 'loaded': v:null,
-                \ 'bufferid': v:null
-            \ },
-            \ 'origin': {
-                \ 'bufferid': v:null
-            \ }
-        \ }
-
-        function! g:terminal.opts.on_exit(jobid, data, event) abort
-            silent execute 'buffer' g:terminal.origin.bufferid
-            silent execute 'bdelete!' g:terminal.term.bufferid
-
-            let g:terminal.term.loaded = v:null
-            let g:terminal.term.bufferid = v:null
-            let g:terminal.origin.bufferid = v:null
-        endfunction
-    endif
-
-    if g:terminal.term.loaded
-        return v:false
-    endif
-
-    let g:terminal.origin.bufferid = bufnr('')
-
-    enew
-    call termopen(&shell, g:terminal.opts)
-
-    let g:terminal.term.loaded = v:true
-    let g:terminal.term.bufferid = bufnr('')
 endfunction
 
 " Save current view settings on a per-window, per-buffer basis.
