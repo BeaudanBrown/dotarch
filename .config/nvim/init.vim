@@ -31,7 +31,7 @@ call plug#end()
 
 autocmd VimResized * wincmd =
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
-let mapleader = "\<Space>"                " Assign space as leader
+let mapleader = "\<Space>"                " Assign space as Leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
 syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
 highlight Search ctermfg=Black            " Always use black for search text
@@ -161,13 +161,28 @@ inoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 
 
+" TODO: Submode setup
+let g:submode_timeout = 0
+let g:submode_keyseqs_to_leave = []
+
+call submode#enter_with('diffMode', 'n', '', '<leader>gj', ':GitGutterNextHunk<cr>zz')
+call submode#enter_with('diffMode', 'n', '', '<leader>gk', ':GitGutterPrevHunk<cr>zz')
+call submode#leave_with('diffMode', 'n', '', '<Esc>')
+call submode#map('diffMode', 'n', '', 'j', ':GitGutterNextHunk<cr>zz')
+call submode#map('diffMode', 'n', '', 'k', ':GitGutterPrevHunk<cr>zz')
+
 " Coc setup
 " ====================================================================================
+call coc#add_extension('coc-snippets', 'coc-json', 'coc-css', 'coc-vimlsp')
+
+let g:markdown_fenced_languages = ['vim', 'help']
+
 hi Pmenu ctermfg=white ctermbg=8
 hi PmenuSbar ctermfg=white ctermbg=0
 hi CocUnderline cterm=NONE
 hi CocWarningSign ctermfg=3
 
+" Show either vim help or call coc doHover
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
@@ -175,6 +190,19 @@ function! s:show_documentation()
         call CocAction('doHover')
     endif
 endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ "\<TAB>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<c-n>'
+let g:coc_snippet_prev = '<c-p>'
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <Leader>re :CocRestart<CR><CR>
@@ -187,7 +215,6 @@ nmap <Leader>cf  <Plug>(coc-fix-current)
 nmap <Leader>cn  <Plug>(coc-rename)
 nmap gd <Plug>(coc-definition)
 inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 if exists('*complete_info')
   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -208,9 +235,7 @@ nnoremap <Leader>e :topleft vertical 40Vifm<CR>
 
 " Gina setup
 " ====================================================================================
-nmap <Leader>gj ]czz
-nmap <Leader>gk [czz
-nnoremap <Leader>gs :new | Gina status<cr>
+nnoremap <Leader>gs :new \| Gina status<cr>
 nnoremap <Leader>gc :Gina commit<cr>
 nnoremap <Leader>gd :Gina diff<cr>
 nnoremap <Leader>gb :Gina blame<cr>
@@ -257,9 +282,9 @@ augroup END
 
 " gitgutter setup
 " ====================================================================================
-hi! GitGutterAddDefault ctermfg=10 cterm=bold
-hi! GitGutterChangeDefault ctermfg=4 cterm=bold
-hi! GitGutterDeleteDefault ctermfg=9 cterm=bold
+hi! GitGutterAdd ctermfg=10 cterm=bold
+hi! GitGutterChange ctermfg=4 cterm=bold
+hi! GitGutterDelete ctermfg=9 cterm=bold
 let g:gitgutter_realtime=1
 
 " OmniSharp and sharpenup setup
