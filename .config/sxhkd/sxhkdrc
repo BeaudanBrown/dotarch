@@ -1,5 +1,3 @@
-# WM binds
-TOGGLE=toggleWinWorkbspwm
 # Close node
 super + q
   bspc node -c
@@ -23,7 +21,7 @@ super + Tab
 super + {_,shift +} Escape
   bspc desktop -f {next,prev}.local
 super + shift + {h,j,k,l}
-  node_move {west,south,north,east}
+  bspwm_node_move {west,south,north,east}
 super + {_,shift + ,ctrl + shift +,ctrl +}{0-9}
   ;bspwm_dynamic_desktops {--df,--ns,--nm,--da} {0-9}
 
@@ -37,15 +35,15 @@ super + space
 super + r
   $TERMINAL -e $FILE -c vs
 super + shift + f
-  toggleWinWorkbspwm "caprine" "💬"
+  bspwm_toggle_scratch_prog "caprine" "caprine" "Caprine"
 super + c
-  toggleWinWorkbspwm "signal-desktop" "💬" "Signal"
+  bspwm_toggle_scratch_prog "signal-desktop" "signal" "Signal"
 super + m
-  toggleWinWorkbspwm "spotify" "🎶"
+  bspwm_toggle_scratch_prog "spotify" "spotify" "Spotify"
 super + d
-  toggleWinWorkbspwm "discord" "💬"
+  bspwm_toggle_scratch_prog "discord" "discord" "discord"
 super + shift + g
-  toggleWinWorkbspwm "steam" "🎮"
+  bspwm_toggle_scratch_prog "steam" "🎮"
 super + shift + m
   lmc mute
 super + shift + p

@@ -1,24 +1,18 @@
 #!/usr/bin/env sh
 alias ka="killall" \
-  mkd="mkdir -pv" \
-  mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
   p="sudo pacman" \
   SS="sudo systemctl" \
-  f="$FILE" \
   g="git" \
-  trem="transmission-remote" \
   e="$EDITOR" \
   v="$EDITOR" \
-  x="sxiv -ft *" \
   sdn="sudo shutdown -h now" \
   ls="ls -hN --color=auto --group-directories-first" \
   grep="rg" \
   diff="diff --color=auto" \
   ccat="highlight --out-format=ansi" \
   ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
-  upc="sudo pacman -Syu; pkill -RTMIN+8 i3blocks" \
   lsp="pacman -Qett --color=always | less" \
-  tor-browser="tor-browser --dir=$XDG_CONFIG_HOME/tor-browser" \
+  mkdir='mkdir -pv' \
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

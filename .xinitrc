@@ -1,8 +1,14 @@
 #!/usr/bin/env sh
 
-[ -f "$XDG_CONFIG_HOME/Xprofile" ] && . $XDG_CONFIG_HOME/Xprofile
-[[ -f "$XDG_CONFIG_HOME/Xresources" ]] && xrdb -merge -I$HOME $XDG_CONFIG_HOME/Xresources
+[[ -f "$HOME/.config/Xprofile" ]] && . $HOME/.config/Xprofile
+[[ -f "$HOME/.config/Xresources" ]] && xrdb -merge -I$HOME $HOME/.config/Xresources
 
-xsetroot -cursor_name left_ptr
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi
+
 xset s 600 600
-exec bspwm -c $XDG_CONFIG_HOME/bspwm/bspwmrc
+exec bspwm -c $HOME/.config/bspwm/bspwmrc
