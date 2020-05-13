@@ -28,5 +28,4 @@ _bc focused_border_color '#81a2be'
 _bc ignore_ewmh_fullscreen all
 
 [[ -f $HOME/.config/polybar/launch.sh ]] && $HOME/.config/polybar/launch.sh
-pkill sxhkd
-sxhkd &
+[[ -f $HOME/.local/bin/bspwm/externalRules ]] && bspc config external_rules_command "$(which externalRules)"
