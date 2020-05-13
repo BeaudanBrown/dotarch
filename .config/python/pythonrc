@@ -6,7 +6,6 @@ readline_history_file = os.path.join(os.path.expanduser('~'), '.config', 'python
 try:
     readline.read_history_file(readline_history_file)
 except IOError:
-    print('test')
     pass
 
 atexit.register(readline.write_history_file, readline_history_file)
