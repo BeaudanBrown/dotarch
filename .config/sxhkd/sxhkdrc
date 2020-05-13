@@ -8,7 +8,7 @@ super + {shift + space,f}
   bspc node -t '~{floating,fullscreen}'
 # Resize node in the given direction.
 super + shift + {y,u,i,o}
-  node_resize {west,south,north,east} 50
+  bspwm_node_resize {west,south,north,east} 50
 # Swap current window with the biggest one in the present desktop
 super + shift + b
   bspc node -s biggest.local
