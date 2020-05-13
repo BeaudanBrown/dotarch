@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
-setbg &               # Set the background
-sxhkd &               # Bind keys
-xset r rate 175 50 &  # Speed xrate up [delay] [rate]
-unclutter &           # Remove mouse when idle
-xcompmgr &            # xcompmgr for transparency
-dunst &               # dunst for notifications
-mpdupdate &
+xsetroot -cursor_name left_ptr  # Set default cursor to pointer
+setbg &                         # Set the background
+pkill sxhkd                     # Ensure only one instance running
+sxhkd &                         # Bind keys
+xset s 600 600                  # Monitor sleep after 10 mins
+xset r rate 175 50              # Speed xrate up [delay] [rate]
+dunst &                         # dunst for notifications
