@@ -93,7 +93,7 @@ interval = 5000
 type = custom/script
 interval = 1
 format = <label>
-exec = python /usr/share/polybar/scripts/spotify_status.py -p ',' -f '{play_pause} {artist}: {song}'
+exec = python $HOME/.local/bin/statusbar/spotify_status.py -p ',' -f '{play_pause} {artist}: {song}'
 format-underline = #1db954
 
 [module/xwindow]
@@ -297,7 +297,7 @@ label = %date% %time%
 [module/audiosink]
 format= %{T4}<output>
 type = custom/ipc
-hook-0 = audiosinkicon
+hook-0 = polybar_audio_icon
 initial = 1
 module-margin-right = 1
 test=1
