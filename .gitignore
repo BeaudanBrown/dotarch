@@ -1,6 +1,1 @@
-**/
-*
-!.local/
-!.local/bin/
-!.local/bin/**
-!.config/**
+.config/dotsGit
