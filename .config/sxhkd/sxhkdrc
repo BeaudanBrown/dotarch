@@ -6,6 +6,8 @@ super + {h,j,k,l}
   bspc node -f {west,south,north,east}
 super + {shift + space,f}
   bspc node -t '~{floating,fullscreen}'
+super + shift + {s}
+  bspc node {-g sticky -l above}
 # Resize node in the given direction.
 super + shift + {y,u,i,o}
   bspwm_node_resize {west,south,north,east} 50
