@@ -62,6 +62,8 @@ super + a
   $TERMINAL -e pulsemixer; pkill -RTMIN+10 i3blocks
 super + w
   $BROWSER
+super + y
+  clipmenu
 
 # Et cetera...
 super + grave
@@ -144,10 +146,10 @@ super + F8
   mailsync
 # Mount a USB drive or Android device
 super + F9
-  dmenumount
+  dmenu_mount
 # Unmount a USB drive or Android device
 super + F10
-  dmenuumount
+  dmenu_umount
 # Network Manager interface
 super + F12
   $TERMINAL -e sudo -A nmtui
