@@ -282,6 +282,7 @@ augroup END
 
 " gitgutter setup
 " ====================================================================================
+hi SignColumn ctermfg=NONE ctermbg=NONE
 hi! GitGutterAdd ctermfg=10 cterm=bold
 hi! GitGutterChange ctermfg=4 cterm=bold
 hi! GitGutterDelete ctermfg=9 cterm=bold
