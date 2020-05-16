@@ -4,29 +4,35 @@ if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ~/.config/nvim/autoload/plug.vim
 endif
 
+" Coc extensions
+function! GetCocExts(info)
+    if a:info.status == 'installed'
+        call coc#add_extension('coc-snippets', 'coc-json', 'coc-css', 'coc-vimlsp')
+endfunction
+
 call plug#begin('~/.config/nvim/plugged')
-Plug 'tpope/vim-surround'                                         " Surround
-Plug 'junegunn/fzf.vim'                                           " Fuzzy finder
-Plug 'mileszs/ack.vim'                                            " Ack search tool
-Plug 'airblade/vim-gitgutter'                                     " Gitgutter
-Plug 'vim-airline/vim-airline'                                    " Airline statusline
-Plug 'machakann/vim-highlightedyank'                              " Highlight yanked text
-Plug 'vim-scripts/ReplaceWithRegister'                            " Replace with register
-Plug 'tpope/vim-commentary'                                       " Comment selection with gc
-Plug 'vifm/vifm.vim'                                              " Vim file manager
-Plug 'kovetskiy/sxhkd-vim'                                        " Syntax highlighting for sxhkd
-Plug 'PotatoesMaster/i3-vim-syntax'                               " Syntax highlighting for i3
-Plug 'pangloss/vim-javascript'                                    " Syntax highlighting javascript
-Plug 'peitalin/vim-jsx-typescript'                                " Syntax highlighting for typescript
-Plug 'purescript-contrib/purescript-vim'                          " Syntax highlighting for purescript
-Plug 'kana/vim-textobj-user'                                      " Alow for easy text object creation
-Plug 'kana/vim-textobj-entire'                                    " Add ae text object for entire file
-Plug 'chrisbra/Colorizer'                                         " Highlight hex colours
-Plug 'neoclide/coc.nvim', {'branch': 'release'}                   " Async autocomplete
-Plug 'OmniSharp/omnisharp-vim'                                    " C# autocomplete
-Plug 'nickspoons/vim-sharpenup'                                   " OmniSharp default
-Plug 'lambdalisue/gina.vim'                                       " Vim git plugin
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'tpope/vim-surround'                                                       " Surround
+Plug 'junegunn/fzf.vim'                                                         " Fuzzy finder
+Plug 'mileszs/ack.vim'                                                          " Ack search tool
+Plug 'airblade/vim-gitgutter'                                                   " Gitgutter
+Plug 'vim-airline/vim-airline'                                                  " Airline statusline
+Plug 'machakann/vim-highlightedyank'                                            " Highlight yanked text
+Plug 'vim-scripts/ReplaceWithRegister'                                          " Replace with register
+Plug 'tpope/vim-commentary'                                                     " Comment selection with gc
+Plug 'vifm/vifm.vim'                                                            " Vim file manager
+Plug 'kovetskiy/sxhkd-vim'                                                      " Syntax highlighting for sxhkd
+Plug 'PotatoesMaster/i3-vim-syntax'                                             " Syntax highlighting for i3
+Plug 'pangloss/vim-javascript'                                                  " Syntax highlighting javascript
+Plug 'peitalin/vim-jsx-typescript'                                              " Syntax highlighting for typescript
+Plug 'purescript-contrib/purescript-vim'                                        " Syntax highlighting for purescript
+Plug 'kana/vim-textobj-user'                                                    " Alow for easy text object creation
+Plug 'kana/vim-textobj-entire'                                                  " Add ae text object for entire file
+Plug 'chrisbra/Colorizer'                                                       " Highlight hex colours
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('GetCocExts')}   " Async autocomplete
+Plug 'OmniSharp/omnisharp-vim'                                                  " C# autocomplete
+Plug 'nickspoons/vim-sharpenup'                                                 " OmniSharp default
+Plug 'lambdalisue/gina.vim'                                                     " Vim git plugin
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }         " Show markdown previews
 call plug#end()
 
 autocmd VimResized * wincmd =
@@ -173,8 +179,6 @@ call submode#map('diffMode', 'n', '', 'k', ':GitGutterPrevHunk<cr>zz')
 
 " Coc setup
 " ====================================================================================
-call coc#add_extension('coc-snippets', 'coc-json', 'coc-css', 'coc-vimlsp')
-
 let g:markdown_fenced_languages = ['vim', 'help']
 
 hi Pmenu ctermfg=white ctermbg=8
