@@ -12,7 +12,7 @@ bspc rule -r "*"
 
 # Start workspaces on the main monitor.
 bspc monitor $mainmonitor -d 1
-bspc monitor $secondmonitor -d 6
+[[ $secondmonitor ]] && bspc monitor $secondmonitor -d 6
 
 # If you want a multi-monitor display or something else, I leave that to you to
 # arrange. I have this sensible default for most people's use cases.
