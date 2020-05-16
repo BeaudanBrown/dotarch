@@ -97,6 +97,10 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 source /usr/share/nvm/nvm.sh 2>/dev/null
 source /usr/share/nvm/install-nvm-exec 2>/dev/null
 
+__git_files () {
+    _wanted files expl 'local files' _files
+}
+
 # Load fzf keybindings
 source $HOME/.config/zsh/key-bindings.zsh 2>/dev/null
 # Enable fzf completion
