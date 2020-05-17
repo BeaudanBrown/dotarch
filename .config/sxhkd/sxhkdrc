@@ -47,7 +47,7 @@ super + d
 super + shift + g
   bspwm_toggle_scratch_prog "steam" "🎮"
 super + shift + m
-  lmc mute
+  mute_audio
 super + shift + p
   dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause &>/dev/null
 super + comma

@@ -12,8 +12,18 @@ for i in "${!sinklist[@]}"; do
   fi
 done
 
-if [[ $curindex = 0 ]]; then
-  echo 
+if [[ $(pacmd list-sinks | grep muted | awk -v idx=$(($curindex + 1)) 'NR==idx {print $2}') = "yes" ]]; then
+    # Muted
+    if [[ $curindex = 0 ]]; then
+        echo "%{F$(xrdb -query | awk '/color1:/ {print $2}')}婢%{F-}"
+    else
+        echo "%{F$(xrdb -query | awk '/color1:/ {print $2}')}ﳌ%{F-}"
+    fi
 else
-  echo 
+    # Not muted
+    if [[ $curindex = 0 ]]; then
+      echo 墳
+    else
+      echo 
+    fi
 fi

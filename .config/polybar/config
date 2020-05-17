@@ -65,9 +65,7 @@ module-margin-right = 1
 font-0 = mono:pixelsize=11;1
 font-1 = Inconsolata Nerd Font:size=8;1
 font-2 = Symbola:pixelsize=9;1
-font-3 = "Font Awesome 5 Pro:style=Light:pixelsize=12;1"
-font-4 = "Font Awesome 5 Brands:style=Regular:pixelsize=12;1"
-font-5 = "Font Awesome 5 Pro:style=Solid:pixelsize=12;1"
+font-3 = "Symbols Nerd Font:style=1000-em:pixelsize=14;1"
 
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
@@ -82,13 +80,6 @@ wm-restack = bspwm
 
 ;override-redirect = true
 
-[module/weather]
-
-type = custom/script
-exec = weather
-interval = 5000
-;format-underline =
-
 [module/spotify]
 type = custom/script
 interval = 1
@@ -100,22 +91,6 @@ format-underline = #1db954
 type = internal/xwindow
 label = %title:0:45:...%
 format-foreground = ${colors.blue}
-
-[module/xkeyboard]
-type = internal/xkeyboard
-blacklist-0 = num lock
-
-format-prefix = " "
-format-prefix-foreground = ${colors.gray}
-format-prefix-underline = ${colors.darkmagenta}
-
-label-layout = %layout%
-label-layout-underline = ${colors.darkmagenta}
-
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.darkmagenta}
-label-indicator-underline = ${colors.darkmagenta}
 
 [module/filesystem]
 type = internal/fs
@@ -154,41 +129,6 @@ label-empty = %name%
 label-empty-foreground = ${colors.lightgray}
 label-empty-padding = 1
 
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
-
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
-
-label-mode-padding = 2
-label-mode-foreground = ${colors.white}
-label-mode-background = ${colors.darkyellow}
-
-; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${colors:black}
-;label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
-
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
-
-; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
-
-; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
-
 [module/xbacklight]
 type = internal/xbacklight
 
@@ -205,7 +145,6 @@ bar-fill-foreground = #9f78e1
 bar-empty = ─
 bar-empty-font = 2
 bar-empty-foreground = ${colors.gray}
-
 
 [module/backlight-acpi]
 inherit = module/xbacklight
@@ -215,9 +154,8 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix-font = 4
-format-prefix = " "
-; format-prefix-foreground = ${colors.white}
+format-prefix-font = 3
+format-prefix = " "
 format-underline = ${colors.red}
 label = %percentage:3:3%%
 
@@ -234,8 +172,8 @@ bar-used-fill =▬
 bar-used-empty =▬
 bar-used-empty-foreground = ${colors.gray}
 interval = 2
-format-prefix-font = 4
-format-prefix = " "
+format-prefix-font = 3
+format-prefix = " "
 format-underline = ${colors.cyan}
 label = %gb_free% free
 
@@ -248,14 +186,11 @@ format-connected = 直 <label-connected>
 format-connected-underline = ${colors.darkmagenta}
 label-connected = %essid%
 
-;format-disconnected =
 format-disconnected = <label-disconnected>
 format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
 label-disconnected = 睊no wifi
 label-disconnected-foreground = ${colors.gray}
 
-; <ramp-signal>
 ramp-signal-0 = 
 ramp-signal-1 = 
 ramp-signal-2 = 
@@ -270,7 +205,7 @@ interval = 3.0
 
 format-connected-underline = ${colors.darkgreen}
 format-connected-prefix-foreground = ${colors.gray}
-label-connected-font = 6
+label-connected-font = 3
 label-connected = "%{T6}%{T-} %upspeed:8:8% %{T6}%{T-} %downspeed:8:8% "
 
 ;format-disconnected =
@@ -286,10 +221,6 @@ interval = 60
 date = "%d %b %Y (%a)"
 time = "%I:%M%p"
 
-# If you're not living in a country where AM and PM is used you can add -alt to the time above this line and comment it using ;, then you can remove the -alt to the time under this line and uncomment it.
-;time-alt = " at %H:%M"
-;time-alt = %H:%M:%S
-;time-alt = %H:%M:%S
 format-underline = ${colors.blue}
 
 label = %date% %time%
@@ -299,7 +230,6 @@ format= %{T4}<output>
 type = custom/ipc
 hook-0 = polybar_audio_icon
 initial = 1
-module-margin-right = 1
 test=1
 
 [module/volume]
@@ -307,13 +237,11 @@ module-margin-left = 0
 type = internal/pulseaudio
 
 format-volume = <bar-volume>
-label-volume-font = 4
+label-volume-font = 3
 label-volume-foreground = ${root.foreground}
 
-format-muted = <label-muted> <bar-volume>
+format-muted = <bar-volume>
 format-muted-foreground = ${colors.darkred}
-label-muted-font = 4
-label-muted = ""
 
 bar-volume-width = 10
 bar-volume-foreground-0 = ${colors.blue}
@@ -325,33 +253,12 @@ bar-volume-foreground-5 = ${colors.yellow}
 bar-volume-foreground-6 = ${colors.red}
 bar-volume-gradient = false
 bar-volume-indicator = ▮
-bar-volume-indicator-font = 2
+bar-volume-indicator-font = 3
 bar-volume-fill = ▬
-bar-volume-fill-font = 2
+bar-volume-fill-font = 3
 bar-volume-empty = ▬
-bar-volume-empty-font = 2
+bar-volume-empty-font = 3
 bar-volume-empty-foreground = ${colors.gray}
-
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-underline = ${colors.red}
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.darkmagenta}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-3 = 
-ramp-4 = 
-ramp-foreground = ${colors.gray}
 
 [module/powermenu]
 type = custom/menu
@@ -382,10 +289,6 @@ menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
 
 [global/wm]
 margin-top = 5
