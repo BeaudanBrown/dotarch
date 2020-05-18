@@ -93,9 +93,23 @@ export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # Set up Node Version Manager
-[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.config/nvm"
-source /usr/share/nvm/nvm.sh 2>/dev/null
+export NVM_DIR="$HOME/.config/nvm"
+source /usr/share/nvm/bash_completion 2>/dev/null
 source /usr/share/nvm/install-nvm-exec 2>/dev/null
+
+# Lazy load nvm to keep terminal loading fast
+declare -a NODE_GLOBALS=(`find ~/.config/nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+
+NODE_GLOBALS+=("node")
+NODE_GLOBALS+=("nvm")
+
+load_nvm () {
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+}
+
+for cmd in "${NODE_GLOBALS[@]}"; do
+    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+done
 
 __git_files () {
     _wanted files expl 'local files' _files
