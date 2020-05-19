@@ -7,7 +7,9 @@ endif
 " Coc extensions
 function! GetCocExts(info)
     if a:info.status == 'installed'
+        silent !python3 -m pip install --user --upgrade pynvim
         call coc#add_extension('coc-snippets', 'coc-json', 'coc-css', 'coc-vimlsp')
+    endif
 endfunction
 
 call plug#begin('~/.config/nvim/plugged')
