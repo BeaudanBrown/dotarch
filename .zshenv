@@ -12,5 +12,6 @@ export GNUPGHOME="$HOME/.config/gnupg"
 export EDITOR="nvim"
 export TERMINAL="st"
 export BROWSER="google-chrome-stable"
+export FILE="vifm"
 
 ZDOTDIR="$HOME/.config/zsh"
