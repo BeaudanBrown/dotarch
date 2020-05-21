@@ -39,11 +39,26 @@ call plug#end()
 
 autocmd VimResized * wincmd =
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
+autocmd FileType json syntax match Comment +\/\/.\+$+   " Jsonc comment syntax highlighting
 let mapleader = "\<Space>"                " Assign space as Leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
 syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
-highlight Search ctermfg=Black            " Always use black for search text
-highlight Visual ctermfg=Black            " Always use black for visually selected text
+
+highlight DiffAdd ctermfg=0 ctermbg=2
+highlight DiffChange ctermfg=0 ctermbg=4
+highlight DiffAdded ctermfg=10
+highlight DiffChanged ctermfg=4
+highlight DiffRemoved ctermfg=9
+highlight Error ctermfg=0 ctermbg=9
+highlight IncSearch cterm=bold ctermbg=10 ctermfg=0
+highlight Search ctermbg=5 ctermfg=0 cterm=bold
+highlight Visual ctermbg=8
+highlight CursorLine cterm=NONE ctermbg=8
+highlight Pmenu ctermfg=white ctermbg=8
+highlight PmenuSbar ctermfg=white ctermbg=0
+highlight! CocUnderline cterm=NONE
+highlight! CocErrorHighlight cterm=NONE
+highlight! CocWarningHighlight cterm=NONE
 
 " Basics
 set nocompatible
@@ -248,15 +263,6 @@ nnoremap <Leader>gb :Gina blame<cr>
 nnoremap <Leader>gl :Gina log<cr>
 nnoremap <Leader>gp :Gina push<cr>
 nnoremap <Leader>ga :Gina patch<cr>
-
-hi DiffAdd ctermfg=0 ctermbg=2
-hi DiffChange ctermfg=0 ctermbg=4
-hi DiffDelete ctermfg=0 ctermbg=1
-
-hi DiffAdded ctermfg=10
-hi DiffChanged ctermfg=4
-hi DiffRemoved ctermfg=9
-hi Error ctermfg=0 ctermbg=9
 
 augroup diff_autocommands
   autocmd FilterWritePre * if &diff|
