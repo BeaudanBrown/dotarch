@@ -176,14 +176,39 @@ tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 let g:submode_timeout = 0
 let g:submode_keyseqs_to_leave = []
 
+function! DiffModeEdit()
+    do CursorMoved
+    let g:gitgutter_preview_win_floating=0
+    call gitgutter#hunk#preview()
+    wincmd P
+    let g:gitgutter_preview_win_floating=1
+endfunction
+
+function! DiffModeUndo()
+    call gitgutter#hunk#undo()
+    do CursorMoved
+endfunction
+
+function! DiffModeStage()
+    call gitgutter#hunk#stage()
+    do CursorMoved
+endfunction
+
+function! DiffModeLeave()
+    do CursorMoved
+endfunction
+
 call submode#enter_with('diffMode', 'n', '', '<leader>gj')
 call submode#enter_with('diffMode', 'n', '', '<leader>gk')
 call submode#leave_with('diffMode', 'n', '', '<Esc>')
-call submode#map('diffMode', 'n', '', 'j', ':GitGutterNextHunk<cr>zz')
-call submode#map('diffMode', 'n', '', 'k', ':GitGutterPrevHunk<cr>zz')
-map <Plug>(submode-before-entering:diffMode:with:<leader>gj) :GitGutterNextHunk<cr>zz:set cursorline<cr>
-map <Plug>(submode-before-entering:diffMode:with:<leader>gk) :GitGutterPrevHunk<cr>zz:set cursorline<cr>
-map <Plug>(submode-leave:diffMode) :set cursorline&<cr>
+call submode#map('diffMode', 'n', '', 'j', ':GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>')
+call submode#map('diffMode', 'n', '', 'k', ':GitGutterPrevHunk<cr>zz:GitGutterPreviewHunk<cr>')
+call submode#map('diffMode', 'n', '', 'u', ':call DiffModeUndo()<cr>:GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>')
+call submode#map('diffMode', 'n', '', 'e', ':call DiffModeEdit()<cr><Plug>(submode-leave:diffMode)')
+call submode#map('diffMode', 'n', '', 'y', ':call DiffModeStage()<cr>:GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>')
+map <Plug>(submode-before-entering:diffMode:with:<leader>gj) :GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>
+map <Plug>(submode-before-entering:diffMode:with:<leader>gk) :GitGutterPrevHunk<cr>zz:GitGutterPreviewHunk<cr>
+map <Plug>(submode-leave:diffMode) :call DiffModeLeave()<cr>
 
 " call submode#enter_with('cocMode', 'n', '', '<Leader>cj')
 " call submode#enter_with('cocMode', 'n', '', '<Leader>ck')
@@ -194,6 +219,7 @@ map <Plug>(submode-leave:diffMode) :set cursorline&<cr>
 " map <Plug>(submode-before-entering:cocMode:with:<leader>cj) :call CocAction('diagnosticNext')<CR>zz:set cursorline<cr>
 " map <Plug>(submode-before-entering:cocMode:with:<leader>ck) :call CocAction('diagnosticPrevious')<CR>zz:set cursorline<cr>
 " map <Plug>(submode-leave:cocMode) :set cursorline&<cr>
+
 
 " Coc setup
 " ====================================================================================
@@ -259,12 +285,6 @@ nnoremap <Leader>gb :Gina blame<cr>
 nnoremap <Leader>gl :Gina log<cr>
 nnoremap <Leader>gp :Gina push<cr>
 nnoremap <Leader>ga :Gina patch<cr>
-
-autocmd FilterWritePre * if &diff|
-    \ nmap <buffer> <Leader>l <Plug>(gina-diffget-r)|
-    \ nmap <buffer> <Leader>h <Plug>(gina-diffget-l)|
-    \ nnoremap <buffer> q :tabclose<CR>|
-    \ endif
 
 " gitgutter setup
 " ====================================================================================
@@ -371,6 +391,12 @@ augroup vimrc
         au BufLeave * call AutoSaveWinView()
         au BufEnter * call AutoRestoreWinView()
     endif
+
+    autocmd FilterWritePre * if &diff|
+        \ nmap <buffer> <Leader>l <Plug>(gina-diffget-r)|
+        \ nmap <buffer> <Leader>h <Plug>(gina-diffget-l)|
+        \ nnoremap <buffer> q :tabclose<CR>|
+        \ endif
 
 augroup END
 
