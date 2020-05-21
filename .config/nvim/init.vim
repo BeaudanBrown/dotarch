@@ -277,33 +277,11 @@ nnoremap <Leader>gl :Gina log<cr>
 nnoremap <Leader>gp :Gina push<cr>
 nnoremap <Leader>ga :Gina patch<cr>
 
-augroup diff_autocommands
-  autocmd FilterWritePre * if &diff|
-        \ nmap <Leader>l <Plug>(gina-diffget-r)|
-        \ nmap <Leader>h <Plug>(gina-diffget-l)|
-        \ nnoremap <Leader>gj ]czz|
-        \ nnoremap <Leader>gk [czz|
-        \ nnoremap q :tabclose<CR>|
-        \ endif
-  autocmd WinEnter * if &diff==0|
-        \ if maparg('<Leader>l','n') !=# ''|
-            \ nunmap <Leader>l|
-            \ nnoremap <Leader>l :Lines<CR>|
-        \ endif|
-        \ if maparg('<Leader>h','n') !=# ''|
-            \ nunmap <Leader>h|
-        \ endif|
-        \ if maparg('<Leader>gj','n') !=# ''|
-            \ nunmap <Leader>gj|
-        \ endif|
-        \ if maparg('<Leader>gk','n') !=# ''|
-            \ nunmap <Leader>gk|
-        \ endif|
-        \ if maparg('q','n') !=# ''|
-            \ nunmap q|
-        \ endif|
+autocmd FilterWritePre * if &diff|
+    \ nmap <buffer> <Leader>l <Plug>(gina-diffget-r)|
+    \ nmap <buffer> <Leader>h <Plug>(gina-diffget-l)|
+    \ nnoremap <buffer> q :tabclose<CR>|
     \ endif
-augroup END
 
 " gitgutter setup
 " ====================================================================================
@@ -312,6 +290,7 @@ hi! GitGutterAdd ctermfg=10 cterm=bold
 hi! GitGutterChange ctermfg=4 cterm=bold
 hi! GitGutterDelete ctermfg=9 cterm=bold
 let g:gitgutter_realtime=1
+let g:gitgutter_terminal_reports_focus = 0
 
 " OmniSharp and sharpenup setup
 " ====================================================================================
