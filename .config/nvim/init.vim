@@ -15,7 +15,6 @@ endfunction
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                                       " Surround
 Plug 'junegunn/fzf.vim'                                                         " Fuzzy finder
-Plug 'mileszs/ack.vim'                                                          " Ack search tool
 Plug 'airblade/vim-gitgutter'                                                   " Gitgutter
 Plug 'vim-airline/vim-airline'                                                  " Airline statusline
 Plug 'machakann/vim-highlightedyank'                                            " Highlight yanked text
@@ -37,9 +36,6 @@ Plug 'lambdalisue/gina.vim'                                                     
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }         " Show markdown previews
 call plug#end()
 
-autocmd VimResized * wincmd =
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " Disables automatic commenting on newline:
-autocmd FileType json syntax match Comment +\/\/.\+$+   " Jsonc comment syntax highlighting
 let mapleader = "\<Space>"                " Assign space as Leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
 syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
@@ -59,6 +55,7 @@ highlight PmenuSbar ctermfg=white ctermbg=0
 highlight! CocUnderline cterm=NONE
 highlight! CocErrorHighlight cterm=NONE
 highlight! CocWarningHighlight cterm=NONE
+highlight! CocWarningSign ctermfg=3
 
 " Basics
 set nocompatible
@@ -96,11 +93,8 @@ set nrformats=                          " Treat all numbers as decimal for <C-a>
 set history=1000                        " Save the last 1000 ex commands in the history
 set diffopt=vertical                    " Show diffs with vertical splits
 set fillchars+=vert:\                   " No line through middle of splits
-
-" Automatically reload file on change
-set autoread
-au FocusGained,BufEnter * :silent! !
-au FocusLost,WinLeave * :silent! noautocmd w
+set autoread                            " Auto load buffers on external change
+set previewheight=40
 
 " Display trailing whitespace as ~
 set list
@@ -111,16 +105,10 @@ set listchars=tab:>-,trail:~,extends:>,precedes:<
 nnoremap <SPACE> <Nop>
 " Leader Leader to swap to most recent buffer
 nnoremap <Leader><Leader> <C-^>
-" Leader f to search all
-nnoremap <Leader>f :RG<CR>
 " Leader q to quit the current window
 nnoremap <Leader>q :q<CR>
 " Leader d to quit the current buffer but keep split
 nnoremap <silent> <Leader>d :call CloseBuffer()<cr>
-" Leader l to search buffers
-nnoremap <Leader>l :Lines<CR>
-" Leader b to show buffers
-nnoremap <Leader>b :Buffers<CR>
 " Leader s to save
 nnoremap <Leader>s :w<CR>
 " Leader S to substitute all words under cursor
@@ -211,11 +199,6 @@ map <Plug>(submode-leave:diffMode) :set cursorline&<cr>
 " ====================================================================================
 let g:markdown_fenced_languages = ['vim', 'help']
 
-hi Pmenu ctermfg=white ctermbg=8
-hi PmenuSbar ctermfg=white ctermbg=0
-hi CocUnderline cterm=NONE
-hi CocWarningSign ctermfg=3
-
 " Show either vim help or call coc doHover
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
@@ -299,7 +282,14 @@ let g:sharpenup_map_prefix = "\<Leader>,"
 
 " fzf setup
 " ====================================================================================
+" Search history
 nnoremap <Leader>; :History:<CR>
+" Search all
+nnoremap <Leader>f :RG<CR>
+" Search buffers
+nnoremap <Leader>l :Lines<CR>
+" Change buffers
+nnoremap <Leader>b :Buffers<CR>
 
 function! s:FindRoot()
     let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
@@ -347,36 +337,42 @@ if !exists('##TextYankPost')
 endif
 let g:highlightedyank_highlight_duration = 200
 
-if has('nvim')
-    " Always enter terminal in insert mode
-    au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | :set nonumber | endif
-endif
-
 " Use rg instead of grep and Ack
 if executable('ag')
     set grepprg=rg
     let g:ackprg = 'rg --column'
 endif
 
-" Use actual tab chars in Makefiles.
-autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
-
-" Source vim configuration upon save
 augroup vimrc
-    autocmd! BufWritePost $MYVIMRC source $MYVIMRC | nohl | redraw
+    autocmd!
+    au BufWritePost $MYVIMRC source $MYVIMRC | nohl | redraw
+    au BufWritePost ~/.config/bmdirs,~/.config/bmfiles !shortcuts
+    au BufWritePost *sxhkdrc !pkill -USR1 sxhkd
+    au BufWritePost *Xresources,*Xdefaults !xrdb %
+
+    " Use actual tab chars in Makefiles.
+    au FileType make set tabstop=4 shiftwidth=4 softtabstop=0 noexpandtab
+    " Disables automatic commenting on newline:
+    au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    au FileType json syntax match Comment +\/\/.\+$+
+    " Keep splits even
+    au VimResized * wincmd =
+    " Automatically reload file on change
+    au FocusGained,BufEnter * :silent! !
+    au FocusLost,WinLeave * :silent! noautocmd w
+
+    if has('nvim')
+        " Always enter terminal in insert mode
+        au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | :set nonumber | endif
+    endif
+
+    " When switching buffers, preserve window view.
+    if v:version >= 700
+        au BufLeave * call AutoSaveWinView()
+        au BufEnter * call AutoRestoreWinView()
+    endif
+
 augroup END
-
-" Groff filetypes
-autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
-
-" When shortcut files are updated, renew bash and vifm configs with new material:
-autocmd BufWritePost ~/.config/bmdirs,~/.config/bmfiles !shortcuts
-
-" Update binds when sxhkdrc is updated.
-autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd
-
-" Run xrdb whenever Xdefaults or Xresources are updated.
-autocmd BufWritePost *Xresources,*Xdefaults !xrdb %
 
 " Close buffer but keep splits
 function! CloseBuffer()
@@ -431,9 +427,3 @@ function! AutoRestoreWinView()
         unlet w:SavedBufView[buf]
     endif
 endfunction
-
-" When switching buffers, preserve window view.
-if v:version >= 700
-    autocmd BufLeave * call AutoSaveWinView()
-    autocmd BufEnter * call AutoRestoreWinView()
-endif
