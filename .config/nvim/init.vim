@@ -188,11 +188,24 @@ tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 let g:submode_timeout = 0
 let g:submode_keyseqs_to_leave = []
 
-call submode#enter_with('diffMode', 'n', '', '<leader>gj', ':GitGutterNextHunk<cr>zz')
-call submode#enter_with('diffMode', 'n', '', '<leader>gk', ':GitGutterPrevHunk<cr>zz')
+call submode#enter_with('diffMode', 'n', '', '<leader>gj')
+call submode#enter_with('diffMode', 'n', '', '<leader>gk')
 call submode#leave_with('diffMode', 'n', '', '<Esc>')
 call submode#map('diffMode', 'n', '', 'j', ':GitGutterNextHunk<cr>zz')
 call submode#map('diffMode', 'n', '', 'k', ':GitGutterPrevHunk<cr>zz')
+map <Plug>(submode-before-entering:diffMode:with:<leader>gj) :GitGutterNextHunk<cr>zz:set cursorline<cr>
+map <Plug>(submode-before-entering:diffMode:with:<leader>gk) :GitGutterPrevHunk<cr>zz:set cursorline<cr>
+map <Plug>(submode-leave:diffMode) :set cursorline&<cr>
+
+" call submode#enter_with('cocMode', 'n', '', '<Leader>cj')
+" call submode#enter_with('cocMode', 'n', '', '<Leader>ck')
+" call submode#leave_with('cocMode', 'n', '', '<Esc>')
+" call submode#map('cocMode', 'n', '', 'j', ":call CocAction('diagnosticNext')<CR>zz")
+" call submode#map('cocMode', 'n', '', 'k', ":call CocAction('diagnosticPrevious')<CR>zz")
+" call submode#map('cocMode', 'n', '', 'f', ":call CocAction('doQuickfix')<CR>")
+" map <Plug>(submode-before-entering:cocMode:with:<leader>cj) :call CocAction('diagnosticNext')<CR>zz:set cursorline<cr>
+" map <Plug>(submode-before-entering:cocMode:with:<leader>ck) :call CocAction('diagnosticPrevious')<CR>zz:set cursorline<cr>
+" map <Plug>(submode-leave:cocMode) :set cursorline&<cr>
 
 " Coc setup
 " ====================================================================================
@@ -229,8 +242,8 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <Leader>re :CocRestart<CR><CR>
 nnoremap <expr><C-f> coc#util#float_scroll(1)
 nnoremap <expr><C-b> coc#util#float_scroll(0)
-nmap <silent> <Leader>cj <Plug>(coc-diagnostic-next)
-nmap <silent> <Leader>ck <Plug>(coc-diagnostic-prev)
+" nmap <silent> <Leader>cj <Plug>(coc-diagnostic-next)
+" nmap <silent> <Leader>ck <Plug>(coc-diagnostic-prev)
 nmap <Leader>cd <Plug>(coc-diagnostic-info)
 nmap <Leader>cf  <Plug>(coc-fix-current)
 nmap <Leader>cn  <Plug>(coc-rename)
