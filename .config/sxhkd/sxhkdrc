@@ -112,7 +112,7 @@ Print
   maim pic-full-$(date '+%y%m%d-%H%M-%S').png
 # Pick screenshot type
 shift + Print
-  maimpick
+  screenshot_select
 
 # Increase volume
 super + equal
