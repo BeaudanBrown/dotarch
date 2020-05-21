@@ -2,6 +2,10 @@
 mkdir -p $HOME/.local/bin >/dev/null 2>&1
 export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
+# fnm
+eval "`fnm env --multi --use-on-cd --fnm-dir='/$HOME/.config/fnm/'`"
+fnm use default > /dev/null
+
 # ~/ Cleanup
 [ -f "$HOME/.config/python/pythonrc" ] && export PYTHONSTARTUP="$HOME/.config/python/pythonrc"
 # Ensure gnupg folder has correct permissions
@@ -13,5 +17,6 @@ export EDITOR="nvim"
 export TERMINAL="st"
 export BROWSER="google-chrome-stable"
 export FILE="vifm"
+export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 
 ZDOTDIR="$HOME/.config/zsh"

@@ -92,10 +92,6 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# fnm
-eval "`fnm env --multi --use-on-cd --fnm-dir='/$HOME/.config/fnm/'`"
-fnm use default > /dev/null
-
 __git_files () {
     _wanted files expl 'local files' _files
 }
