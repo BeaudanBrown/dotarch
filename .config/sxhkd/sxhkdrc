@@ -44,8 +44,8 @@ super + m
   bspwm_toggle_scratch_prog "spotify" "spotify" "Spotify"
 super + d
   bspwm_toggle_scratch_prog "discord" "discord" "discord"
-super + shift + g
-  bspwm_toggle_scratch_prog "steam" "🎮"
+# super + shift + g
+#   bspwm_toggle_scratch_prog "steam" "🎮"
 super + shift + m
   mute_audio
 super + shift + p
@@ -66,10 +66,6 @@ super + y
   clipmenu
 
 # Et cetera...
-super + grave
-  dmenuunicode
-super + Insert
-  showclip
 super + shift + x
   prompt "Shutdown computer?" "sudo -A shutdown -h now"
 super + shift + BackSpace
@@ -106,7 +102,6 @@ XF86MonBrightnessUp
   xbacklight -inc 15
 
 
-# Recording
 # Take screenshot
 Print
   maim pic-full-$(date '+%y%m%d-%H%M-%S').png
@@ -122,36 +117,14 @@ super + minus
   lmc down 5
 
 # Function keys
-# Show readme
-super + F1
-  groff -mom $HOME/.local/share/larbs/readme.mom -Tpdf | zathura -
 # F2 is restart in i3 right now.
 # Change display
 super + F3
   displayselect
-# Hibernate
-super + F4
-  prompt 'Hibernate computer?' 'sudo systemctl suspend'
-# Restart/rescan wifi/eth networks
-super + F5
-  sudo -A systemctl restart NetworkManager
-# Start torrent daemon/open interface
-super + F6
-  torwrap
-# toggle torrent daemon
-super + F7
-  td-toggle
-# sync email
-super + F8
-  mailsync
 # Mount a USB drive or Android device
 super + F9
   dmenu_mount
 # Unmount a USB drive or Android device
 super + F10
   dmenu_umount
-# Network Manager interface
-super + F12
-  $TERMINAL -e sudo -A nmtui
-
 
