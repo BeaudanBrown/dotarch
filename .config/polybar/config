@@ -63,10 +63,8 @@ module-margin-left = 1
 module-margin-right = 1
 
 font-0 = mono:pixelsize=11;1
-font-1 = Inconsolata Nerd Font:size=8;1
+font-1 = Symbols Nerd Font:style=1000-em:pixelsize=14;1
 font-2 = Symbola:pixelsize=9;1
-font-3 = "Symbols Nerd Font:style=1000-em:pixelsize=14;1"
-
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
 modules-left = bspwm spotify
@@ -138,12 +136,9 @@ label = ﯧ
 bar-width = 10
 bar-indicator = |
 bar-indicator-foreground = #ff
-bar-indicator-font = 2
 bar-fill = ─
-bar-fill-font = 2
 bar-fill-foreground = #9f78e1
 bar-empty = ─
-bar-empty-font = 2
 bar-empty-foreground = ${colors.gray}
 
 [module/backlight-acpi]
@@ -154,7 +149,6 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix-font = 3
 format-prefix = " "
 format-underline = ${colors.red}
 label = %percentage:3:3%%
@@ -167,12 +161,11 @@ bar-used-foreground-1 = ${colors.darkgreen}
 bar-used-foreground-2 = ${colors.yellow}
 bar-used-foreground-3 = ${colors.red}
 bar-used-indicator =
-bar-used-width = 11▐
+bar-used-width = 11
 bar-used-fill =▬
 bar-used-empty =▬
 bar-used-empty-foreground = ${colors.gray}
 interval = 2
-format-prefix-font = 3
 format-prefix = " "
 format-underline = ${colors.cyan}
 label = %gb_free% free
@@ -205,7 +198,6 @@ interval = 3.0
 
 format-connected-underline = ${colors.darkgreen}
 format-connected-prefix-foreground = ${colors.gray}
-label-connected-font = 3
 label-connected = "%{T6}%{T-} %upspeed:8:8% %{T6}%{T-} %downspeed:8:8% "
 
 ;format-disconnected =
@@ -237,7 +229,6 @@ module-margin-left = 0
 type = internal/pulseaudio
 
 format-volume = <bar-volume>
-label-volume-font = 3
 label-volume-foreground = ${root.foreground}
 
 format-muted = <bar-volume>
@@ -253,11 +244,8 @@ bar-volume-foreground-5 = ${colors.yellow}
 bar-volume-foreground-6 = ${colors.red}
 bar-volume-gradient = false
 bar-volume-indicator = ▮
-bar-volume-indicator-font = 3
 bar-volume-fill = ▬
-bar-volume-fill-font = 3
 bar-volume-empty = ▬
-bar-volume-empty-font = 3
 bar-volume-empty-foreground = ${colors.gray}
 
 [module/powermenu]

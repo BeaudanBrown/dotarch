@@ -29,11 +29,10 @@ Plug 'purescript-contrib/purescript-vim'                                        
 Plug 'kana/vim-textobj-user'                                                    " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                                  " Add ae text object for entire file
 Plug 'chrisbra/Colorizer'                                                       " Highlight hex colours
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('GetCocExts')}   " Async autocomplete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                                 " Async autocomplete
 Plug 'OmniSharp/omnisharp-vim'                                                  " C# autocomplete
 Plug 'nickspoons/vim-sharpenup'                                                 " OmniSharp default
 Plug 'lambdalisue/gina.vim'                                                     " Vim git plugin
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }         " Show markdown previews
 Plug 'unblevable/quick-scope'                                                   " Highlight f/t targets
 call plug#end()
 

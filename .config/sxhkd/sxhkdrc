@@ -16,7 +16,7 @@ super + shift + b
   bspc node -s biggest.local
 # Quit/restart bspwm
 super + shift + {q,r}
-  {close_bspwm,bspc wm -r}
+  {bspwm_close,bspc wm -r}
 # Toggle between most recent workspaces
 super + Tab
   bspwm_dynamic_desktops --df $(bspc query -D -d --names)

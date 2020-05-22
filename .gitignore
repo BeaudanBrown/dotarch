@@ -1,1 +1,22 @@
-.config/dotsGit
+/* Files */
+.Xauthority
+.config/shortcutrc
+
+/* Directories */
+.config/dotsGit/
+.local/lib/
+.local/include/
+.local/share/
+.ssh/
+.config/nvim/
+.config/google-chrome/
+.config/fnm/
+.config/coc/
+.cache/
+.config/pulse/
+.config/vifm/
+.config/zsh/
+.pki/
+.gnome/
+.config/dconf/
+.config/menus/
