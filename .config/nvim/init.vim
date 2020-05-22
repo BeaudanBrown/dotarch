@@ -34,6 +34,7 @@ Plug 'OmniSharp/omnisharp-vim'                                                  
 Plug 'nickspoons/vim-sharpenup'                                                 " OmniSharp default
 Plug 'lambdalisue/gina.vim'                                                     " Vim git plugin
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }         " Show markdown previews
+Plug 'unblevable/quick-scope'                                                   " Highlight f/t targets
 call plug#end()
 
 let mapleader = "\<Space>"                " Assign space as Leader
@@ -171,6 +172,12 @@ nnoremap <silent> <A-CR> :call toggleterm#Toggle()<Enter>
 inoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 
+" Quickscope setup
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_max_chars=80
+let g:qs_buftype_blacklist = ['terminal', 'nofile']
+highlight QuickScopePrimary ctermfg=3 cterm=underline
+highlight QuickScopeSecondary ctermfg=26 cterm=underline
 
 " TODO: Submode setup
 let g:submode_timeout = 0
