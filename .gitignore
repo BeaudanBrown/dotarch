@@ -1,22 +1,33 @@
+/* Ignore non-dotfiles */
+*
+!.*
+!.*/**
+
 /* Files */
 .Xauthority
 .config/shortcutrc
 
 /* Directories */
-.config/dotsGit/
-.local/lib/
-.local/include/
-.local/share/
-.ssh/
-.config/nvim/
-.config/google-chrome/
-.config/fnm/
-.config/coc/
 .cache/
+.config/coc/
+.config/configstore/
+.config/dconf/
+.config/discord/
+.config/dotsGit/
+.config/fnm/
+.config/google-chrome/
+.config/menus/
+.config/nvim/
 .config/pulse/
 .config/vifm/
 .config/zsh/
-.pki/
 .gnome/
-.config/dconf/
-.config/menus/
+.java/
+.local/include/
+.local/lib/
+.local/share/
+.minecraft/
+.npm/
+.nv/
+.pki/
+.ssh/
