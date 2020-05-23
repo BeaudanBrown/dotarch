@@ -101,6 +101,7 @@ set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 " Keybindings
+nnoremap <leader>gi :e ~/.config/nvim/init.vim<cr>
 " Stop space from moving cursor
 nnoremap <SPACE> <Nop>
 " Leader Leader to swap to most recent buffer
@@ -371,6 +372,12 @@ endif
 
 augroup vimrc
     autocmd!
+    " Automatically install missing plugins on startup
+    au VimEnter *
+      \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \|   PlugInstall --sync | q
+      \| endif
+
     au BufWritePost $MYVIMRC source $MYVIMRC | nohl | redraw
     au BufWritePost ~/.config/bmdirs,~/.config/bmfiles !shortcuts
     au BufWritePost *sxhkdrc !pkill -USR1 sxhkd

@@ -37,6 +37,5 @@
     "diagnostic.maxWindowHeight": 25,
     "diagnostic.messageTarget": "float",
     "diagnostic.enableMessage": "jump",
-    "diagnostic.joinMessageLines": true,
     "diagnostic.checkCurrentLine": true
 }
