@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 alias ka="killall" \
-  p="pacman -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'pacman -Si {1}' | xargs -r sudo pacman -S" \
-  pr="pacman -Qett --color=always | fzf --ansi -m --preview 'yay -Si {1}' | xargs -r sudo pacman -Rncs" \
+  p="pacman -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'pacman -Si {1}' | awk '{print \$1}' | xargs -r sudo pacman --noconfirm -S" \
+  pr="pacman -Qett --color=always | fzf --ansi -m --preview 'yay -Si {1}' | awk '{print \$1}' | xargs -r sudo pacman --noconfirm -Rncs" \
   pm="sudo pacman" \
   SS="sudo systemctl" \
   g="git" \

@@ -3,3 +3,5 @@
 	name = Beaudan Brown
 [pager]
 	branch = false
+[alias]
+	lg = log --all --graph --decorate --oneline

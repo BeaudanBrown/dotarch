@@ -15,6 +15,7 @@
 .config/discord/
 .config/dotsGit/
 .config/fnm/
+.config/gnupg/
 .config/google-chrome/
 .config/menus/
 .config/nvim/
