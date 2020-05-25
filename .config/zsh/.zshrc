@@ -102,3 +102,12 @@ source $HOME/.config/zsh/key-bindings.zsh 2>/dev/null
 source $HOME/.config/zsh/completion.zsh 2>/dev/null
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
+# Launch tmux in default session if not already attached
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        exec tmux -f $HOME/.config/tmux.conf new -A -s ssh
+    elif [[ -z $(tmux list-sessions | rg default | rg attached) ]]; then
+        tmux -f $HOME/.config/tmux.conf new -A -s default
+    fi
+fi

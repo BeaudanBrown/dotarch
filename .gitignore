@@ -1,7 +1,5 @@
 /* Ignore non-dotfiles */
-*
-!.*
-!.*/**
+[^.]*
 
 /* Files */
 .Xauthority
@@ -21,7 +19,6 @@
 .config/nvim/
 .config/pulse/
 .config/vifm/
-.config/zsh/
 .gnome/
 .java/
 .local/include/
