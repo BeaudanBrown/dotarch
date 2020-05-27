@@ -172,10 +172,10 @@ label = %gb_free% free
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+interface = ${env:WLAN_INTERFACE:wlp2s0}
 interval = 3.0
 
-format-connected = 直 <label-connected>
+format-connected = 直 <label-connected> <ramp-signal>
 format-connected-underline = ${colors.darkmagenta}
 label-connected = %essid%
 
@@ -184,12 +184,11 @@ format-disconnected-underline = ${self.format-connected-underline}
 label-disconnected = 睊no wifi
 label-disconnected-foreground = ${colors.gray}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.gray}
+ramp-signal-0 = ${env:RAMP0}
+ramp-signal-1 = ${env:RAMP1}
+ramp-signal-2 = ${env:RAMP2}
+ramp-signal-3 = ${env:RAMP3}
+ramp-signal-4 = ${env:RAMP4}
 
 [module/eth]
 type = internal/network

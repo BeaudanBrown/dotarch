@@ -11,4 +11,6 @@ clipmenud &                     # Clipmenu for accessing copy history
 
 # Adjust mouse sensitivity
 DeathAdder=`xinput list |grep -i "Razer Razer DeathAdder 2013" | awk -F= '{ print $2}'| awk '{print $1}'| awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}'`
+Touchpad=`xinput list |grep -i "Touchpad" | awk -F= '{ print $2}'| awk '{print $1}'| awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}'`
 xinput set-prop $DeathAdder "Coordinate Transformation Matrix" .6 0 0 0 .6 0 0 0 1
+xinput set-prop $Touchpad "Coordinate Transformation Matrix" 2 0 0 0 2 0 0 0 1

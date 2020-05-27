@@ -5,4 +5,3 @@
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 && ! -n "$SSH_CONNECTION"  ]]; then
   exec startx
 fi
-
