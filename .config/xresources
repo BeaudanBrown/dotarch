@@ -28,3 +28,6 @@
 *.background:    #1d1f21
 *.cursorColor:   #add8e6
 
+#ifdef SRVR_xps
+    Xft.dpi: 192
+#endif

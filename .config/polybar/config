@@ -41,7 +41,7 @@ foreground = ${xrdb:foreground:#ebdbb2}
 monitor = ${env:MONITOR:DP-0}
 enable-ipc = true
 width = 100%
-height = 24
+height = ${env:HEIGHT:24}
 ;offset-x = 1%
 ;offset-y = 1%
 ;radius = 6.0
@@ -53,7 +53,7 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = {$xrdb:red}
 
-border-bottom-size = 1
+border-bottom-size = ${env:BORDER:1}
 border-color = ${colors.black}
 
 padding-left = 0
@@ -62,14 +62,14 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = mono:pixelsize=11;1
-font-1 = Symbols Nerd Font:style=1000-em:pixelsize=14;1
-font-2 = Symbola:pixelsize=9;1
+font-0 = ${env:FONT0:mono:pixelsize=11;1}
+font-1 = ${env:FONT1:Symbols Nerd Font:style=1000-em:pixelsize=14;1}
+font-2 = ${env:FONT2:Symbola:pixelsize=9;1}
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
 modules-left = bspwm spotify
 modules-center = date
-modules-right = audiosink volume filesystem memory cpu eth
+modules-right = ${env:MODULESR:audiosink volume filesystem memory cpu eth}
 
 tray-position = right
 tray-padding = 0

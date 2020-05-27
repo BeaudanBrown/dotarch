@@ -19,7 +19,11 @@ bspc monitor $mainmonitor -d 1
 
 _bc border_width 3
 _bc window_gap 0
-_bc top_padding 25
+if [[ $HOSTNAME = "xps" ]]; then
+    _bc top_padding 54px
+elif [[ $HOSTNAME = "grill" ]]; then
+    _bc top_padding 25px
+fi
 _bc borderless_monocle   true
 _bc focus_follows_pointer false
 _bc active_border_color '#707880'
