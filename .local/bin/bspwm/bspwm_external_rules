@@ -66,6 +66,9 @@ case $instance.$class in
         esac;;
 esac;
 
+wmtitle=$(xtitle $1)
+[[ $wmtitle = "Emulator" ]] && state=floating
+
 echo \
 	${border:+"border=$border"} \
 	${center:+"center=$center"} \

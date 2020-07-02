@@ -4,10 +4,11 @@ if ! filereadable(expand('~/.config/nvim/autoload/plug.vim'))
     silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ~/.config/nvim/autoload/plug.vim
 endif
 
-" Coc extensions
+" TODO: Coc extensions
 function! GetCocExts(info)
     if a:info.status == 'installed'
         silent !python3 -m pip install --user --upgrade pynvim
+        silent !npm i -g spago purescript purescript-language-server
         call coc#add_extension('coc-snippets', 'coc-json', 'coc-css', 'coc-vimlsp')
     endif
 endfunction
@@ -34,6 +35,8 @@ Plug 'OmniSharp/omnisharp-vim'                                                  
 Plug 'nickspoons/vim-sharpenup'                                                 " OmniSharp default
 Plug 'lambdalisue/gina.vim'                                                     " Vim git plugin
 Plug 'unblevable/quick-scope'                                                   " Highlight f/t targets
+Plug 'jdonaldson/vaxe'                                                          " Syntax/IDE type support for Haxe
+Plug 'christoomey/vim-tmux-navigator'                                           " Tmux navigation integration
 call plug#end()
 
 let mapleader = "\<Space>"                " Assign space as Leader
@@ -59,6 +62,8 @@ highlight! CocWarningSign ctermfg=3
 
 " Basics
 set nocompatible
+set autowrite
+set completeopt=menu
 set bg=dark
 set hidden                              " Allow to hide buffers instead of closing them
 set mouse=a                             " Enable mouse
@@ -85,7 +90,6 @@ set noerrorbells                        " No beeping
 set undofile                            " Maintain undo history between sessions
 set undodir=~/.config/nvim/undodir//    " Store undofiles in single directory
 set directory=~/.config/nvim/swp//      " Store swapfiles in single directory
-set clipboard+=unnamedplus              " Default to system clipboard
 set inccommand=nosplit                  " Show substitute command in real time
 set formatoptions-=cro                  " Disable automatic commenting
 set signcolumn=yes                      " Always have space for the git sign
@@ -202,7 +206,13 @@ function! DiffModeStage()
     do CursorMoved
 endfunction
 
-function! DiffModeLeave()
+function! CocModeNext()
+    call CocAction('diagnosticNext')
+    do CursorMoved
+endfunction
+
+function! CocModePrev()
+    call CocAction('diagnosticPrevious')
     do CursorMoved
 endfunction
 
@@ -216,17 +226,17 @@ call submode#map('diffMode', 'n', '', 'e', ':call DiffModeEdit()<cr><Plug>(submo
 call submode#map('diffMode', 'n', '', 'y', ':call DiffModeStage()<cr>:GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>')
 map <Plug>(submode-before-entering:diffMode:with:<leader>gj) :GitGutterNextHunk<cr>zz:GitGutterPreviewHunk<cr>
 map <Plug>(submode-before-entering:diffMode:with:<leader>gk) :GitGutterPrevHunk<cr>zz:GitGutterPreviewHunk<cr>
-map <Plug>(submode-leave:diffMode) :call DiffModeLeave()<cr>
+map <Plug>(submode-leave:diffMode) :do CursorMoved<cr>
 
-" call submode#enter_with('cocMode', 'n', '', '<Leader>cj')
-" call submode#enter_with('cocMode', 'n', '', '<Leader>ck')
-" call submode#leave_with('cocMode', 'n', '', '<Esc>')
-" call submode#map('cocMode', 'n', '', 'j', ":call CocAction('diagnosticNext')<CR>zz")
-" call submode#map('cocMode', 'n', '', 'k', ":call CocAction('diagnosticPrevious')<CR>zz")
-" call submode#map('cocMode', 'n', '', 'f', ":call CocAction('doQuickfix')<CR>")
-" map <Plug>(submode-before-entering:cocMode:with:<leader>cj) :call CocAction('diagnosticNext')<CR>zz:set cursorline<cr>
-" map <Plug>(submode-before-entering:cocMode:with:<leader>ck) :call CocAction('diagnosticPrevious')<CR>zz:set cursorline<cr>
-" map <Plug>(submode-leave:cocMode) :set cursorline&<cr>
+call submode#enter_with('cocMode', 'n', '', '<Leader>cj')
+call submode#enter_with('cocMode', 'n', '', '<Leader>ck')
+call submode#leave_with('cocMode', 'n', '', '<Esc>')
+call submode#map('cocMode', 'n', '', 'j', ":call CocModeNext()<CR>zz:call CocAction('diagnosticInfo')<CR>")
+call submode#map('cocMode', 'n', '', 'k', ":call CocModePrev()<CR>zz:call CocAction('diagnosticInfo')<CR>")
+call submode#map('cocMode', 'n', '', 'f', ":call CocAction('doQuickfix')<CR>")
+map <Plug>(submode-before-entering:cocMode:with:<leader>cj) :call CocAction('diagnosticNext')<CR>zz:call CocAction('diagnosticInfo')<CR>
+map <Plug>(submode-before-entering:cocMode:with:<leader>ck) :call CocAction('diagnosticPrevious')<CR>zz:call CocAction('diagnosticInfo')<CR>
+map <Plug>(submode-leave:cocMode) :call coc#util#float_hide()<cr>
 
 
 " Coc setup
@@ -259,8 +269,6 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <Leader>re :CocRestart<CR><CR>
 nnoremap <expr><C-f> coc#util#float_scroll(1)
 nnoremap <expr><C-b> coc#util#float_scroll(0)
-" nmap <silent> <Leader>cj <Plug>(coc-diagnostic-next)
-" nmap <silent> <Leader>ck <Plug>(coc-diagnostic-prev)
 nmap <Leader>cd <Plug>(coc-diagnostic-info)
 nmap <Leader>cf  <Plug>(coc-fix-current)
 nmap <Leader>cn  <Plug>(coc-rename)
@@ -282,10 +290,11 @@ nnoremap <Leader>md :MarkdownPreview<CR>
 let g:vifm_embed_split = 1
 let g:vifm_replace_netrw = 1
 let g:vifm_exec_args = "-c \":only\""
-nnoremap <Leader>e :topleft vertical 40Vifm<CR>
+nnoremap <Leader>e :topleft vertical 60Vifm<CR>
 
 " Gina setup
 " ====================================================================================
+vnoremap <Leader>gs :GitGutterStageHunk<cr>
 nnoremap <Leader>gs :new \| Gina status<cr>
 nnoremap <Leader>gc :Gina commit<cr>
 nnoremap <Leader>gd :Gina diff<cr>
@@ -314,6 +323,7 @@ let g:sharpenup_map_prefix = "\<Leader>,"
 nnoremap <Leader>; :History:<CR>
 " Search all
 nnoremap <Leader>f :RG<CR>
+nnoremap <Leader>F :RG <c-r><c-w><CR>
 " Search buffers
 nnoremap <Leader>l :Lines<CR>
 " Change buffers
@@ -397,7 +407,7 @@ augroup vimrc
 
     if has('nvim')
         " Always enter terminal in insert mode
-        au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | :set nonumber | endif
+        au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | :set nonumber | else | :set number | endif
     endif
 
     " When switching buffers, preserve window view.

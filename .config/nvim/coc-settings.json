@@ -14,6 +14,18 @@
                 }
             },
             "rootPatterns": ["bower.json", "psc-package.json", "spago.dhall"]
+        },
+        "haxe": {
+            "command": "node",
+            "args": ["/home/harold/progs/haxe-language-server/bin/server.js"],
+            "filetypes": ["haxe"],
+            "trace.server": "verbose",
+            "initializationOptions": {
+                "displayArguments": ["build.hxml"]
+            },
+            "settings": {
+                "haxe.executable": "haxe"
+            }
         }
     },
 
@@ -36,6 +48,6 @@
     "diagnostic.level": "warning",
     "diagnostic.maxWindowHeight": 25,
     "diagnostic.messageTarget": "float",
-    "diagnostic.enableMessage": "jump",
+    "diagnostic.enableMessage": "never",
     "diagnostic.checkCurrentLine": true
 }

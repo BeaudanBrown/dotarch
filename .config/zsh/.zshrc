@@ -4,6 +4,10 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE="$HOME/.config/zsh/zsh_history" # Store history in .config
 
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt INC_APPEND_HISTORY
+
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # Load aliases and shortcuts if existent.
@@ -103,11 +107,21 @@ source $HOME/.config/zsh/completion.zsh 2>/dev/null
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
+unsetopt complete_aliases
+
 # Launch tmux in default session if not already attached
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     if [[ -n "$SSH_CONNECTION" ]]; then
-        exec tmux -f $HOME/.config/tmux.conf new -A -s ssh
+        exec tmux -f $HOME/.config/tmux.conf new -A -s ssh &> /dev/null
     elif [[ -z $(tmux list-sessions | rg default | rg attached) ]]; then
-        tmux -f $HOME/.config/tmux.conf new -A -s default
+        tmux -f $HOME/.config/tmux.conf new -A -s default &> /dev/null
     fi
 fi
+
+# opam configuration
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# Android config
+export ANDROID_SDK_ROOT="$HOME/.android/sdk"
+export ANDROID_HOME="$HOME/.android/sdk"
+export PATH="$PATH:$ANDROID_SDK_ROOT/emulator/:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/:$ANDROID_SDK_ROOT/platform-tools/"
