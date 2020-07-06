@@ -5,3 +5,6 @@
 	branch = false
 [alias]
 	lg = log --all --graph --decorate --oneline
+	co = checkout
+[pull]
+	rebase = false
