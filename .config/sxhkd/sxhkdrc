@@ -1,6 +1,6 @@
 # Close node
-super + q
-  bspc node -c
+super + {_, shift + }q
+  bspc node -{c,k}
 # Select node in direction
 super + {h,j,k,l}
   bspc node -f {west,south,north,east}
@@ -10,17 +10,22 @@ super + shift + {s}
   bspc node {-g sticky -l above}
 # Resize node in the given direction.
 super + shift + {y,u,i,o}
-  bspwm_node_resize {west,south,north,east} 50
+  bspwm_node_resize {west,south,north,east} 20
 # Swap current window with the biggest one in the present desktop
 super + shift + b
   bspc node -s biggest.local
 # Quit/restart bspwm
-super + shift + {q,r}
-  {bspwm_close,bspc wm -r}
+super + shift + r
+  bspc wm -r
+super + Escape
+    bspwm_close
+# Rotate orientation
+super + o
+    bspc node @parent -R 90
 # Toggle between most recent workspaces
 super + Tab
   bspwm_dynamic_desktops --df $(bspc query -D -d --names)
-super + {_,shift +} Escape
+super + {_,shift +} grave
   bspc desktop -f {next,prev}.local
 super + shift + {h,j,k,l}
   bspwm_node_move {west,south,north,east}

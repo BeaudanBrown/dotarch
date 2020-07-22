@@ -31,5 +31,9 @@ _bc normal_border_color '#282a2e'
 _bc focused_border_color '#81a2be'
 _bc ignore_ewmh_fullscreen all
 
+_bc pointer_modifier mod4
+_bc pointer_action1 move
+_bc pointer_action2 resize_corner
+
 [[ -f $HOME/.config/polybar/launch.sh ]] && $HOME/.config/polybar/launch.sh
 [[ -f $HOME/.local/bin/bspwm/bspwm_external_rules ]] && bspc config external_rules_command "$(which bspwm_external_rules)"

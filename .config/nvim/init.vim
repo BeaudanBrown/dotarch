@@ -36,7 +36,8 @@ Plug 'nickspoons/vim-sharpenup'                                                 
 Plug 'lambdalisue/gina.vim'                                                     " Vim git plugin
 Plug 'unblevable/quick-scope'                                                   " Highlight f/t targets
 Plug 'jdonaldson/vaxe'                                                          " Syntax/IDE type support for Haxe
-Plug 'christoomey/vim-tmux-navigator'                                           " Tmux navigation integration
+Plug 'tpope/vim-obsession'                                                      " Restore session when opening vim
+Plug 'dalejung/vim-tmux-navigator', {'branch': 'select_pane_no_wrap'}           " Tmux navigation integration
 call plug#end()
 
 let mapleader = "\<Space>"                " Assign space as Leader
@@ -118,22 +119,10 @@ nnoremap <silent> <Leader>d :call CloseBuffer()<cr>
 nnoremap <Leader>s :w<CR>
 " Leader S to substitute all words under cursor
 nnoremap <Leader>S :%s/\(<c-r>=expand("<cword>")<cr>\)//g<Left><Left>
+vmap <Leader>S "ay:%s/<c-r>a//g<Left><Left>
 " Change to abyss buffer
 nnoremap c "_c
 vnoremap c "_c
-" Ctrl + direction to move between splits in any mode
-tnoremap <A-h> <C-\><C-N><C-W>h
-tnoremap <A-j> <C-\><C-N><C-W>j
-tnoremap <A-k> <C-\><C-N><C-W>k
-tnoremap <A-l> <C-\><C-N><C-W>l
-inoremap <A-h> <C-\><C-N><C-W>h
-inoremap <A-j> <C-\><C-N><C-W>j
-inoremap <A-k> <C-\><C-N><C-W>k
-inoremap <A-l> <C-\><C-N><C-W>l
-nnoremap <A-j> <C-W>j
-nnoremap <A-k> <C-W>k
-nnoremap <A-h> <C-W>h
-nnoremap <A-l> <C-W>l
 nnoremap <a-left> 3<c-w><
 nnoremap <a-right> 3<c-w>>
 nnoremap <a-up> 3<c-w>+
@@ -158,15 +147,15 @@ nnoremap <Leader>p :pu<CR>==$
 nnoremap <Leader>t :vs term://zsh<CR>
 " Replace all is aliased to S.
 nnoremap S :%s//g<Left><Left>
-vnoremap S :s//g<Left><Left>
+vmap S :s//g<Left><Left>
 " Use <C-p> and <C-p> for up and down in command line mode
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 " Use <Leader>C for ciw with repeatability
 nnoremap <silent> <Leader>C :let @/=expand('<cword>')<cr>"_cgn
 " Use <C-k> and <C-j> to shift selection up or down
-nnoremap <C-k> :move -2<CR>
-nnoremap <C-j> :move +1<CR>
+nnoremap <C-k> :move -2<CR>==
+nnoremap <C-j> :move +1<CR>==
 vnoremap <C-k> :move '<-2<CR>gv=gv
 vnoremap <C-j> :move '>+1<CR>gv=gv
 " Repeat last used macro
@@ -176,6 +165,13 @@ nnoremap s "_s
 nnoremap <silent> <A-CR> :call toggleterm#Toggle()<Enter>
 inoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
+" Expand brackets
+inoremap (<CR> (<CR>)<C-c>O
+inoremap {<CR> {<CR>}<C-c>O
+inoremap [<CR> [<CR>]<C-c>O
+" Centre screen after jump
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
 
 " Quickscope setup
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -183,6 +179,28 @@ let g:qs_max_chars=80
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
 highlight QuickScopePrimary ctermfg=3 cterm=underline
 highlight QuickScopeSecondary ctermfg=26 cterm=underline
+
+" vim-tmux-navigator setup
+let g:tmux_navigator_disable_when_zoomed = 1
+let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigator_no_mappings = 1 "use custom mappings below
+
+" Meta + direction to move between splits in any mode.
+" On Mac, make sure "Use Option as Meta key" is enabled.
+tnoremap <A-h> <C-\><C-N>:TmuxNavigateLeft<CR>
+tnoremap <A-j> <C-\><C-N>:TmuxNavigateDown<CR>
+tnoremap <A-k> <C-\><C-N>:TmuxNavigateUp<CR>
+tnoremap <A-l> <C-\><C-N>:TmuxNavigateRight<CR>
+
+inoremap <A-h> <C-\><C-N>:TmuxNavigateLeft<CR>
+inoremap <A-j> <C-\><C-N>:TmuxNavigateDown<CR>
+inoremap <A-k> <C-\><C-N>:TmuxNavigateUp<CR>
+inoremap <A-l> <C-\><C-N>:TmuxNavigateRight<CR>
+
+nnoremap <A-h> :TmuxNavigateLeft<CR>
+nnoremap <A-j> :TmuxNavigateDown<CR>
+nnoremap <A-k> :TmuxNavigateUp<CR>
+nnoremap <A-l> :TmuxNavigateRight<CR>
 
 " TODO: Submode setup
 let g:submode_timeout = 0

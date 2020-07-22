@@ -45,7 +45,6 @@
 
     "diagnostic.refreshOnInsertMode": true,
     "diagnostic.signOffset": 9999999,
-    "diagnostic.level": "warning",
     "diagnostic.maxWindowHeight": 25,
     "diagnostic.messageTarget": "float",
     "diagnostic.enableMessage": "never",
