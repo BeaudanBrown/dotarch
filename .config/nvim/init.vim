@@ -162,9 +162,6 @@ vnoremap <C-j> :move '>+1<CR>gv=gv
 nnoremap Q @@
 " Don't put s changes in register
 nnoremap s "_s
-nnoremap <silent> <A-CR> :call toggleterm#Toggle()<Enter>
-inoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
-tnoremap <silent> <A-CR> <C-\><C-n>:call toggleterm#Toggle()<Enter>
 " Expand brackets
 inoremap (<CR> (<CR>)<C-c>O
 inoremap {<CR> {<CR>}<C-c>O
