@@ -3,29 +3,64 @@
 
 /* Files */
 .Xauthority
+.config/QtProject.conf
+.config/dmenuhist
+.config/kdegliverc
+.config/kdeglobals
+.config/kdenliverc
 .config/shortcutrc
+.config/zoomus.conf
+.config/zsh/.zcompdump
+.config/zsh/zsh_history
+.emulator_console_auth_token
+.haxelib
+.hxcpp_config.xml
+.nmcli-history
+.viminfo
+.wget-hsts
 
 /* Directories */
+.android/
+.bash_history
 .cache/
+.config/Android Open Source Project/
+.config/Code - OSS/
+.config/Unknown Organization/
+.config/VirtualBox/
 .config/coc/
 .config/configstore/
 .config/dconf/
+.config/dconf/
 .config/discord/
+.config/discordcanary/
 .config/dotsGit/
 .config/fnm/
 .config/gnupg/
 .config/google-chrome/
+.config/gtkcord/
+.config/htop/
+.config/lutris/
 .config/menus/
+.config/neofetch/
+.config/nsc-pyrus-server/
 .config/nvim/
 .config/pulse/
+.config/spotify/
+.config/tmux/
 .config/vifm/
 .gnome/
+.gradle/
 .java/
+.lime/
 .local/include/
 .local/lib/
 .local/share/
 .minecraft/
 .npm/
 .nv/
+.opam/
 .pki/
 .ssh/
+.tmux/
+.vscode-oss/
+.zoom/

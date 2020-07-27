@@ -411,7 +411,6 @@ augroup vimrc
 
     " Use actual tab chars in Makefiles.
     au FileType make set tabstop=4 shiftwidth=4 softtabstop=0 noexpandtab
-    " Disables automatic commenting on newline:
     au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     au FileType json syntax match Comment +\/\/.\+$+
     " Keep splits even

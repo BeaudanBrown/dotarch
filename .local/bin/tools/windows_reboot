@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Reboot into windows (if it is second grub menu entry)
+
+grub-reboot 1 && reboot now
+
