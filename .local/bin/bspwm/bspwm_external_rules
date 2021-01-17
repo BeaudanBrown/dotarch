@@ -32,21 +32,41 @@ spotify() {
 }
 
 caprine() {
-    sticky=on
+    # sticky=on
     rectangle=1914x1074+0+0
     center=on
     state=floating
 }
 
 signal() {
+    # sticky=on
+    rectangle=1914x1074+0+0
+    center=on
+    state=floating
+}
+
+discord() {
+    # sticky=on
+    rectangle=1914x1074+0+0
+    center=on
+    state=floating
+}
+
+telegram() {
+    # sticky=on
+    rectangle=1914x1074+0+0
+    center=on
+    state=floating
+}
+
+steam() {
     sticky=on
     rectangle=1914x1074+0+0
     center=on
     state=floating
-    bspc subscribe 
 }
 
-discord() {
+obs() {
     sticky=on
     rectangle=1914x1074+0+0
     center=on
@@ -59,6 +79,9 @@ case $instance.$class in
     (*.caprine) caprine;;
     (*.Caprine) caprine;;
     (*.discord) discord;;
+    (*.TelegramDesktop) telegram;;
+    (*.Steam) steam;;
+    (*.obs) obs;;
     (.)
         case $(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null) in
             (spotify) spotify;;

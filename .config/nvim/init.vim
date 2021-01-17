@@ -371,7 +371,7 @@ for type in s:ignoredFiletypes
 endfor
 
 function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case'
+    let command_fmt = "rg --column --line-number --no-heading --color=always --smart-case"
     for type in s:ignoredFiletypes
         let command_fmt .= " -g '!*." . type . "'"
     endfor
@@ -441,8 +441,13 @@ augroup END
 " Close buffer but keep splits
 function! CloseBuffer()
     let curBuf = bufnr('%')
+    let prevBuf = bufnr('#')
     let curTab = tabpagenr()
-    exe 'bnext'
+    if bufwinnr('#') == -1
+        exe 'bnext'
+    else
+        exe 'e #'
+    endif
 
     " If in last buffer, create empty buffer
     if curBuf == bufnr('%')

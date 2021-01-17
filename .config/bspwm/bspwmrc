@@ -20,9 +20,11 @@ bspc monitor $mainmonitor -d 1
 _bc border_width 3
 _bc window_gap 0
 if [[ $HOSTNAME = "xps" ]]; then
-    _bc top_padding 54px
+    _bc top_padding -4px
+    _bc bottom_padding 25px
 elif [[ $HOSTNAME = "grill" ]]; then
-    _bc top_padding 25px
+    _bc top_padding -4px
+    _bc bottom_padding 25px
 fi
 _bc borderless_monocle   true
 _bc focus_follows_pointer false

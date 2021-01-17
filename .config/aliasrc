@@ -10,7 +10,8 @@ alias ka="killall" \
   e="$EDITOR" \
   v="$EDITOR" \
   sdn="sudo shutdown -h now" \
-  ls="ls -hN --color=auto --group-directories-first" \
+  ls="exa -l --color=always --group-directories-first" \
+  la="exa -al --color=always --group-directories-first" \
   grep="rg" \
   diff="diff --color=auto" \
   ccat="highlight --out-format=ansi" \

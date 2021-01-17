@@ -2,6 +2,7 @@ bf      ${XDG_CONFIG_HOME:-$HOME/.config}/bmfiles
 bd      ${XDG_CONFIG_HOME:-$HOME/.config}/bmdirs
 cfa     ${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc
 cft     ${XDG_CONFIG_HOME:-$HOME/.config}/tmux.conf
+cfr     ~/.local/bin/bspwm/bspwm_external_rules
 cfz     $ZDOTDIR/.zshrc
 cfp     $ZDOTDIR/.zprofile
 cfe     ~/.zshenv

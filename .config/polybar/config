@@ -43,7 +43,7 @@ enable-ipc = true
 width = 100%
 height = ${env:HEIGHT:24}
 ;offset-x = 1%
-;offset-y = 1%
+offset-y = ${env:OFFSET:100%:-24}
 ;radius = 6.0
 fixed-center = true
 
@@ -69,7 +69,7 @@ font-2 = ${env:FONT2:Symbola:pixelsize=9;1}
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
 modules-left = bspwm spotify
 modules-center = date
-modules-right = ${env:MODULESR:audiosink volume filesystem memory cpu eth}
+modules-right = ${env:MODULESR:audiosource env:MODULESR:audiosink volume filesystem memory cpu eth}
 
 tray-position = right
 tray-padding = 0
@@ -81,7 +81,7 @@ wm-restack = bspwm
 [module/spotify]
 type = custom/script
 interval = 1
-format = <label>
+format = %{A1:bspwm_toggle_scratch_prog "spotify" "spotify" "Spotify":}<label>%{A}
 exec = python $HOME/.local/bin/polybar/spotify_status.py -p ',' -f '{play_pause} {artist}: {song}'
 format-underline = #1db954
 
@@ -223,6 +223,13 @@ hook-0 = polybar_audio_icon
 initial = 1
 test=1
 
+[module/audiosource]
+format= %{T4}<output>
+type = custom/ipc
+hook-0 = polybar_mic_icon
+initial = 1
+test=1
+
 [module/volume]
 module-margin-left = 0
 type = internal/pulseaudio
@@ -278,4 +285,4 @@ menu-2-1-exec = menu-open-0
 screenchange-reload = true
 
 [global/wm]
-margin-top = 5
+margin-bottom = 5

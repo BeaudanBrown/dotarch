@@ -13,16 +13,17 @@ if [[ $HOSTNAME = "xps" ]]; then
     export FONT0="mono:pixelsize=26;1"
     export FONT1="Symbols Nerd Font:style=1000-em:pixelsize=26;1"
     export FONT2="Symbola:pixelsize=26;1"
-    export MODULESR="audiosink volume filesystem memory cpu wlan"
+    export MODULESR="audiosource audiosink volume filesystem memory cpu wlan"
 elif [[ $HOSTNAME = "grill" ]]; then
     export HEIGHT=24
     export BORDER=1
     export FONT0="mono:pixelsize=11;1"
     export FONT1="Symbols Nerd Font:style=1000-em:pixelsize=14;1"
     export FONT2="Symbola:pixelsize=9;1"
-    export MODULESR="audiosink volume filesystem memory cpu eth"
+    export MODULESR="audiosource audiosink volume filesystem memory cpu eth"
 fi
 
+export OFFSET="100%:-$HEIGHT"
 export ETH_INTERFACE=$(ip link show | grep enp | sed 's/.*: \(.*\):.*/\1/')
 export WLAN_INTERFACE=$(ip link show | grep wlp | sed 's/.*: \(.*\):.*/\1/')
 green=$(xrdb -query | awk '/color2:/ {print $2}')

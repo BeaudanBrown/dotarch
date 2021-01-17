@@ -8,10 +8,8 @@ echo [[ $currentNode = $nodeID ]]
 if [[ $currentNode = $nodeID ]]; then
     echo "Current node focused"
     bspc node $nodeID -g hidden=true
-    # bspc desktop -l tiled
 else
     echo "Focussing node"
     echo $nodeID
-    # bspc desktop -l monocle
-    bspc node $nodeID -d focused -g hidden=false -f
+    bspc node $nodeID -g hidden=false -f
 fi

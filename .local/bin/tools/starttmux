@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Launch tmux in default session if not already attached
+if command -v tmux &> /dev/null && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        $TERMINAL -e tmux -f $HOME/.config/tmux.conf new -A -s ssh &> /dev/null
+    elif [[ -z $(tmux list-sessions | rg default | rg attached) ]]; then
+        $TERMINAL -e tmux -f $HOME/.config/tmux.conf new -A -s default &> /dev/null
+    else
+        $TERMINAL
+    fi
+else
+        $TERMINAL
+fi

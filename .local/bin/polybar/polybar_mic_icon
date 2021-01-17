@@ -1,0 +1,21 @@
+#! /bin/bash
+
+o_pulseaudio=$(pacmd list-sources| grep -e 'index')
+sourcelist=($(echo "$o_pulseaudio" | awk '/index:/{print $NF}' | sort -n))
+ssource=$(echo "$o_pulseaudio" | awk '/\* index:/{print $NF}')
+
+curindex=-1
+
+for i in "${!sourcelist[@]}"; do
+  if [[ "${sourcelist[$i]}" = "${ssource}" ]]; then
+    curindex=${i}
+  fi
+done
+
+if [[ $(pacmd list-sources | grep muted | awk -v idx=$(($curindex + 1)) 'NR==idx {print $2}') = "yes" ]]; then
+    # Muted
+    echo "%{F$(xrdb -query | awk '/color1:/ {print $2}')}%{F-}"
+else
+    # Not muted
+    echo ""
+fi
