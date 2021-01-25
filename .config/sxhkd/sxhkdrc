@@ -53,6 +53,8 @@ super + d
 #   bspwm_toggle_scratch_prog "steam" "🎮"
 super + shift + m
   mute_audio
+super + shift + n
+  mute_mic
 super + shift + p
   dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause &>/dev/null
 super + comma
@@ -72,11 +74,11 @@ super + y
 
 # Et cetera...
 super + shift + x
-  prompt "Shutdown computer?" "sudo -A shutdown -h now"
+  prompt "Shutdown computer?" "systemctl poweroff"
 super + shift + w
-  prompt "Reboot into windows?" "sudo -A windows_reboot"
+  prompt "Reboot into windows?" "windows_reboot"
 super + shift + BackSpace
-  prompt "Reboot computer?" "sudo -A shutdown -r now"
+  prompt "Reboot computer?" "systemctl reboot"
 super + x
   mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
 XF86Launch1
