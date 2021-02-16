@@ -41,16 +41,14 @@ monitor = ${env:MONITOR:DP-0}
 enable-ipc = true
 width = 100%
 height = ${env:HEIGHT:24}
-;offset-x = 1%
 offset-y = ${env:OFFSET:100%:-24}
-;radius = 6.0
 fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
-line-color = {$xrdb:red}
+line-color = ${colors.red}
 
 border-bottom-size = ${env:BORDER:1}
 border-color = ${colors.black}
@@ -66,9 +64,9 @@ font-1 = ${env:FONT1:Symbols Nerd Font:style=1000-em:pixelsize=14;1}
 font-2 = ${env:FONT2:Symbola:pixelsize=9;1}
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather spotify
-modules-left = bspwm spotify
+modules-left = ${env:MODULESL:bspwm spotify}
 modules-center = date
-modules-right = ${env:MODULESR:audiosource env:MODULESR:audiosink volume filesystem memory cpu eth}
+modules-right = ${env:MODULESR:audiosource audiosink volume memory cpu eth}
 
 tray-position = right
 tray-padding = 0
@@ -160,7 +158,7 @@ bar-used-foreground-1 = ${colors.darkgreen}
 bar-used-foreground-2 = ${colors.yellow}
 bar-used-foreground-3 = ${colors.red}
 bar-used-indicator =
-bar-used-width = 11
+bar-used-width = 8
 bar-used-fill =▬
 bar-used-empty =▬
 bar-used-empty-foreground = ${colors.gray}
@@ -176,11 +174,11 @@ interval = 3.0
 
 format-connected = 直 <label-connected> <ramp-signal>
 format-connected-underline = ${colors.darkmagenta}
-label-connected = %essid%
+label-connected = %{A1:$TERMINAL -e nmtui &:}%essid%%{A}
 
 format-disconnected = <label-disconnected>
 format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected = 睊no wifi
+label-disconnected = %{A1:$TERMINAL -e nmtui &:}睊no wifi%{A}
 label-disconnected-foreground = ${colors.gray}
 
 ramp-signal-0 = ${env:RAMP0}
@@ -216,18 +214,16 @@ format-underline = ${colors.blue}
 label = %date% %time%
 
 [module/audiosink]
-format= %{T4}<output>
+format= <output>
 type = custom/ipc
 hook-0 = polybar_audio_icon
 initial = 1
-test=1
 
 [module/audiosource]
-format= %{T4}<output>
+format= <output>
 type = custom/ipc
 hook-0 = polybar_mic_icon
 initial = 1
-test=1
 
 [module/volume]
 module-margin-left = 0
@@ -239,7 +235,7 @@ label-volume-foreground = ${root.foreground}
 format-muted = <bar-volume>
 format-muted-foreground = ${colors.darkred}
 
-bar-volume-width = 10
+bar-volume-width = 9
 bar-volume-foreground-0 = ${colors.blue}
 bar-volume-foreground-1 = ${colors.blue}
 bar-volume-foreground-2 = ${colors.green}
@@ -279,6 +275,26 @@ menu-2-0 = power off
 menu-2-0-exec = sudo poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+format-charging = <label-charging> <animation-charging>
+format-discharging = <label-discharging> <ramp-capacity>
+format-full = <label-full> <ramp-capacity>
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = %percentage%%
+animation-charging-0 = ${env:BATRAMP0}
+animation-charging-1 = ${env:BATRAMP1}
+animation-charging-2 = ${env:BATRAMP2}
+animation-charging-3 = ${env:BATRAMP3}
+animation-charging-4 = ${env:BATRAMP4}
+ramp-capacity-0 = ${env:BATRAMP0}
+ramp-capacity-1 = ${env:BATRAMP1}
+ramp-capacity-2 = ${env:BATRAMP2}
+ramp-capacity-3 = ${env:BATRAMP3}
+ramp-capacity-4 = ${env:BATRAMP4}
 
 [settings]
 screenchange-reload = true

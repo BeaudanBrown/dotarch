@@ -13,14 +13,16 @@ if [[ $HOSTNAME = "xps" ]]; then
     export FONT0="mono:pixelsize=26;1"
     export FONT1="Symbols Nerd Font:style=1000-em:pixelsize=26;1"
     export FONT2="Symbola:pixelsize=26;1"
-    export MODULESR="audiosource audiosink volume filesystem memory cpu wlan"
+    export MODULESL="bspwm spotify"
+    export MODULESR="audiosource audiosink volume memory cpu wlan battery"
 elif [[ $HOSTNAME = "grill" ]]; then
     export HEIGHT=24
     export BORDER=1
     export FONT0="mono:pixelsize=11;1"
     export FONT1="Symbols Nerd Font:style=1000-em:pixelsize=14;1"
     export FONT2="Symbola:pixelsize=9;1"
-    export MODULESR="audiosource audiosink volume filesystem memory cpu eth"
+    export MODULESL="bspwm spotify"
+    export MODULESR="audiosource audiosink volume memory cpu eth"
 fi
 
 export OFFSET="100%:-$HEIGHT"
@@ -33,6 +35,11 @@ export RAMP1="%{F$green}▁▂%{F-}%{F$gray}▄▆█%{F-} "
 export RAMP2="%{F$green}▁▂▄%{F-}%{F$gray}▆█%{F-} "
 export RAMP3="%{F$green}▁▂▄▆%{F-}%{F$gray}█%{F-} "
 export RAMP4="%{F$green}▁▂▄▆█%{F-} "
+export BATRAMP0="%{F$green}█%{F-}%{F$gray}████▮%{F-} "
+export BATRAMP1="%{F$green}██%{F-}%{F$gray}███▮%{F-} "
+export BATRAMP2="%{F$green}███%{F-}%{F$gray}██▮%{F-} "
+export BATRAMP3="%{F$green}████%{F-}%{F$gray}█▮%{F-} "
+export BATRAMP4="%{F$green}█████%{F-}%{F$gray}▮%{F-} "
 
 for i in $(polybar -m | awk -F: '{print $1}'); do MONITOR=$i polybar default & done
 
