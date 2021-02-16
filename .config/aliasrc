@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 alias ka="killall" \
-  y="paru -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r paru --noconfirm -S" \
-  yr="paru -Qett --color=always | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r sudo paru --noconfirm -Rncs" \
-  p="pacman -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'pacman -Si {1}' | awk '{print \$1}' | xargs -r sudo pacman --noconfirm -S" \
-  pr="pacman -Qett --color=always | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r sudo pacman --noconfirm -Rncs" \
+  p="paru -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r paru --noconfirm -S" \
+  pr="paru -Qett --color=always | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r sudo paru --noconfirm -Rncs" \
   pm="sudo pacman" \
   SS="sudo systemctl" \
   g="git" \
