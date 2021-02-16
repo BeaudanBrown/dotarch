@@ -19,5 +19,6 @@ export BROWSER="google-chrome-stable"
 export FILE="vifm"
 export SUDO_ASKPASS="$HOME/.local/bin/tools/dmenupass"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgreprc"
 
 ZDOTDIR="$HOME/.config/zsh"
