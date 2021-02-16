@@ -17,11 +17,11 @@ bspc monitor $mainmonitor -d 1
 # If you want a multi-monitor display or something else, I leave that to you to
 # arrange. I have this sensible default for most people's use cases.
 
-_bc border_width 3
+_bc border_width 5
 _bc window_gap 0
 if [[ $HOSTNAME = "xps" ]]; then
-    _bc top_padding -4px
-    _bc bottom_padding 25px
+    _bc top_padding -6px
+    _bc bottom_padding 50px
 elif [[ $HOSTNAME = "grill" ]]; then
     _bc top_padding -4px
     _bc bottom_padding 25px

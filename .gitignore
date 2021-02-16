@@ -9,6 +9,7 @@
 .config/kdeglobals
 .config/kdenliverc
 .config/shortcutrc
+.config/touchegg/.touchegg.lock
 .config/zoomus.conf
 .config/zsh/.zcompdump
 .config/zsh/zsh_history
@@ -16,6 +17,9 @@
 .haxelib
 .hxcpp_config.xml
 .nmcli-history
+.pulse-cookie
+.steampath
+.steampid
 .viminfo
 .wget-hsts
 
@@ -61,6 +65,7 @@
 .opam/
 .pki/
 .ssh/
+.steam/
 .tmux/
 .vscode-oss/
 .zoom/

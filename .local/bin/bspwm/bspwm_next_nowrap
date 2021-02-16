@@ -1,0 +1,9 @@
+#!/bin/bash
+
+case $1 in
+    next) dc=$(bspc query -D -m -d ^1);;
+    prev) dc=$(bspc query -D -m -d "^$(bspc query -D -m | wc -l)");;
+esac
+d="$(bspc query -D -d "${1}.local")"
+[ "$d" != "$dc" ] &&
+    bspc desktop "$d" -f

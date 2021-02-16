@@ -9,7 +9,7 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 if [[ $HOSTNAME = "xps" ]]; then
     export HEIGHT=50
-    export BORDER=3
+    export BORDER=5
     export FONT0="mono:pixelsize=26;1"
     export FONT1="Symbols Nerd Font:style=1000-em:pixelsize=26;1"
     export FONT2="Symbola:pixelsize=26;1"

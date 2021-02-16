@@ -37,7 +37,6 @@ background = ${xrdb:background:#1d2021}
 foreground = ${xrdb:foreground:#ebdbb2}
 
 [bar/default]
-;monitor = ${env:MONITOR:LVDS-1}
 monitor = ${env:MONITOR:DP-0}
 enable-ipc = true
 width = 100%
