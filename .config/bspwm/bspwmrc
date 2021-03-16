@@ -37,5 +37,25 @@ _bc pointer_modifier mod4
 _bc pointer_action1 move
 _bc pointer_action2 resize_corner
 
+# Adjust mouse sensitivity
+if [[ $HOSTNAME = "xps" ]]; then
+    Touchpad=`xinput list \
+    | rg -i "Touchpad" \
+    | awk -F= '{ print $2}' \
+    | awk '{print $1}' \
+    | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}'`
+    xinput set-prop $Touchpad "Coordinate Transformation Matrix" 10 0 0 0 10 0 0 0 1
+    xinput set-prop $Touchpad "libinput Tapping Enabled" "1"
+    xinput set-prop $Touchpad "libinput Natural Scrolling Enabled" "1"
+    xinput set-prop $Touchpad "libinput Accel Profile Enabled" 0, 1
+elif [[ $HOSTNAME = "grill" ]]; then
+    DeathAdder=`xinput list \
+    | rg -i "Razer Razer DeathAdder 2013" \
+    | awk -F= '{ print $2}' \
+    | awk '{print $1}' \
+    | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}'`
+    xinput set-prop $DeathAdder "Coordinate Transformation Matrix" .6 0 0 0 .6 0 0 0 1
+fi
+
 [[ -f $HOME/.config/polybar/launch.sh ]] && $HOME/.config/polybar/launch.sh
 [[ -f $HOME/.local/bin/bspwm/bspwm_external_rules ]] && bspc config external_rules_command "$(which bspwm_external_rules)"

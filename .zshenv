@@ -2,6 +2,8 @@
 mkdir -p $HOME/.local/bin >/dev/null 2>&1
 export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
+alias mon2cam="deno run --unstable -A -r -q https://raw.githubusercontent.com/ShayBox/Mon2Cam/master/src/mod.ts"
+
 # fnm
 eval "`fnm env --multi --use-on-cd --fnm-dir='/$HOME/.config/fnm/'`"
 fnm use default > /dev/null

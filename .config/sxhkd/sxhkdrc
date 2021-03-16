@@ -18,7 +18,7 @@ super + shift + b
 super + shift + r
   bspc wm -r
 super + Escape
-    bspwm_close
+  bspwm_close
 # Rotate orientation
 super + o
     bspc node @parent -R 90
@@ -31,12 +31,14 @@ super + shift + {h,j,k,l}
   bspwm_node_move {west,south,north,east}
 super + {_,shift + ,ctrl + shift +,ctrl +}{0-9}
   ;bspwm_dynamic_desktops {--df,--ns,--nm,--da} {0-9}
+super + x
+  betterlockscreen --off 5 -l
 
 # Basic binds
 super + Return
-  $TERMINAL
+  starttmux
 super + shift + Return
-  samedir
+  $TERMINAL
 super + space
   dmenu_run
 super + r
@@ -49,8 +51,12 @@ super + m
   bspwm_toggle_scratch_prog "spotify" "spotify" "Spotify"
 super + d
   bspwm_toggle_scratch_prog "discord" "discord" "discord"
-# super + shift + g
-#   bspwm_toggle_scratch_prog "steam" "🎮"
+super + o
+  bspwm_toggle_scratch_prog "obs" "obs" "obs" "--startreplaybuffer"
+super + shift + g
+  bspwm_toggle_scratch_prog "steam" "Steam" "Steam"
+super + t
+  bspwm_toggle_scratch_prog "telegram-desktop" "telegram-desktop" "TelegramDesktop"
 super + shift + m
   mute_audio
 super + shift + n
@@ -79,8 +85,6 @@ super + shift + w
   prompt "Reboot into windows?" "windows_reboot"
 super + shift + BackSpace
   prompt "Reboot computer?" "systemctl reboot"
-super + x
-  mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
 XF86Launch1
   xset dpms force off
 XF86AudioMute

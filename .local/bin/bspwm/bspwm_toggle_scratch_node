@@ -5,10 +5,13 @@ nodeID=$1
 
 currentNode=$(bspc query -n focused -N | tr a-z A-Z)
 echo [[ $currentNode = $nodeID ]]
-if [[ $currentNode = $nodeID ]]; then
-    echo "Current node focused"
+
+if [[ -z $(bspc query -n $nodeID.hidden -N) ]]; then
+    # Not hidden
+    echo "Hiding"
     bspc node $nodeID -g hidden=true
 else
+    # Hidden
     echo "Focussing node"
     echo $nodeID
     bspc node $nodeID -g hidden=false -f

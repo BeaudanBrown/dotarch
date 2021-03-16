@@ -26,7 +26,6 @@ Plug 'kovetskiy/sxhkd-vim'                                                      
 Plug 'PotatoesMaster/i3-vim-syntax'                                             " Syntax highlighting for i3
 Plug 'pangloss/vim-javascript'                                                  " Syntax highlighting javascript
 Plug 'peitalin/vim-jsx-typescript'                                              " Syntax highlighting for typescript
-Plug 'purescript-contrib/purescript-vim'                                        " Syntax highlighting for purescript
 Plug 'kana/vim-textobj-user'                                                    " Alow for easy text object creation
 Plug 'kana/vim-textobj-entire'                                                  " Add ae text object for entire file
 Plug 'chrisbra/Colorizer'                                                       " Highlight hex colours
@@ -100,7 +99,6 @@ set diffopt=vertical                    " Show diffs with vertical splits
 set fillchars+=vert:\                   " No line through middle of splits
 set autoread                            " Auto load buffers on external change
 set previewheight=40
-
 " Display trailing whitespace as ~
 set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
@@ -310,7 +308,8 @@ nnoremap <Leader>e :topleft vertical 60Vifm<CR>
 " Gina setup
 " ====================================================================================
 vnoremap <Leader>gs :GitGutterStageHunk<cr>
-nnoremap <Leader>gs :new \| Gina status<cr>
+nnoremap <Leader>gs :Gina status<cr>
+nnoremap <Leader>gS :vnew \| Gina status<cr>
 nnoremap <Leader>gc :Gina commit<cr>
 nnoremap <Leader>gd :Gina diff<cr>
 nnoremap <Leader>gb :Gina blame<cr>

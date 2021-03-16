@@ -24,54 +24,76 @@ state= \
 sticky= \
 urgent=;
 
+read -r x_pixels y_pixels <<<$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+)x([0-9]+).*$/\1 \2/')
+Xaxis=$(expr $(xrandr --current | grep '\*' | uniq | awk '{print $1}' | cut -d 'x' -f1) \* 9 / 10)
+Yaxis=$(expr $(xrandr --current | grep '\*' | uniq | awk '{print $1}' | cut -d 'x' -f2) \* 9 / 10)
+{ read mainmonitor ; read secondmonitor ; } <<< $(bspc query --monitors --names)
+
 spotify() {
-    sticky=on
-    rectangle=1914x1074+0+0
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
+    sticky=on
 }
 
 caprine() {
-    # sticky=on
-    rectangle=1914x1074+0+0
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
+    monitor=$secondmonitor
     center=on
     state=floating
+    sticky=on
+}
+
+pyrus() {
+    # state=floating
+    monitor=$secondmonitor
 }
 
 signal() {
-    # sticky=on
-    rectangle=1914x1074+0+0
+    sticky=on
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
 }
 
 discord() {
-    # sticky=on
-    rectangle=1914x1074+0+0
+    sticky=on
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
 }
 
 telegram() {
-    # sticky=on
-    rectangle=1914x1074+0+0
+    sticky=on
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
 }
 
 steam() {
     sticky=on
-    rectangle=1914x1074+0+0
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
 }
 
 obs() {
     sticky=on
-    rectangle=1914x1074+0+0
+    rectangle=$(echo $Xaxis)x$(echo $Yaxis)+0+0
     center=on
     state=floating
+    monitor=$secondmonitor
 }
+
+videogame() {
+    monitor=$mainmonitor
+}
+
 
 case $instance.$class in
     (*.Signal) signal;;
@@ -81,7 +103,10 @@ case $instance.$class in
     (*.discord) discord;;
     (*.TelegramDesktop) telegram;;
     (*.Steam) steam;;
+    (*.nsc-pyrus-server) pyrus;;
     (*.obs) obs;;
+    (*.spel2.exe) videogame;;
+    (*.steam_app_*) videogame;;
     (.)
         case $(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null) in
             (spotify) spotify;;

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 alias ka="killall" \
-  p="paru -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r paru --noconfirm -S" \
+  p="paru -Sl --color=always | awk '{print \$2\" \"\$3\" \"\$4\" \"\$5}' | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r paru --noconfirm --skipreview -Sy" \
   pr="paru -Qett --color=always | fzf --ansi -m --preview 'paru -Si {1}' | awk '{print \$1}' | xargs -r sudo paru --noconfirm -Rncs" \
   pm="sudo pacman" \
   SS="sudo systemctl" \
