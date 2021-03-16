@@ -38,10 +38,6 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
-# Exports
-export KEYTIMEOUT=1
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
-
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
@@ -83,18 +79,6 @@ lfcd () {
     fi
 }
 bindkey -s '^o' 'lfcd\n'
-
-# less/man colors and settings
-# Don't store less history
-export LESSHISTFILE=/dev/null
-export LESS="-R -F -X $LESS"
-export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
-export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
-export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
-export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
-export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
-export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
-export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 __git_files () {
     _wanted files expl 'local files' _files
@@ -139,7 +123,23 @@ ex ()
 # opam configuration
 test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
+# Exports
+export KEYTIMEOUT=1
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+# less/man colors and settings
+# Don't store less history
+export LESSHISTFILE=/dev/null
+export LESS="-R -F -X $LESS"
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 # Android config
 export ANDROID_SDK_ROOT="$HOME/.android/sdk"
 export ANDROID_HOME="$HOME/.android/sdk"
 export PATH="$PATH:$ANDROID_SDK_ROOT/emulator/:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/:$ANDROID_SDK_ROOT/platform-tools/"
+# Use bat for man
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"

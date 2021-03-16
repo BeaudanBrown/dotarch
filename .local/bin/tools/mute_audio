@@ -1,2 +1,4 @@
+#! /bin/bash
+
 lmc mute
 polybar-msg hook audiosink 1

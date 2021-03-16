@@ -18,6 +18,7 @@ alias ka="killall" \
   mkdir='mkdir -pv' \
   dot='git --git-dir=$HOME/.config/dotsGit --work-tree=$HOME' \
   cat='bat --color=always' \
+  sudo='sudo ' \
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

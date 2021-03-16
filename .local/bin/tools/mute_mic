@@ -1,2 +1,5 @@
-pactl set-source-mute 2 toggle
+#! /bin/bash
+
+activeSource=$(pacmd list-sources | rg -e 'index' | awk '/\* index:/{print $NF}')
+pactl set-source-mute $activeSource toggle
 polybar-msg hook audiosource 1
