@@ -1,5 +1,5 @@
 [Default Applications]
-x-scheme-handler/magnet=torrent.desktop;
+x-scheme-handler/magnet=org.qbittorrent.qBittorrent.desktop
 x-scheme-handler/mailto=google-chrome.desktop
 text/plain=text.desktop;
 text/x-shellscript=text.desktop;
@@ -11,3 +11,14 @@ application/rss+xml=rss.desktop
 x-scheme-handler/postman=Postman.desktop
 x-scheme-handler/sgnl=signal-desktop.desktop
 application/uproject=com.epicgames.UnrealEngineEditor.desktop
+x-scheme-handler/discord-478576776990425110=discord-478576776990425110.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-L7D2W0.desktop
+x-scheme-handler/web+cardano=google-chrome.desktop
+text/html=google-chrome.desktop
+video/mp4=vlc.desktop
+application/zip=userapp-unzip-Z31W20.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-L7D2W0.desktop;
+video/mp4=vlc.desktop;
+application/zip=userapp-unzip-Z31W20.desktop;

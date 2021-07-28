@@ -19,6 +19,7 @@ alias ka="killall" \
   dot='git --git-dir=$HOME/.config/dotsGit --work-tree=$HOME' \
   cat='bat --color=always' \
   sudo='sudo ' \
+  bt='bluetoothctl connect 00:16:94:1A:6B:3A' \
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

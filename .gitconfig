@@ -3,6 +3,8 @@
 	name = Beaudan Brown
 [pager]
 	branch = false
+[include]
+	path = ~/.config/gitalias
 [alias]
 	lg = log --all --graph --decorate --oneline
 	co = checkout

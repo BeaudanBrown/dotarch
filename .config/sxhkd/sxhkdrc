@@ -42,7 +42,7 @@ super + shift + Return
 super + space
   dmenu_run
 super + r
-  $TERMINAL -e $FILE -c vs
+  nemo
 super + shift + f
   bspwm_toggle_scratch_prog "caprine" "caprine" "Caprine"
 super + c
@@ -50,7 +50,7 @@ super + c
 super + m
   bspwm_toggle_scratch_prog "spotify" "spotify" "Spotify"
 super + d
-  bspwm_toggle_scratch_prog "discord" "discord" "discord"
+  bspwm_toggle_scratch_prog "discord-canary" "discord" "discord"
 super + o
   bspwm_toggle_scratch_prog "obs" "obs" "obs" "--startreplaybuffer"
 super + shift + g

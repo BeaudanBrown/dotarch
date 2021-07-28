@@ -145,7 +145,7 @@ nnoremap <Leader>p :pu<CR>==$
 nnoremap <Leader>t :vs term://zsh<CR>
 " Replace all is aliased to S.
 nnoremap S :%s//g<Left><Left>
-vmap S :s//g<Left><Left>
+vnoremap S :s//g<Left><Left>
 " Use <C-p> and <C-p> for up and down in command line mode
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
@@ -307,6 +307,7 @@ nnoremap <Leader>e :topleft vertical 60Vifm<CR>
 
 " Gina setup
 " ====================================================================================
+nnoremap <Leader>gh :GitGutterPreviewHunk<cr>
 vnoremap <Leader>gs :GitGutterStageHunk<cr>
 nnoremap <Leader>gs :Gina status<cr>
 nnoremap <Leader>gS :vnew \| Gina status<cr>

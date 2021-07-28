@@ -17,13 +17,15 @@ bspc monitor $mainmonitor -d 1
 # If you want a multi-monitor display or something else, I leave that to you to
 # arrange. I have this sensible default for most people's use cases.
 
-_bc border_width 5
-_bc window_gap 0
 if [[ $HOSTNAME = "xps" ]]; then
-    _bc top_padding -6px
+    _bc window_gap 7
+    _bc border_width 5
+    _bc top_padding -13px
     _bc bottom_padding 50px
 elif [[ $HOSTNAME = "grill" ]]; then
-    _bc top_padding -4px
+    _bc window_gap 5
+    _bc border_width 3
+    _bc top_padding -9px
     _bc bottom_padding 25px
 fi
 _bc borderless_monocle   true
@@ -50,11 +52,11 @@ if [[ $HOSTNAME = "xps" ]]; then
     xinput set-prop $Touchpad "libinput Accel Profile Enabled" 0, 1
 elif [[ $HOSTNAME = "grill" ]]; then
     DeathAdder=`xinput list \
-    | rg -i "Razer Razer DeathAdder 2013" \
+    | rg -i "Razer Razer DeathAdder 2013[ \t]*id.*pointer" \
     | awk -F= '{ print $2}' \
     | awk '{print $1}' \
     | awk 'BEGIN{ RS = "" ; FS = "\n" }{print $1}'`
-    xinput set-prop $DeathAdder "Coordinate Transformation Matrix" .6 0 0 0 .6 0 0 0 1
+    xinput set-prop $DeathAdder "Coordinate Transformation Matrix" .5 0 0 0 .5 0 0 0 1
 fi
 
 [[ -f $HOME/.config/polybar/launch.sh ]] && $HOME/.config/polybar/launch.sh
