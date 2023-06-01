@@ -37,11 +37,15 @@ Plug 'unblevable/quick-scope'                                                   
 Plug 'jdonaldson/vaxe'                                                          " Syntax/IDE type support for Haxe
 Plug 'tpope/vim-obsession'                                                      " Restore session when opening vim
 Plug 'dalejung/vim-tmux-navigator', {'branch': 'select_pane_no_wrap'}           " Tmux navigation integration
+Plug 'purescript-contrib/purescript-vim'                                        " Surround
+Plug 'prisma/vim-prisma'                                                        " Prisma syntax highlighting
+Plug 'euclidianAce/BetterLua.vim'                                               " Syntax highlighting for Lua
+Plug 'jalvesaq/Nvim-R'                                                          " RStudio like features in nvim
+Plug 'madox2/vim-ai'                                                            " Allows ChatGPT interaction through vim
 call plug#end()
 
 let mapleader = "\<Space>"                " Assign space as Leader
 filetype plugin indent on                 " Enabling filetype support provides filetype-specific indenting,
-syntax on                                 " Syntax highlighting, omni-completion and other useful settings.
 
 highlight DiffAdd ctermfg=0 ctermbg=2
 highlight DiffChange ctermfg=0 ctermbg=4
@@ -70,9 +74,9 @@ set mouse=a                             " Enable mouse
 set clipboard+=unnamedplus              " Default to system clipboard
 set backspace=indent,eol,start          " Proper backspace behavior
 set encoding=utf-8                      " Use utf-8 encoding
-set tabstop=4                           " The width of a TAB is set to 2
-set shiftwidth=4                        " Indents will have a width of 2
-set softtabstop=4                       " Sets the number of columns for a TAB
+set tabstop=2                           " The width of a TAB is set to 2
+set shiftwidth=2                        " Indents will have a width of 2
+set softtabstop=2                       " Sets the number of columns for a TAB
 set expandtab                           " Expand TABs to spaces
 set autoindent                          " Minimal automatic indenting for any filetype
 set smartindent                         " Better autoindent e.g. extra indent after parens
@@ -104,6 +108,7 @@ set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 " Keybindings
+nnoremap <leader><CR> :AIChat<CR>
 nnoremap <leader>gi :e ~/.config/nvim/init.vim<cr>
 " Stop space from moving cursor
 nnoremap <SPACE> <Nop>
@@ -167,6 +172,32 @@ inoremap [<CR> [<CR>]<C-c>O
 " Centre screen after jump
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
+
+" vim-ai setup
+let s:initial_chat_prompt =<< trim END
+>>> system
+
+You are a general assistant.
+If you attach a code block add syntax type after ``` to enable syntax highlighting.
+END
+
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "gpt-3.5-turbo",
+\    "max_tokens": 1000,
+\    "temperature": 1,
+\    "request_timeout": 20,
+\    "selection_boundary": "#####",
+\    "initial_prompt": s:initial_chat_prompt,
+\  },
+\  "ui": {
+\    "code_syntax_enabled": 1,
+\    "populate_options": 0,
+\    "open_chat_command": "preset_right",
+\    "scratch_buffer_keep_open": 0,
+\    "paste_mode": 1,
+\  },
+\}
 
 " Quickscope setup
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -256,21 +287,24 @@ map <Plug>(submode-leave:cocMode) :call coc#util#float_hide()<cr>
 " ====================================================================================
 let g:markdown_fenced_languages = ['vim', 'help']
 
-" Show either vim help or call coc doHover
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
 endfunction
 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ "\<TAB>"
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
@@ -278,7 +312,8 @@ endfunction
 let g:coc_snippet_next = '<c-n>'
 let g:coc_snippet_prev = '<c-p>'
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
 nnoremap <Leader>re :CocRestart<CR><CR>
 nnoremap <expr><C-f> coc#util#float_scroll(1)
 nnoremap <expr><C-b> coc#util#float_scroll(0)
@@ -288,11 +323,10 @@ nmap <Leader>cn  <Plug>(coc-rename)
 nmap gd <Plug>(coc-definition)
 inoremap <silent><expr> <c-space> coc#refresh()
 
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Markdown Preview setup
 " ====================================================================================

@@ -16,7 +16,7 @@ alias ka="killall" \
   ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
   lsp="pacman -Qett --color=always | less" \
   mkdir='mkdir -pv' \
-  dot='git --git-dir=$HOME/.config/dotsGit --work-tree=$HOME' \
+  dot='git --git-dir=$HOME/.config/dotgit --work-tree=$HOME' \
   cat='bat --color=always' \
   sudo='sudo ' \
   bt='bluetoothctl connect 00:16:94:1A:6B:3A' \

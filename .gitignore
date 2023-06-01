@@ -8,6 +8,7 @@
 .config/kdegliverc
 .config/kdeglobals
 .config/kdenliverc
+.config/openai.token
 .config/shortcutrc
 .config/touchegg/.touchegg.lock
 .config/zoomus.conf
@@ -27,6 +28,8 @@
 .android/
 .bash_history
 .cache/
+.cargo/
+.conda/
 .config/Android Open Source Project/
 .config/Code - OSS/
 .config/Unknown Organization/
@@ -49,6 +52,7 @@
 .config/nsc-pyrus-server/
 .config/nvim/
 .config/pulse/
+.config/Signal/
 .config/spotify/
 .config/tmux/
 .config/vifm/

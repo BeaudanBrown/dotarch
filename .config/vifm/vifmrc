@@ -17,7 +17,6 @@ set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
 set trashdir=~/.local/share/vifm/Trash
 set timefmt="%d/%m/%y"
 windo set viewcolumns=-{name}..,8{mtime},6{size},8{uname}
-colorscheme luke
 
 map <C-h> <C-w>h
 map <C-j> <C-w>j

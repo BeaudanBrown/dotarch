@@ -10,3 +10,5 @@
 	co = checkout
 [pull]
 	rebase = false
+[core]
+	editor = nvim

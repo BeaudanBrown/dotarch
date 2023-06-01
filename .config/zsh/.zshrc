@@ -123,6 +123,8 @@ ex ()
 if command -v tmux &> /dev/null && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     if [[ -n "$SSH_CONNECTION" ]]; then
         tmux -f $HOME/.config/tmux.conf new -A -s ssh &> /dev/null
+    else
+        tmux -f $HOME/.config/tmux.conf new -A -s default &> /dev/null
     fi
 fi
 
