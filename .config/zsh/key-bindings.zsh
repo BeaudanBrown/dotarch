@@ -4,7 +4,7 @@ if [[ $- == *i* ]]; then
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
-  local cmd="fd --hidden --follow --no-ignore-vcs --exclude '.git' ."
+  local cmd="find_files --hidden --follow --no-ignore-vcs --exclude '.git' ."
   setopt localoptions pipefail no_aliases 2> /dev/null
   eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" $(__fzfcmd) -m "$@" | while read item; do
     echo -n "${(q)item} "
@@ -46,7 +46,7 @@ zle -N fzf-redraw-prompt
 fzf-cd-widget() {
   local dir
   local cmd
-  cmd="fd --type d --hidden --follow --no-ignore-vcs --exclude '.git' --exclude '.android' --exclude '.local/share' --exclude '.steam' --exclude 'Steam' ."
+  cmd="find_files --type d --hidden --follow --no-ignore-vcs --exclude '.git' --exclude '.android' --exclude '.local/share' --exclude '.steam' --exclude 'Steam' ."
   setopt localoptions pipefail no_aliases 2> /dev/null
   dir="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)"
   if [[ -z "$dir" ]]; then

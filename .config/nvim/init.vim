@@ -15,6 +15,7 @@ endfunction
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'                                                       " Surround
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                                                         " Fuzzy finder
 Plug 'airblade/vim-gitgutter'                                                   " Gitgutter
 Plug 'vim-airline/vim-airline'                                                  " Airline statusline
@@ -379,12 +380,15 @@ nnoremap <Leader>l :Lines<CR>
 nnoremap <Leader>b :Buffers<CR>
 
 function! s:FindRoot()
-    let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-    if gitRoot != $HOME
-        " We are in a git folder
-        return gitRoot
+    let gitRoot = system('git rev-parse --show-toplevel 2> /dev/null')
+    if !empty(gitRoot)
+        let gitRoot = trim(gitRoot)
+        if filereadable(gitRoot . '/.git')
+            " We are in a git folder
+            return gitRoot
+        endif
     endif
-    " We are in a non-git folder, which will always find $HOME
+    " We are in a non-git folder or in the root of the git folder
     if len(argv()) > 0
         return fnamemodify(argv()[0], ':p:h')
     endif
@@ -394,6 +398,7 @@ endfunction
 let root = s:FindRoot()
 command! ProjectFiles execute 'Files' root
 nnoremap <c-P> :ProjectFiles<CR>
+
 let s:ignoredFiletypes = ['asset','meta','mat','prefab','unity','physicMaterial','inputactions','png','webp']
 if root == $HOME
     let $FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden -g '!\.git/*'"

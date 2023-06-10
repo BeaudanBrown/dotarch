@@ -93,6 +93,23 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 unsetopt complete_aliases
 
+find_files() {
+  if command -v fd >/dev/null 2>&1; then
+    # If fd is already installed, use it
+    command fd "$@"
+  elif command -v fdfind >/dev/null 2>&1; then
+    # If fd-find is installed, use it
+    command fdfind "$@"
+  elif command -v find >/dev/null 2>&1; then
+    # If find is installed, use it
+    command find . -iname "*$1*" -print 2>/dev/null | sed 's/^\.\///'
+  else
+    # If none of them are installed, print an error
+    echo "Error: Either 'fd' or 'fdfind' or 'find' must be installed." >&2
+    return 1
+  fi
+}
+
 # ARCHIVE EXTRACTION
 # usage: ex <file>
 ex ()
