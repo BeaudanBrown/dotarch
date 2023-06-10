@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get input file name from command line argument
+input_file="$1"
+
+# Convert file extension to lower case
+file_extension=$(echo "${input_file##*.}" | tr '[:upper:]' '[:lower:]')
+
+# Check if input file exists and is an mp4 file
+if [ ! -f "$input_file" ] || [ "$file_extension" != "mp4" ]; then
+    echo "Error: $input_file does not exist or is not an mp4 file"
+    exit 1
+fi
+
+# Set output file name
+output_file="${input_file%.*}_new.mp4"
+
+# Run ffmpeg command with input and output file names
+ffmpeg -i "$input_file" -vcodec libx265 -crf 28 "$output_file" || exit 1
