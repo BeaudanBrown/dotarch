@@ -1,0 +1,3 @@
+#!/bin/bash
+
+nvim -c 'normal G' -c 'startinsert!' $1

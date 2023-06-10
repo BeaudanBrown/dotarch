@@ -1,0 +1,39 @@
+#!/bin/bash
+
+base_chat="default"
+
+while :; do
+    case $1 in
+        -p|--parent)
+            if [ "$2" ]; then
+                base_chat=$2
+                shift
+            else
+                die 'ERROR: "--bufferid" requires a non-empty option argument.'
+            fi
+            ;;
+
+        --) # end of all options
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
+        *)
+            break
+    esac
+
+    shift
+done
+
+timestamp=$(date +%Y_%m_%d-%I_%M_%S_%p)
+if [ -f "~/.local/share/gpt/${base_chat}.aichat" ]; then
+    echo ${base_chat}
+    cp ~/.local/share/gpt/${base_chat}.aichat ~/.local/share/gpt/${timestamp}.aichat
+else
+    echo ${base_chat}
+    cp ~/.local/share/gpt/default.aichat ~/.local/share/gpt/${timestamp}.aichat
+fi
+open_nvim_eof ~/.local/share/gpt/${timestamp}.aichat
+
