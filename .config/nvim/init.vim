@@ -42,7 +42,14 @@ Plug 'purescript-contrib/purescript-vim'                                        
 Plug 'prisma/vim-prisma'                                                        " Prisma syntax highlighting
 Plug 'euclidianAce/BetterLua.vim'                                               " Syntax highlighting for Lua
 Plug 'jalvesaq/Nvim-R'                                                          " RStudio like features in nvim
+Plug 'jalvesaq/cmp-nvim-r'                                                      " Omni completion for R
 Plug 'madox2/vim-ai'                                                            " Allows ChatGPT interaction through vim
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'                                                         " Cmp completion engine
 call plug#end()
 
 let mapleader = "\<Space>"                " Assign space as Leader
@@ -173,6 +180,11 @@ inoremap [<CR> [<CR>]<C-c>O
 " Centre screen after jump
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
+
+" nvim-R setup
+" nnoremap <C-CR> <Plug>R
+let R_assign = 0
+
 
 " vim-ai setup
 let s:initial_chat_prompt =<< trim END
